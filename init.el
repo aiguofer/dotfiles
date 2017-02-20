@@ -207,7 +207,6 @@
 
 (use-package elpy
   :ensure t
-  :defer t
   :config
   (elpy-enable)
   (elpy-use-ipython)
