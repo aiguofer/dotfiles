@@ -16,7 +16,11 @@
 (setq shell-file-name "/bin/bash")
 
 ;; Move customizations to different file
-(setq custom-file (concat user-emacs-directory "custom.el"))
+(use-package cus-edit
+  :init
+  (setq custom-file (concat user-emacs-directory "custom.el"))
+  :config
+  (load custom-file))
 
 ;; Bootstrap `use-package'
 (unless (package-installed-p 'use-package)
