@@ -1,0 +1,3 @@
+[submodule "pyenv.el"]
+	path = pyenv.el
+	url = ./pyenv.el
