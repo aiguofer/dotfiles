@@ -10,6 +10,9 @@
 
 (package-initialize)
 
+;; Use bash.. zsh causes slowness in projectile: https://github.com/syl20bnr/spacemacs/issues/4207
+(setq shell-file-name "/bin/bash")
+
 ;; Bootstrap `use-package'
 (unless (package-installed-p 'use-package)
   (package-refresh-contents)
