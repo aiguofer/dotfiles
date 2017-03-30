@@ -257,7 +257,10 @@
   (setq projectile-globally-ignored-files
         (append '("*.txt" "*.o" "*.so" "*.csv" "*.tsv" "*~" "*.orig" "*#")
                 projectile-globally-ignored-files))
-  (projectile-global-mode))
+
+  (projectile-global-mode)
+  (setq projectile-completion-system 'helm)
+  (helm-projectile-on))
 
 (use-package helm-projectile
   :ensure t
