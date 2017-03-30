@@ -35,12 +35,12 @@
 (use-package subword
   :ensure t
   :diminish subword-mode
-  :config
+  :init
   (global-subword-mode))
 
 (use-package semantic
   :ensure t
-  :config
+  :init
   (semantic-mode 1))
 
 (use-package dockerfile-mode
@@ -49,7 +49,7 @@
 
 (use-package flycheck
   :ensure t
-  :config
+  :init
   (global-flycheck-mode))
 
 (use-package markdown-mode
@@ -74,7 +74,8 @@
 
 (use-package vmd-mode
   :ensure t
-  :config
+  :commands (vmd-mode)
+  :init
   (add-hook 'markdown-mode-hook 'vmd-mode))
 
 (use-package coffee-mode
@@ -107,7 +108,7 @@
                   inferior-js-mode-hook))
     (add-hook hook
               (lambda ()
-                (tern-mode t)
+                (tern-mode)
 
                 (add-to-list (make-local-variable 'company-backends)
                              '(company-tern company-yasnippet))
@@ -117,18 +118,21 @@
 
 (use-package pyenv
   :load-path "pyenv.el"
-  :init
-  (dolist (hook '(prog-mode-hook js2-mode-hook))
-    (add-hook hook #'pyenv-use-corresponding))
   :config
-  (global-pyenv-mode))
+  (global-pyenv-mode)
+  (dolist (hook '(prog-mode-hook js2-mode-hook))
+    (add-hook hook #'pyenv-use-corresponding)))
 
 (use-package magit
-  :ensure t)
+  :ensure t
+  :commands (magit-status magit-log)
+  :init
+  (global-magit-file-mode))
 
 (use-package magit-filenotify
   :ensure t
-  :init
+  :commands (magit-filenotify-mode)
+  :config
   (add-hook 'magit-status-mode-hook 'magit-filenotify-mode))
 
 (use-package sudo-edit
@@ -142,11 +146,12 @@
 
 (use-package company-statistics
   :ensure t
-  :config
-  (company-statistics-mode))
+  :init
+  (with-eval-after-load 'company-mode (company-statistics-mode)))
 
 (use-package js-doc
   :ensure t
+  :commands (js-doc-insert-function-doc js-doc-insert-tag)
   :config
   (add-hook 'js2-mode-hook
             #'(lambda ()
@@ -158,7 +163,8 @@
   :ensure t)
 
 (use-package company-web
-  :ensure t)
+  :ensure t
+  :commands (company-web-bootstrap+ company-web-html))
 
 (use-package ac-html-bootstrap
   :ensure t)
@@ -175,7 +181,7 @@
    ("\\.ejs" . web-mode)
    ("html?$" . web-mode)
    ("\\.template?" . web-mode))
-  :init
+  :config
   (setq web-mode-engines-alist
         '(("django"    . "segmentation.*\\.html")
           ("django"    . "klink.*\\.html")
@@ -207,19 +213,21 @@
 
 (use-package elpy
   :ensure t
-  :config
+  :init
   (elpy-enable)
+  :config
   (elpy-use-ipython)
   (setq python-shell-interpreter "ipython"
         python-shell-interpreter-args "--simple-prompt --pprint")
+
   (when (require 'flycheck nil t)
     (setq elpy-modules (delq 'elpy-module-flymake elpy-modules))
     (add-hook 'elpy-mode-hook 'flycheck-mode))
+
   (add-hook 'python-mode-hook
             (lambda ()
               (add-to-list (make-local-variable 'company-backends)
-                           '(elpy-company-backend)) ;; removed company-yasnippet, might want to add back
-              )))
+                           '(elpy-company-backend)))))
 
 (use-package session
   :ensure t
@@ -360,16 +368,18 @@
   :ensure t
   :commands (powerline-default-theme))
 
+;; This doesn't seem to work right in use-package
 (add-hook 'after-init-hook (lambda ()
                              (load-theme 'tango-dark t)
                              (sml/setup)
                              (powerline-default-theme)))
 
 (use-package tern
-  :ensure t)
+  :ensure t
+  :commands (tern-mode))
 
 (use-package cc-mode
-  :init
+  :config
   (defun make-CR-do-indent ()
     (define-key c-mode-base-map "\C-m" 'c-context-line-break))
 
@@ -381,7 +391,7 @@
   (add-hook 'c-mode-common-hook 'c-mode-common-hook))
 
 (use-package minibuffer
-  :init
+  :config
   ;; lower garbage collect thresholds in minibuffer
   ;; see http://bling.github.io/blog/2016/01/18/why-are-you-changing-gc-cons-threshold/
   (defun my-minibuffer-setup-hook ()
@@ -397,6 +407,8 @@
   :ensure t
   :diminish company-mode
   :init
+  (global-company-mode)
+  :config
   ;; set default `company-backends'
   (setq company-backends
         '((company-files          ; files & directory
@@ -404,8 +416,7 @@
            company-capf)		; completion-at-point-functions
           (company-abbrev company-dabbrev)
           ))
-  :config
-  (global-company-mode))
+  )
 
 (use-package company-try-hard
   :ensure t
