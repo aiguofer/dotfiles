@@ -64,6 +64,7 @@
     ("--ignore-space-change" "--ignore-all-space" "--no-ext-diff")))
  '(magit-pull-arguments (quote ("--rebase")))
  '(markdown-command "/usr/bin/pandoc")
+ '(mode-require-final-newline (quote visit-save))
  '(package-selected-packages
    (quote
     (use-package company django-mode find-file-in-project git-commit helm helm-company jedi-core magit-rockstar markdown-mode pos-tip powerline projectile string-inflection swiper tern typescript-mode vmd-mode web-beautify web-completion-data with-editor yaml-mode yasnippet counsel-projectile coffee-mode docker dockerfile-mode smart-mode-line imenu-anywhere flycheck-tip sudo-edit flymake-yaml jedi json-mode systemd smart-mode-line-powerline-theme helm-projectile xkcd tramp-term tramp-hdfs tj-mode tern-django swiper-helm spacegray-theme smart-tab session rainbow-delimiters python-docstring pig-snippets pig-mode memoize melpa-upstream-visit magit-tramp magit-filenotify lusty-explorer linum-off keyfreq js2-refactor helm-fuzzy-find helm-dired-recent-dirs geeknote elpy edit-color-stamp django-snippets direx diminish company-web company-try-hard company-jedi company-anaconda bash-completion auto-package-update angular-snippets ac-html-csswatcher ac-html-bootstrap)))
@@ -72,6 +73,7 @@
  '(projectile-mode-line nil)
  '(python-indent-offset 4)
  '(python-shell-completion-native-disabled-interpreters (quote ("pypy" "ipython")))
+ '(require-final-newline (quote visit-save))
  '(rm-blacklist (quote (" Wrap" " Helm" " hl-p")))
  '(semantic-default-submodes
    (quote
