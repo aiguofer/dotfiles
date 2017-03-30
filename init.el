@@ -15,17 +15,17 @@
 ;; Use bash.. zsh causes slowness in projectile: https://github.com/syl20bnr/spacemacs/issues/4207
 (setq shell-file-name "/bin/bash")
 
+;; Bootstrap `use-package'
+(unless (package-installed-p 'use-package)
+  (package-refresh-contents)
+  (package-install 'use-package))
+
 ;; Move customizations to different file
 (use-package cus-edit
   :init
   (setq custom-file (concat user-emacs-directory "custom.el"))
   :config
   (load custom-file))
-
-;; Bootstrap `use-package'
-(unless (package-installed-p 'use-package)
-  (package-refresh-contents)
-  (package-install 'use-package))
 
 (use-package auto-package-update
   :ensure t
