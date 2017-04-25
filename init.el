@@ -345,13 +345,13 @@
   :bind
   (("M-n" . nlinum-mode))
   :config
-  (global-nlinum-mode)
+  (global-nlinum-mode 1)
 
   (defun my-find-file-check-make-large-file-read-only-hook ()
-  "If a file is over a given size, turn off nlinum and font-lock-mode."
-  (if (> (buffer-size) (* 1024 1024))
-      (progn (nlinum-mode -1)
-             (font-lock-mode -1))))
+    "If a file is over a given size, turn off nlinum and font-lock-mode."
+    (if (> (buffer-size) (* 1024 1024))
+        (progn (nlinum-mode -1)
+               (font-lock-mode -1))))
 
   (add-hook 'find-file-hook 'my-find-file-check-make-large-file-read-only-hook))
 
