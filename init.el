@@ -144,11 +144,6 @@
 (use-package bind-key
   :ensure t)
 
-(use-package company-statistics
-  :ensure t
-  :init
-  (with-eval-after-load 'company-mode (company-statistics-mode)))
-
 (use-package js-doc
   :ensure t
   :commands (js-doc-insert-function-doc js-doc-insert-tag)
@@ -161,10 +156,6 @@
 
 (use-package web-completion-data
   :ensure t)
-
-(use-package company-web
-  :ensure t
-  :commands (company-web-bootstrap+ company-web-html))
 
 (use-package ac-html-bootstrap
   :ensure t)
@@ -416,27 +407,37 @@
            company-capf)		; completion-at-point-functions
           (company-abbrev company-dabbrev)
           ))
+
+  (use-package company-statistics
+    :ensure t
+    :init
+    (with-eval-after-load 'company-mode (company-statistics-mode)))
+
+  (use-package company-web
+    :ensure t
+    :commands (company-web-bootstrap+ company-web-html))
+
+  (use-package company-try-hard
+    :ensure t
+    :bind
+    (("C-<tab>" . company-try-hard)
+     :map company-active-map
+     ("C-<tab>" . company-try-hard)))
+
+  (use-package company-tern
+    :ensure t
+    :config
+    ;; Enable JavaScript completion between <script>...</script> etc.
+    (defadvice company-tern (before web-mode-set-up-ac-sources activate)
+      "Set `tern-mode' based on current language before running `company-tern'."
+      (if (equal major-mode 'web-mode)
+          (let ((web-mode-cur-language (web-mode-language-at-pos)))
+            (if (or (string= web-mode-cur-language "javascript")
+                    (string= web-mode-cur-language "jsx"))
+                (unless tern-mode (tern-mode))
+              (if tern-mode (tern-mode -1)))))))
+
   )
-
-(use-package company-try-hard
-  :ensure t
-  :bind
-  (("C-<tab>" . company-try-hard)
-   :map company-active-map
-   ("C-<tab>" . company-try-hard)))
-
-(use-package company-tern
-  :ensure t
-  :config
-  ;; Enable JavaScript completion between <script>...</script> etc.
-  (defadvice company-tern (before web-mode-set-up-ac-sources activate)
-    "Set `tern-mode' based on current language before running `company-tern'."
-    (if (equal major-mode 'web-mode)
-        (let ((web-mode-cur-language (web-mode-language-at-pos)))
-          (if (or (string= web-mode-cur-language "javascript")
-                  (string= web-mode-cur-language "jsx"))
-              (unless tern-mode (tern-mode))
-            (if tern-mode (tern-mode -1)))))))
 
 (use-package window
   :bind
