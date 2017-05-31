@@ -444,6 +444,12 @@
 
   )
 
+(use-package ignoramus
+  :ensure t
+  :init
+  (ignoramus-setup))
+
+
 (use-package window
   :bind
   (("S-C-<left>" . shrink-window-horizontally)
