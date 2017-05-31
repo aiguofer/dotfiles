@@ -69,8 +69,8 @@
    ("bash_aliases$" . sh-mode)
    ("bash_local$" . sh-mode)
    ("bash_completion$" . sh-mode)
-   ("zshrc$" . sh-mode)
-   ("\\.zsh" . sh-mode)))
+   ("\\.zsh" . sh-mode)
+   ("runcoms/[a-zA-Z]+$" . sh-mode)))
 
 (use-package vmd-mode
   :ensure t
