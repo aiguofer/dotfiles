@@ -218,7 +218,12 @@
   (add-hook 'python-mode-hook
             (lambda ()
               (add-to-list (make-local-variable 'company-backends)
-                           '(elpy-company-backend)))))
+                           '(elpy-company-backend))))
+  (add-hook 'inferior-python-mode-hook
+          (lambda ()
+            (push
+             'comint-watch-for-password-prompt comint-output-filter-functions)))
+)
 
 (use-package session
   :ensure t
