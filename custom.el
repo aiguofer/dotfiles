@@ -1,3 +1,6 @@
+;;; custom.el --- Custom variables for Emacs
+;;; Commentary: These variables should be set through the customization UI
+
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -109,3 +112,5 @@
  '(company-tooltip-selection ((t (:inherit font-lock-function-name-face))))
  '(js2-object-property ((t (:inherit default :foreground "gray"))))
  '(sml/folder ((t (:inherit sml/global :background "grey22" :foreground "white" :weight normal)))))
+
+;;; custom.el ends here
