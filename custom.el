@@ -72,7 +72,7 @@
  '(projectile-completion-system (quote helm))
  '(projectile-mode-line nil)
  '(python-indent-offset 4)
- '(python-shell-completion-native-disabled-interpreters (quote ("pypy" "ipython")))
+ '(python-shell-completion-native-disabled-interpreters (quote ("pypy" "ipython" "jupyter")))
  '(require-final-newline (quote visit-save))
  '(rm-blacklist (quote (" Wrap" " Helm" " hl-p")))
  '(semantic-default-submodes

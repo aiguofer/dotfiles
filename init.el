@@ -207,9 +207,9 @@
   :init
   (elpy-enable)
   :config
-  (elpy-use-ipython)
-  (setq python-shell-interpreter "ipython"
-        python-shell-interpreter-args "--simple-prompt --pprint")
+
+  (setq python-shell-interpreter "jupyter"
+        python-shell-interpreter-args "console --simple-prompt")
 
   (when (require 'flycheck nil t)
     (setq elpy-modules (delq 'elpy-module-flymake elpy-modules))
