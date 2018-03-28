@@ -38,7 +38,7 @@
    (quote
     (elpy-module-eldoc elpy-module-pyvenv elpy-module-highlight-indentation elpy-module-yasnippet elpy-module-sane-defaults)))
  '(elpy-rpc-backend "jedi")
- '(elpy-rpc-timeout 2)
+ '(elpy-rpc-timeout 4)
  '(helm-follow-mode-persistent t)
  '(indent-tabs-mode nil)
  '(inhibit-startup-screen t)
