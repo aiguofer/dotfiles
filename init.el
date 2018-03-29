@@ -416,7 +416,7 @@
   (use-package company-statistics
     :ensure t
     :init
-    (with-eval-after-load 'company-mode (company-statistics-mode)))
+    (company-statistics-mode))
 
   (use-package company-web
     :ensure t
