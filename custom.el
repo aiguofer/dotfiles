@@ -1,6 +1,6 @@
 ;;; custom.el --- Custom variables for Emacs
 ;;; Commentary: These variables should be set through the customization UI
-
+;;; Code:
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -70,7 +70,7 @@
  '(mode-require-final-newline (quote visit-save))
  '(package-selected-packages
    (quote
-    (use-package company django-mode find-file-in-project git-commit helm helm-company jedi-core magit-rockstar markdown-mode pos-tip powerline projectile string-inflection swiper tern typescript-mode vmd-mode web-beautify web-completion-data with-editor yaml-mode yasnippet counsel-projectile coffee-mode docker dockerfile-mode smart-mode-line imenu-anywhere flycheck-tip sudo-edit flymake-yaml jedi json-mode systemd smart-mode-line-powerline-theme helm-projectile xkcd tramp-term tramp-hdfs tj-mode tern-django swiper-helm spacegray-theme smart-tab session rainbow-delimiters python-docstring pig-snippets pig-mode memoize melpa-upstream-visit magit-tramp magit-filenotify lusty-explorer linum-off keyfreq js2-refactor helm-fuzzy-find helm-dired-recent-dirs geeknote elpy edit-color-stamp django-snippets direx diminish company-web company-try-hard company-jedi company-anaconda bash-completion auto-package-update angular-snippets ac-html-csswatcher ac-html-bootstrap)))
+    (ac-html-bootstrap ac-html-csswatcher auto-package-update bind-key coffee-mode company company-quickhelp company-statistics company-tern company-try-hard company-web diminish django-mode dockerfile-mode edit-color-stamp elpy flycheck flycheck-tip geeknote helm helm-ag helm-projectile helm-pydoc ignoramus imenu-anywhere js2-mode js-doc json-mode json-reformat json-snatcher keyfreq linum-off magit magit-filenotify markdown-mode pkgbuild-mode projectile python-docstring rainbow-delimiters semantic session smart-mode-line-powerline-theme subword sudo-edit sudo-edit swiper systemd tern typescript-mode use-package vmd-mode web-beautify web-completion-data web-mode yaml-mode yasnippet)))
  '(powerline-default-separator (quote utf-8))
  '(projectile-completion-system (quote helm))
  '(projectile-mode-line nil)
@@ -82,6 +82,7 @@
  '(semantic-default-submodes
    (quote
     (global-semantic-idle-scheduler-mode global-semanticdb-minor-mode global-semantic-idle-local-symbol-highlight-mode)))
+ '(send-mail-function (quote mailclient-send-it))
  '(session-use-package t nil (session))
  '(sml/extra-filler -6)
  '(sml/mode-width (quote right))
@@ -113,5 +114,4 @@
  '(company-tooltip-selection ((t (:inherit font-lock-function-name-face))))
  '(js2-object-property ((t (:inherit default :foreground "gray"))))
  '(sml/folder ((t (:inherit sml/global :background "grey22" :foreground "white" :weight normal)))))
-
 ;;; custom.el ends here
