@@ -133,6 +133,19 @@
   (dolist (hook '(prog-mode-hook js2-mode-hook))
     (add-hook hook #'pyenv-use-corresponding)))
 
+(use-package json-reformat
+  :ensure t)
+
+(use-package json-snatcher
+  :ensure t
+  :config
+  (defun js-mode-bindings ()
+    "Sets a hotkey for using the json-snatcher plugin"
+    (when (string-match  "\\.json$" (buffer-name))
+      (local-set-key (kbd "C-c C-g") 'jsons-print-path)))
+  (add-hook 'js-mode-hook 'js-mode-bindings)
+  (add-hook 'js2-mode-hook 'js-mode-bindings))
+
 (use-package magit
   :ensure t
   :commands (magit-status magit-log)
