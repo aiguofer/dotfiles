@@ -1,3 +1,9 @@
 [submodule "pyenv.el"]
 	path = pyenv.el
 	url = https://github.com/aiguofer/pyenv.el
+[submodule "py-cmd-buffer.el"]
+	path = py-cmd-buffer.el
+	url = git@github.com:humitos/py-cmd-buffer.el.git
+[submodule "buftra.el"]
+	path = buftra.el
+	url = https://github.com/paetzke/buftra.el

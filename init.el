@@ -133,6 +133,18 @@
   (dolist (hook '(prog-mode-hook js2-mode-hook))
     (add-hook hook #'pyenv-use-corresponding)))
 
+(use-package buftra
+  :load-path "buftra.el")
+
+(use-package py-pyment
+  :load-path "py-cmd-buffer.el")
+
+(use-package py-isort
+  :load-path "py-cmd-buffer.el"
+  :config
+  (setq py-isort-options '("--lines=79"))
+  (add-hook 'python-mode-hook 'py-isort-enable-on-save))
+
 (use-package json-reformat
   :ensure t)
 
@@ -232,21 +244,33 @@
   :config
 
   (setq python-shell-interpreter "jupyter"
-        python-shell-interpreter-args "console --simple-prompt")
+        python-shell-interpreter-args "console --simple-prompt"
+        python-shell-prompt-detect-failure-warning nil)
+  (add-to-list 'python-shell-completion-native-disabled-interpreters
+               "jupyter")
+  ;; (setq python-shell-interpreter "jupyter"
+  ;;       python-shell-interpreter-args "console --simple-prompt")
 
   (when (require 'flycheck nil t)
     (setq elpy-modules (delq 'elpy-module-flymake elpy-modules))
     (add-hook 'elpy-mode-hook 'flycheck-mode))
 
-  (add-hook 'python-mode-hook
-            (lambda ()
-              (add-to-list (make-local-variable 'company-backends)
-                           '(elpy-company-backend))))
+  ;; (add-hook 'python-mode-hook
+  ;;           (lambda ()
+  ;;             (add-to-list (make-local-variable 'company-backends)
+  ;;                          '(elpy-company-backend))))
+
   (add-hook 'inferior-python-mode-hook
-          (lambda ()
-            (push
-             'comint-watch-for-password-prompt comint-output-filter-functions)))
-)
+            (lambda ()
+              (push
+               'comint-watch-for-password-prompt comint-output-filter-functions)))
+  )
+
+(use-package blacken
+  :ensure t
+  :config
+  (setq blacken-line-length '79)
+  (add-hook 'python-mode-hook 'blacken-mode))
 
 (use-package session
   :ensure t
@@ -356,6 +380,11 @@
   (helm-mode)
   (helm-adaptive-mode))
 
+(use-package helm-pydoc
+  :ensure t
+  :config
+  (with-eval-after-load "python"
+    (define-key python-mode-map (kbd "C-c C-d") 'helm-pydoc)))
 (use-package tramp
   :init
   (setq tramp-default-method "ssh")
