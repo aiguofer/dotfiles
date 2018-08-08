@@ -385,6 +385,12 @@
   :config
   (company-quickhelp-mode))
 
+(use-package keyfreq
+  :ensure t
+  :config
+  (keyfreq-mode 1)
+  (keyfreq-autosave-mode 1))
+
 (use-package helm
   :ensure t
   :diminish helm-mode
