@@ -62,6 +62,12 @@
   :init
   (global-flycheck-mode))
 
+(use-package flycheck-tip
+  :ensure t
+  :init
+  (define-key global-map (kbd "C-c C-n") 'error-tip-cycle-dwim)
+  (define-key global-map (kbd "C-c C-p") 'error-tip-cycle-dwim-reverse))
+
 (use-package markdown-mode
   :ensure t
   :mode
@@ -366,6 +372,11 @@
 
 (use-package helm-ag
   :ensure t)
+
+(use-package company-quickhelp
+  :ensure t
+  :config
+  (company-quickhelp-mode))
 
 (use-package helm
   :ensure t
