@@ -201,6 +201,14 @@
 (use-package ac-html-bootstrap
   :ensure t)
 
+(use-package ac-html-csswatcher
+  :ensure t)
+
+(use-package django-mode
+  :ensure t
+  :mode
+  (("\\.djhtml$" . django-html-mode)))
+
 (use-package web-mode
   :ensure t
   :mode
@@ -211,7 +219,7 @@
    ("\\.erb" . web-mode)
    ("\\.mustache" . web-mode)
    ("\\.ejs" . web-mode)
-   ("html?$" . web-mode)
+   ("\\.html?$" . web-mode)
    ("\\.template?" . web-mode))
   :config
   (setq web-mode-engines-alist
