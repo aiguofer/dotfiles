@@ -391,6 +391,9 @@
   (keyfreq-mode 1)
   (keyfreq-autosave-mode 1))
 
+(use-package sudo-edit
+  :ensure t)
+
 (use-package helm
   :ensure t
   :diminish helm-mode
