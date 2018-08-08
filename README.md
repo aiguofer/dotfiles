@@ -27,3 +27,11 @@ Install javascript dependencies
 ```bash
 sudo npm install -g tern js-beautify vmd eslint eslint-plugin-angular
 ```
+
+Install necessary external tools
+
+```bash
+pip install -U black isort pyment
+```
+
+Install `ag`, see https://github.com/ggreer/the_silver_searcher#installing
