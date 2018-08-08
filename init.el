@@ -295,7 +295,7 @@
   (defun expand-for-web-mode ()
     (when (equal mode-name "Web")
       (make-local-variable 'yas-extra-modes)
-      (setq yas-extra-modes
+      (setq yas--extra-modes
             (let ((web-lang (web-mode-language-at-pos)))
               (cond
                ((equal web-lang "html")       '(html-mode))
