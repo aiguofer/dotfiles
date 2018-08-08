@@ -516,9 +516,7 @@
             (if (or (string= web-mode-cur-language "javascript")
                     (string= web-mode-cur-language "jsx"))
                 (unless tern-mode (tern-mode))
-              (if tern-mode (tern-mode -1)))))))
-
-  )
+              (if tern-mode (tern-mode -1))))))))
 
 (use-package ignoramus
   :ensure t
