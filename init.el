@@ -368,7 +368,6 @@
 (use-package rainbow-delimiters
   :ensure t
   :init
-  (setq show-paren-style 'mixed)
   (add-hook 'prog-mode-hook 'rainbow-delimiters-mode)
   :config
   (show-paren-mode 1)
