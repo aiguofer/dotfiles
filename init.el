@@ -143,7 +143,9 @@
   :load-path "buftra.el")
 
 (use-package py-pyment
-  :load-path "py-cmd-buffer.el")
+  :load-path "py-cmd-buffer.el"
+  :config
+  (setq py-pyment-options '("--output=numpydoc")))
 
 (use-package py-isort
   :load-path "py-cmd-buffer.el"
