@@ -150,7 +150,7 @@
 (use-package py-isort
   :load-path "py-cmd-buffer.el"
   :config
-  (setq py-isort-options '("--lines=79"))
+  (setq py-isort-options '("--lines=88" "-m=3" "-tc" "-fgw=0" "-ca=True"))
   (add-hook 'python-mode-hook 'py-isort-enable-on-save))
 
 (use-package json-reformat
