@@ -318,6 +318,8 @@
   :ensure t
   :diminish projectile-mode
   :init
+  ;; this must be done before :config
+  (setq projectile-keymap-prefix (kbd "C-c p"))
   :config
   (projectile-mode)
   (setq projectile-globally-ignored-files
