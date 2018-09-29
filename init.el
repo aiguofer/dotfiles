@@ -132,27 +132,6 @@
                 (add-hook 'before-save-hook 'web-beautify-js-buffer t t))))
   )
 
-(use-package pyenv
-  :load-path "pyenv.el"
-  :config
-  (global-pyenv-mode)
-  (dolist (hook '(prog-mode-hook js2-mode-hook))
-    (add-hook hook #'pyenv-use-corresponding)))
-
-(use-package buftra
-  :load-path "buftra.el")
-
-(use-package py-pyment
-  :load-path "py-cmd-buffer.el"
-  :config
-  (setq py-pyment-options '("--output=numpydoc")))
-
-(use-package py-isort
-  :load-path "py-cmd-buffer.el"
-  :config
-  (setq py-isort-options '("--lines=88" "-m=3" "-tc" "-fgw=0" "-ca=True"))
-  (add-hook 'python-mode-hook 'py-isort-enable-on-save))
-
 (use-package json-reformat
   :ensure t)
 
@@ -253,38 +232,138 @@
   :ensure t
   :commands (web-beautify-css-buffer web-beautify-html-buffer web-beautify-js-buffer))
 
-(use-package elpy
-  :ensure t
-  :init
-  (elpy-enable)
+(use-package python
   :config
 
-  (setq python-shell-interpreter "jupyter"
-        python-shell-interpreter-args "console --simple-prompt"
+  (setq python-shell-interpreter "jupyter-console"
+        python-shell-interpreter-args "--simple-prompt"
         python-shell-prompt-detect-failure-warning nil)
   (add-to-list 'python-shell-completion-native-disabled-interpreters
                "jupyter")
 
-  (when (require 'flycheck nil t)
-    (setq elpy-modules (delq 'elpy-module-flymake elpy-modules))
-    (add-hook 'elpy-mode-hook 'flycheck-mode))
+  (defun run-python2 ()
+    (interactive)
+    "Run IPython with Python 2."
+    (let ((python-shell-buffer-name "Python 2")
+          (python-shell-interpreter-args "--simple-prompt --kernel=python2"))
+      (run-python nil nil t)))
 
-  ;; (add-hook 'python-mode-hook
-  ;;           (lambda ()
-  ;;             (add-to-list (make-local-variable 'company-backends)
-  ;;                          '(elpy-company-backend))))
+  (defun run-python3 ()
+    "Run IPython with Python 3."
+    (interactive)
+    (let ((python-shell-buffer-name "Python 3")
+          (python-shell-interpreter-args "--simple-prompt --kernel=python3")
+          )
+      (run-python nil nil t)))
 
-  (add-hook 'inferior-python-mode-hook
-            (lambda ()
-              (push
-               'comint-watch-for-password-prompt comint-output-filter-functions)))
+  (global-set-key (kbd "C-c C-2") 'run-python2)
+  (global-set-key (kbd "C-c C-3") 'run-python3)
+
+  (use-package pyenv
+    :load-path "pyenv.el"
+    :config
+    (global-pyenv-mode)
+    (dolist (hook '(prog-mode-hook js2-mode-hook))
+      (add-hook hook #'pyenv-use-corresponding)))
+
+  (use-package buftra
+    :load-path "buftra.el")
+
+  (use-package py-pyment
+    :load-path "py-cmd-buffer.el"
+    :config
+    (setq py-pyment-options '("--output=numpydoc")))
+
+  (use-package py-isort
+    :load-path "py-cmd-buffer.el"
+    :config
+    (setq py-isort-options '("--lines=88" "-m=3" "-tc" "-fgw=0" "-ca"))
+    (add-hook 'python-mode-hook 'py-isort-enable-on-save)
+    )
+
+  (use-package blacken
+    :ensure t
+    :config
+    (setq blacken-line-length '88)
+    (add-hook 'python-mode-hook 'blacken-mode))
+
+  (use-package python-docstring
+    :ensure t
+    :init
+    (add-hook 'python-mode-hook 'python-docstring-mode))
+
+  (use-package elpy
+    :ensure t
+    :init
+    (elpy-enable)
+    :config
+
+    (when (require 'flycheck nil t)
+      (setq elpy-modules (delq 'elpy-module-flymake elpy-modules))
+      (add-hook 'elpy-mode-hook 'flycheck-mode))
+
+    (add-hook 'python-mode-hook
+              (lambda ()
+                (add-to-list (make-local-variable 'company-backends)
+                             '(elpy-company-backend))))
+
+    (add-hook 'inferior-python-mode-hook
+              (lambda ()
+                (push
+                 'comint-watch-for-password-prompt comint-output-filter-functions)))
+    )
+
+  ;; (use-package lsp-mode
+  ;;   :ensure t
+  ;;   :config
+
+  ;;   ;; make sure we have lsp-imenu everywhere we have LSP
+  ;;   (require 'lsp-imenu)
+  ;;   (add-hook 'lsp-after-open-hook 'lsp-enable-imenu)
+
+  ;;   ;; get lsp-python-enable defined
+  ;;   ;; NB: use either projectile-project-root or ffip-get-project-root-directory
+  ;;   ;;     or any other function that can be used to find the root directory of a project
+  ;;   (lsp-define-stdio-client lsp-python "python"
+  ;;                            #'projectile-project-root
+  ;;                            '("pyls"))
+
+  ;;   ;; make sure this is activated when python-mode is activated
+  ;;   ;; lsp-python-enable is created by macro above
+  ;;   (add-hook 'python-mode-hook
+  ;;             (lambda ()
+  ;;               (lsp-python-enable)))
+
+  ;;   ;; lsp extras
+  ;;   (use-package lsp-ui
+  ;;     :ensure t
+  ;;     :config
+  ;;     (setq lsp-ui-sideline-ignore-duplicate t)
+  ;;     (add-hook 'lsp-mode-hook 'lsp-ui-mode)
+  ;;     (define-key lsp-ui-mode-map [remap xref-find-definitions]
+  ;;       #'lsp-ui-peek-find-definitions)
+  ;;     (define-key lsp-ui-mode-map [remap xref-find-references]
+  ;;       #'lsp-ui-peek-find-references))
+
+  ;;   (use-package company-lsp
+  ;;     :ensure t
+  ;;     :config
+  ;;     (push 'company-lsp company-backends))
+
+  ;;   ;; NB: only required if you prefer flake8 instead of the default
+  ;;   ;; send pyls config via lsp-after-initialize-hook -- harmless for
+  ;;   ;; other servers due to pyls key, but would prefer only sending this
+  ;;   ;; when pyls gets initialised (:initialize function in
+  ;;   ;; lsp-define-stdio-client is invoked too early (before server
+  ;;   ;; start)) -- cpbotha
+  ;;   (defun lsp-set-cfg ()
+  ;;     (let ((lsp-cfg `(:pyls (:configurationSources ("flake8")))))
+  ;;       ;; TODO: check lsp--cur-workspace here to decide per server / project
+  ;;       (lsp--set-configuration lsp-cfg)))
+
+  ;;   (add-hook 'lsp-after-initialize-hook 'lsp-set-cfg))
   )
 
-(use-package blacken
-  :ensure t
-  :config
-  (setq blacken-line-length '79)
-  (add-hook 'python-mode-hook 'blacken-mode))
 
 (use-package session
   :ensure t
@@ -361,11 +440,6 @@
   :config
   (keyfreq-mode 1)
   (keyfreq-autosave-mode 1))
-
-(use-package python-docstring
-  :ensure t
-  :init
-  (add-hook 'python-mode-hook 'python-docstring-mode))
 
 (use-package rainbow-delimiters
   :ensure t
