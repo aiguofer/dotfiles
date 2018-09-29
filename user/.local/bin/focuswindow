@@ -1,0 +1,21 @@
+#!/bin/sh
+
+win_id=$(xdotool search --onlyvisible --$1 "$2")
+current=$(xdotool getactivewindow)
+last=$(cat ~/.lastwindow)
+current_ws=$(wmctrl -d | grep '*' | cut -d' ' -f1)
+
+if [ "$win_id" == "$current" ]
+then
+    # xdotool windowraise $last windowfocus $last
+    xdotool windowactivate $last
+    rm ~/.lastwindow
+else
+    # xdotool windowraise $win_id windowfocus $win_id
+    # now that windowraise doesn't work, move window to current
+    # workspace, raise/focus it, then set it to sticky again
+    xdotool set_desktop_for_window $win_id $current_ws
+    xdotool windowactivate $win_id
+    xdotool set_desktop_for_window $win_id -1
+    echo $current > ~/.lastwindow
+fi

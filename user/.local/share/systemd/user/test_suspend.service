@@ -1,0 +1,9 @@
+[Unit]
+Before=sleep.target
+
+[Service]
+Type=oneshot
+ExecStart=/usr/bin/touch /home/rdu/difernan/suspended
+
+[Install]
+WantedBy=sleep.target

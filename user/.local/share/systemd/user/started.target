@@ -1,0 +1,5 @@
+[Unit]
+Description=User session has started
+After=default.target
+Requisite=default.target
+Conflicts=exit.target

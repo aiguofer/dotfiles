@@ -1,0 +1,12 @@
+[Unit]
+Description=Rescuetime
+After=started.target
+
+[Service]
+ExecStartPre=/usr/bin/sleep 15
+ExecStart=/usr/bin/rescuetime
+Restart=always
+RestartSec=2
+
+[Install]
+WantedBy=started.target

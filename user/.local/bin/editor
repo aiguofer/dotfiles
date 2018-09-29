@@ -1,0 +1,10 @@
+#!/bin/sh
+
+if [[ $TMUX || $SSH_CLIENT ]]
+then
+    echo $TMUX
+    echo $SSH_CLIENT
+    exec /usr/bin/emacsclient -t "$@"
+else
+    exec /usr/bin/emacsclient -c "$@"
+fi

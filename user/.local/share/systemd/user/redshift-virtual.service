@@ -1,0 +1,12 @@
+[Unit]
+Description=RedShift for virtual displays
+Requires=docked.target intel-virtual-output.service
+After=docked.target intel-virtual-output.service
+
+[Service]
+Environment=DISPLAY=:8
+ExecStartPre=/usr/bin/sleep 5
+ExecStart=/usr/bin/redshift
+
+[Install]
+WantedBy=docked.target

@@ -1,0 +1,5 @@
+#compdef wifi bluetooth wwan
+_values 'commands' \
+  'on[Switch device on.]' \
+  'off[Switch device off.]' \
+  'toggle[Toggle device state.]'

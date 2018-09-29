@@ -1,0 +1,2 @@
+sorin-ionescu/prezto
+greymd/docker-zsh-completion

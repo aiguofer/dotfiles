@@ -1,0 +1,11 @@
+#!/bin/sh
+
+sudo modprobe -r btusb
+sleep 1
+sudo modprobe btusb
+sleep 3
+sudo hciconfig hci0 reset
+sleep 3
+sudo hciconfig hci0 up
+
+sudo systemctl restart bluetooth

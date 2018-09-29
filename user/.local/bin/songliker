@@ -1,0 +1,80 @@
+#!/usr/bin/env python
+from os import path
+import websocket
+import json
+
+
+class GPMDP:
+    NAME = "GPMDP Python Client"
+    config_location = path.expanduser("~/.config/gpmdp_api")
+
+    def __init__(self):
+        ws = websocket.WebSocket()
+        ws.connect("ws://localhost:5672")
+        ws.timeout = 1
+
+        self.ws = ws
+
+        code = self.get_saved_code()
+
+        if not code:
+            code = self.authenticate()
+
+        self.connect(code)
+        self.code = code
+
+    def get_saved_code(self):
+        if path.exists(self.config_location):
+            with open(self.config_location) as conf:
+                return conf.read()
+
+    def save_code(self, code):
+        with open(self.config_location, "w") as conf:
+            conf.write(code)
+
+    def connect(self, code):
+        connect = {
+            "namespace": "connect",
+            "method": "connect",
+            "arguments": ["Song Liker", str(code)],
+        }
+
+        self.ws.send(json.dumps(connect))
+
+    def authenticate(self):
+        connect = {
+            "namespace": "connect",
+            "method": "connect",
+            "arguments": ["Song Liker"],
+        }
+
+        self.ws.send(json.dumps(connect))
+        code = input("Please input code: ")
+        self.connect(code)
+        res = self.get_connect_response()
+        self.save_code(res)
+        return res
+
+    def get_responses(self):
+        for res in self.ws:
+            yield json.loads(res)
+
+    async def get_connect_response(self):
+        for res in self.get_responses():
+            if res["channel"] == "connect" and res["payload"] != "CODE_REQUIRED":
+                return res["payload"]
+
+    def get_like_response(self):
+        for res in self.get_responses():
+            if res["channel"] == "rating":
+                return res["payload"]
+
+    def like_current_song(self):
+        thumbs_up = {"namespace": "rating", "method": "setRating", "arguments": [5]}
+
+        self.ws.send(json.dumps(thumbs_up))
+
+
+if __name__ == "__main__":
+    g = GPMDP()
+    g.like_current_song()

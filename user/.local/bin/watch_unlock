@@ -1,0 +1,8 @@
+#!/bin/sh
+
+dbus-monitor --session "type='signal',interface='org.gnome.ScreenSaver'" | while read x; do
+    case "$x" in
+        *"boolean false"*) systemctl --user --no-block start unlocked.target;;
+        *"boolean true"*) systemctl --user --no-block stop unlocked.target;;
+    esac
+done

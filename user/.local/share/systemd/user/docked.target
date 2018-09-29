@@ -1,0 +1,9 @@
+[Unit]
+Description=dock to ThinkPad Mini Dock
+Requisite=dev-tp_mini_dock.device started.target
+BindsTo=dev-tp_mini_dock.device
+After=dev-tp_mini_dock.device started.target
+JobTimeoutSec=3
+
+[Install]
+WantedBy=dev-tp_mini_dock.device started.target

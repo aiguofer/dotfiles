@@ -1,0 +1,10 @@
+#!/bin/sh
+
+if [[ $TMUX || $SSH_CLIENT ]]
+then
+    echo $TMUX
+    echo $SSH_CLIENT
+    exec /usr/bin/emacsclient -t "/sudo:root@localhost:$@"
+else
+    exec /usr/bin/emacsclient -c "/sudo:root@localhost:$@"
+fi

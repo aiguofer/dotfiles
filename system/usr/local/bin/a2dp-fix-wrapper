@@ -1,0 +1,16 @@
+#!/bin/bash
+
+for PID in $(pgrep pulseaudio); do
+    USER=$(grep -z USER= /proc/$PID/environ | sed 's/.*=//' | tr -d '\0')
+    USER_ID=$(id -u $USER)
+    HOME=$(echo $(getent passwd $USER )| cut -d : -f 6)
+
+    export XDG_RUNTIME_DIR=/run/user/$USER_ID
+    export XAUTHORITY=$HOME/.Xauthority
+    export DISPLAY=:0
+
+    sleep 5
+    if [[ ! -z $USER ]]; then
+        sudo -u $USER -E /usr/local/bin/a2dp-fix
+    fi
+done

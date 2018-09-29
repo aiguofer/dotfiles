@@ -1,0 +1,72 @@
+#compdef tlp
+
+local curcontext=$curcontext state line ret=1
+
+_batteries=(
+  'BAT0[Main battery]'
+  'BAT1[Ultrabay/slice battery]'
+)
+
+if [[ "$TLP_LOWER_THRESHOLD_DEFAULT" == "" ]]; then
+  TLP_LOWER_THRESHOLD_DEFAULT='70' # TODO: retrieve and cache from /etc/default/tlp
+fi
+if [[ "$TLP_UPPER_THRESHOLD_DEFAULT" == "" ]]; then
+  TLP_UPPER_THRESHOLD_DEFAULT='80'
+fi
+
+_arguments \
+  '1: :->cmds' \
+  '*:: :->args' \
+  && ret=0
+
+case $state in
+  cmds)
+    _values -S = 'variables' \
+      'start[Initialize tlp and apply settings according to the actual power source.]' \
+      'bat[Apply settings for battery power source.]' \
+      'true[Same as bat (this command is called when power source changes to battery)]' \
+      'ac[Apply settings for ac power source.]' \
+      'false[Same as ac (this command is called when power source changes to ac).]' \
+      'usb[Enable autosuspend for all usb devices, except blacklisted ones.]' \
+      'bayoff[Turn off optical drive in drive bay (or ThinkPad UltrayBay). The drive may be reenabled by pulling the eject lever or pushing the media eject button on newer models.]' \
+      'setcharge[START_CHARGE STOP_CHARGE \[BAT0|BAT1\] -- Temporarily set charge thresholds of battery. Values must be between 1 and 100, Stop > Start + 3. Configured thresholds are restored upon next system start. When called without arguments, configured thresholds are set.]' \
+      'fullcharge[Temporarily set charge thresholds of battery to factory preset (causing a full charge 96/100). Configured thresholds are restored upon next system start.]' \
+      'chargeonce[Charge main (BAT0) or Ultrabay (BAT1) battery to upper charge threshold once (bypassing lower threshold). Configured thresholds are restored upon next system start.]' \
+      'discharge[Force complete discharge of main (BAT0) or Ultrabay (BAT1) battery.]' \
+      'recalibrate[Battery recalibration: completely discharge main (BAT0) or Ultrabay (BAT1) battery and recharge to 100%.]' \
+      'stat[Same as tlp-stat]' \
+      'diskid[Show disk ids for configuration.]'
+    ret=0
+    ;;
+  args)
+    case $line[1] in
+      setcharge)
+        if [[ $line[2] == "" ]]; then
+          _values 'default for lower threshold' $TLP_LOWER_THRESHOLD_DEFAULT
+        elif [[ $line[3] == "" ]]; then
+          _values 'default for upper threshold' $TLP_UPPER_THRESHOLD_DEFAULT
+        else
+          _values 'battery' $_batteries
+        fi
+        ret=0
+        ;;
+      fullcharge)
+        _values 'battery' $_batteries
+        ret=0
+        ;;
+      chargeonce)
+        _values 'battery' $_batteries
+        ret=0
+        ;;
+      discharge)
+        _values 'battery' $_batteries
+        ret=0
+        ;;
+      recalibrate)
+        _values 'battery' $_batteries
+        ret=0
+        ;;
+  esac
+esac
+
+return $ret

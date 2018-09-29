@@ -1,0 +1,9 @@
+[Unit]
+Description=Devil's Pie
+After=started.target
+
+[Service]
+ExecStart=/usr/bin/devilspie2
+
+[Install]
+WantedBy=started.target

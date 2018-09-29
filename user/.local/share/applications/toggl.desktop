@@ -1,0 +1,12 @@
+[Desktop Entry]
+Version=1.0
+Name=Toggle
+GenericName=Time Tracking Tool
+Comment=Capture, edit and share screenshots
+Exec=bash -c "sleep 10 && /home/rdu/difernan/Programs/toggldesktop/TogglDesktop.sh"
+Icon=toggldesktop
+Type=Application
+Categories=Utility;Application;
+X-GNOME-Autostart-enabled=true
+Hidden=false
+X-GNOME-Autostart-Delay=30

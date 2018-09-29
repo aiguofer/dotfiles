@@ -1,0 +1,8 @@
+#compdef tlp-stat
+
+_arguments \
+  '(-b --battery)'{--battery,-b}'[Show battery data only.]' \
+  '(-c --config)'{--config,-c}'[Show configuration only.]' \
+  '(-r --rfkill)'{--rfkill,-r}'[Show radio devices switch state only.]' \
+  '(-t --temp)'{--temp,-t}'[Show temperatures and fan speed only.]' \
+  '(-T --trace)'{--trace,-T}'[Show trace output from /var/log/debug.]'
