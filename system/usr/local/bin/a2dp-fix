@@ -7,18 +7,6 @@ a2dp_available=$(pacmd list-cards | grep -A30 bluez | grep "A2DP Sink" | sed -E 
 
 if [[ "$a2dp_available" == "no" ]]
 then
-    # output="No default controller available"
-    # while [[ $output =~ .*"No default controller".* ]]; do
-    #     coproc bluetoothctl
-    #     echo -e "select E4:B3:18:48:43:D2\nconnect $device_mac\nquit" >&${COPROC[1]}
-    #     output=$(cat <&${COPROC[0]})
-    #     echo $output
-    #     sleep 5
-    # done
-    # echo -e "connect $device_mac\nquit" | bluetoothctl
-    # hcitool cc $device_mac
-    # /home/rdu/difernan/a2dp.py $device_mac
-    # /home/rdu/difernan/Devel/bluez/test/test-device connect $device_mac
     dbus-send --system --dest=org.bluez --print-reply /org/bluez/hci0/dev_$bt_device_addr org.bluez.Device1.Connect
 
     pacmd set-card-profile bluez_card.$bt_device_addr off
