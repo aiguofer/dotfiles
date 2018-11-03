@@ -1,6 +1,12 @@
 ;; .emacs --- My emacs config
 ;;; Commentary:
 ;;; Code:
+
+;; Move to top to fix package-selected-package
+;; see https://github.com/jwiegley/use-package/issues/397
+(setq custom-file (concat user-emacs-directory "custom.el"))
+(load custom-file)
+
 (setq load-prefer-newer t)
 
 (require 'package)
@@ -32,13 +38,6 @@
 (unless (package-installed-p 'use-package)
   (package-refresh-contents)
   (package-install 'use-package))
-
-;; Move customizations to different file
-(use-package cus-edit
-  :init
-  (setq custom-file (concat user-emacs-directory "custom.el"))
-  :config
-  (load custom-file))
 
 (use-package auto-package-update
   :ensure t
