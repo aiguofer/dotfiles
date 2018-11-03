@@ -362,7 +362,11 @@
   ;;   (use-package company-lsp
   ;;     :ensure t
   ;;     :config
-  ;;     (push 'company-lsp company-backends))
+  ;;     (add-hook 'python-mode-hook
+  ;;               (lambda ()
+  ;;                 (add-to-list (make-local-variable 'company-backends)
+  ;;                              '(company-lsp))))
+  ;;     )
 
   ;;   ;; NB: only required if you prefer flake8 instead of the default
   ;;   ;; send pyls config via lsp-after-initialize-hook -- harmless for
