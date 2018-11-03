@@ -401,7 +401,7 @@
   :diminish projectile-mode
   :init
   ;; this must be done before :config
-  (setq projectile-keymap-prefix (kbd "C-c p"))
+  (define-key global-map (kbd "C-c p") 'projectile-command-map)
   :config
   (projectile-mode)
   (setq projectile-globally-ignored-files
