@@ -243,6 +243,11 @@
   (add-to-list 'python-shell-completion-native-disabled-interpreters
                "jupyter")
 
+  (add-hook 'inferior-python-mode-hook
+            (lambda ()
+              (push
+               'comint-watch-for-password-prompt comint-output-filter-functions)))
+
   (defun run-python2 ()
     (interactive)
     "Run IPython with Python 2."
@@ -308,11 +313,6 @@
               (lambda ()
                 (add-to-list (make-local-variable 'company-backends)
                              '(elpy-company-backend))))
-
-    (add-hook 'inferior-python-mode-hook
-              (lambda ()
-                (push
-                 'comint-watch-for-password-prompt comint-output-filter-functions)))
     )
 
   ;; (use-package lsp-mode
