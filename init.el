@@ -286,6 +286,18 @@
     :config
     (setq py-isort-options '("--lines=88" "-m=3" "-tc" "-fgw=0" "-ca"))
     (add-hook 'python-mode-hook 'py-isort-enable-on-save)
+
+    ;; Above breaks kill-ring on save, see:
+    ;; https://www.reddit.com/r/emacs/comments/4vo9qh/losing_killring_on_save/
+    ;; start workaround
+    (require 'nadvice)
+
+    (defun my-save-kill-ring (fun &rest _args)
+      (let ((kill-ring nil))
+        (funcall fun)))
+
+    (advice-add 'py-isort-buffer :around 'my-save-kill-ring)
+    ;; end workaround
     )
 
   (use-package blacken
