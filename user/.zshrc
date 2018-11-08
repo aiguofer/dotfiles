@@ -40,11 +40,11 @@ pip_install_save() {
     package_entry=$(pip freeze | grep -i "$package_name==")
     search_package="$package_name([><=~]|$).*"
 
-    if [[ `grep -E -i $search_package $requirements_file` ]]
+    if [[ $(grep -E -i $search_package $requirements_file) ]]
     then
         sed -E -i "s/$search_package/$package_entry/" $requirements_file
     else
-        $package_entry >> $requirements_file
+        echo $package_entry >> $requirements_file
     fi
 }
 
