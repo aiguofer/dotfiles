@@ -1,0 +1,11 @@
+#!/bin/sh
+
+pkg=$(adb shell pm path com.koushikdutta.backup)
+# apparently pm path appends a carriage return which screws
+# up the class name in dalvikvm invocation
+pkg=$(echo $pkg | cut -d : -f 2 | sed s/\\r//g)
+echo $pkg
+adb shell << EOF
+CLASSPATH=$pkg app_process /system/bin com.koushikdutta.shellproxy.ShellRunner2 $@ &
+exit
+EOF

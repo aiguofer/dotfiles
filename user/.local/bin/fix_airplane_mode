@@ -1,0 +1,6 @@
+#!/bin/sh
+
+adb shell << EOF
+settings put global airplane_mode_radios cell,nfc,wimax
+exit
+EOF
