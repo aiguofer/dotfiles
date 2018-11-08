@@ -1,2 +1,4 @@
 sorin-ionescu/prezto
 greymd/docker-zsh-completion
+lukechilds/zsh-nvm
+lukechilds/zsh-better-npm-completion

@@ -37,7 +37,6 @@ zstyle ':prezto:load' pmodule \
   'completion' \
   'dnf' \
   'git' \
-  'node' \
   'python' \
   'syntax-highlighting' \
   'prompt' \

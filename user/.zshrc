@@ -17,6 +17,9 @@ export POWERLEVEL9K_VIRTUALENV_BACKGROUND='blue'
 export VIRTUAL_ENV_DISABLE_PROMPT=1
 export TERM=xterm-256color
 
+export NVM_LAZY_LOAD=true
+export NVM_AUTO_USE=true
+
 # antibody
 source <(antibody init)
 antibody bundle < ~/.zsh_plugins.txt
