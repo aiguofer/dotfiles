@@ -1,7 +1,8 @@
 #!/usr/bin/env python
-from os import path
-import websocket
 import json
+from os import path
+
+import websocket
 
 
 class GPMDP:
@@ -12,8 +13,8 @@ class GPMDP:
         ws = websocket.WebSocket()
         ws.connect("ws://localhost:5672")
         ws.timeout = 1
-
         self.ws = ws
+        self._initial_connect = True
 
         code = self.get_saved_code()
 
@@ -21,7 +22,6 @@ class GPMDP:
             code = self.authenticate()
 
         self.connect(code)
-        self.code = code
 
     def get_saved_code(self):
         if path.exists(self.config_location):
@@ -32,47 +32,54 @@ class GPMDP:
         with open(self.config_location, "w") as conf:
             conf.write(code)
 
-    def connect(self, code):
-        connect = {
-            "namespace": "connect",
-            "method": "connect",
-            "arguments": ["Song Liker", str(code)],
-        }
-
-        self.ws.send(json.dumps(connect))
-
-    def authenticate(self):
+    def connect(self, code=None):
         connect = {
             "namespace": "connect",
             "method": "connect",
             "arguments": ["Song Liker"],
         }
 
+        if code is not None:
+            connect["arguments"].append(str(code))
+
         self.ws.send(json.dumps(connect))
+
+        # only fetch the initial responses the first time
+        # we connect
+        if self._initial_connect:
+            self._get_initial_responses()
+            self._initial_connect = False
+
+        # we only get a response while authenticating
+        if code is None or len(code) == 4:
+            return self.get_response("connect")["payload"]
+
+    def authenticate(self):
+        self.connect()
         code = input("Please input code: ")
-        self.connect(code)
-        res = self.get_connect_response()
+        res = self.connect(code)
         self.save_code(res)
         return res
 
+    def _get_initial_responses(self):
+        # upon connection, we get messages for lots of things
+        # the last one being for the library channel
+        self.get_response("library")
+
     def get_responses(self):
         for res in self.ws:
-            yield json.loads(res)
+            yield res
 
-    async def get_connect_response(self):
+    def get_response(self, channel):
         for res in self.get_responses():
-            if res["channel"] == "connect" and res["payload"] != "CODE_REQUIRED":
-                return res["payload"]
-
-    def get_like_response(self):
-        for res in self.get_responses():
-            if res["channel"] == "rating":
-                return res["payload"]
+            if '"channel":"{0}"'.format(channel) in res:
+                return json.loads(res)
 
     def like_current_song(self):
         thumbs_up = {"namespace": "rating", "method": "setRating", "arguments": [5]}
 
         self.ws.send(json.dumps(thumbs_up))
+        return self.get_response("rating")["payload"]
 
 
 if __name__ == "__main__":
