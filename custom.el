@@ -72,7 +72,7 @@
  '(mode-require-final-newline (quote visit-save))
  '(package-selected-packages
    (quote
-    (ac-html-bootstrap ac-html-csswatcher auto-package-update bind-key coffee-mode company company-quickhelp company-statistics company-tern company-try-hard company-web diminish django-mode dockerfile-mode edit-color-stamp elpy flycheck flycheck-tip geeknote helm helm-ag helm-projectile helm-pydoc ignoramus imenu-anywhere js2-mode js-doc json-mode json-reformat json-snatcher keyfreq linum-off magit magit-filenotify markdown-mode pkgbuild-mode projectile python-docstring rainbow-delimiters semantic session smart-mode-line-powerline-theme subword sudo-edit sudo-edit swiper systemd tern typescript-mode use-package vmd-mode web-beautify web-completion-data web-mode yaml-mode yasnippet)))
+    (ignoramus company-tern company-try-hard company-web company-statistics tern smart-mode-line-powerline-theme linum-off imenu-anywhere helm-pydoc keyfreq company-quickhelp geeknote edit-color-stamp helm-rg helm-ag yaml-mode rainbow-delimiters helm-projectile session elpy python-docstring blacken web-beautify web-mode django-mode ac-html-csswatcher ac-html-bootstrap web-completion-data js-doc diminish sudo-edit magit-filenotify magit js2-mode json-mode systemd typescript-mode swiper coffee-mode vmd-mode pkgbuild-mode markdown-mode flycheck-tip flycheck dockerfile-mode auto-package-update use-package)))
  '(powerline-default-separator (quote utf-8))
  '(projectile-completion-system (quote helm))
  '(projectile-mode-line nil)
@@ -85,7 +85,6 @@
    (quote
     (global-semantic-idle-scheduler-mode global-semanticdb-minor-mode global-semantic-idle-local-symbol-highlight-mode)))
  '(send-mail-function (quote mailclient-send-it))
- '(session-use-package t nil (session))
  '(sml/extra-filler -6)
  '(sml/mode-width (quote right))
  '(sml/name-width 5)
