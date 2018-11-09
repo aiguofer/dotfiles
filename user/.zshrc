@@ -84,9 +84,33 @@ alias wget='wget -c'
 ## never ever beep ever
 setopt NO_BEEP
 
-autoload -U bashcompinit
-bashcompinit
+#
+# Paths
+#
+
+# Ensure path arrays do not contain duplicates.
+typeset -gU cdpath fpath mailpath path
+
+# Set the list of directories that cd searches.
+cdpath=(
+    $HOME
+    $HOME/Projects
+    $cdpath
+)
+
+# Set the list of directories that Zsh searches for functions.
+fpath=(~/.zsh/completions $fpath)
+
+# fix path here to make sure local bins have precedence
+# over pyenv
+path=(
+    $HOME{,/.local}/bin
+    /usr/local/{bin,sbin}
+    $path
+)
+
+# additonal autocompletion
+autoload -U bashcompinit && bashcompinit
+
 
 # first do pip install -U argcomplete
-source "$HOME/.bash_completion.d/python-argcomplete.sh"
-source "$HOME/.gem/ruby/gems/rhc-1.38.7/autocomplete/rhc_bash"
