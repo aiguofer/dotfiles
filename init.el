@@ -474,6 +474,9 @@
 (use-package helm-ag
   :ensure t)
 
+(use-package helm-rg
+  :ensure t)
+
 (use-package company-quickhelp
   :ensure t
   :config
