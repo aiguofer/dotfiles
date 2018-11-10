@@ -28,4 +28,4 @@ curl -sL https://raw.githubusercontent.com/jupyter/jupyter_core/master/examples/
 
 curl -sL https://raw.githubusercontent.com/docker/cli/master/contrib/completion/zsh/_docker -o $COMPLETIONS_DIR/_docker
 
-$ curl -sL https://raw.githubusercontent.com/docker/compose/master/contrib/completion/zsh/_docker-compose -o $COMPLETIONS_DIR/_docker-compose
+curl -sL https://raw.githubusercontent.com/docker/compose/master/contrib/completion/zsh/_docker-compose -o $COMPLETIONS_DIR/_docker-compose
