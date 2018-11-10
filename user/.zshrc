@@ -112,5 +112,3 @@ path=(
 # additonal autocompletion
 autoload -U bashcompinit && bashcompinit
 
-
-# first do pip install -U argcomplete
