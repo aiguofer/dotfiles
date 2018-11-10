@@ -1,3 +1,4 @@
+# zmodload zsh/zprof
 #
 # Executes commands at the start of an interactive session.
 #
@@ -112,3 +113,4 @@ path=(
 # additonal autocompletion
 autoload -U bashcompinit && bashcompinit
 
+# zprof
