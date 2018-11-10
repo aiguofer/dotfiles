@@ -60,6 +60,8 @@ if [[ ! -d "${TMPDIR}" ]]; then
   mkdir -m 700 "${TMPDIR}"
 fi
 
+# fix paths here so gnome session has them set correctly
+source ~/.zshpaths
+
 # this needs to be here so that it runs on Gnome login
-# it needs full path since .zshrc hasn't run yet
-~/.local/bin/start_systemd &!
+start_systemd &!

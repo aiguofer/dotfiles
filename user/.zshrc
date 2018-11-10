@@ -85,30 +85,9 @@ alias wget='wget -c'
 ## never ever beep ever
 setopt NO_BEEP
 
-#
-# Paths
-#
-
-# Ensure path arrays do not contain duplicates.
-typeset -gU cdpath fpath mailpath path
-
-# Set the list of directories that cd searches.
-cdpath=(
-    $HOME
-    $HOME/Projects
-    $cdpath
-)
-
-# Set the list of directories that Zsh searches for functions.
-fpath=(~/.zsh/completions $fpath)
-
-# fix path here to make sure local bins have precedence
+# fix paths here again to make sure local bins have precedence
 # over pyenv
-path=(
-    $HOME{,/.local}/bin
-    /usr/local/{bin,sbin}
-    $path
-)
+source ~/.zshpaths
 
 # additonal autocompletion
 autoload -U bashcompinit && bashcompinit

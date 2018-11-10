@@ -1,0 +1,22 @@
+#
+# Paths
+#
+# Ensure path arrays do not contain duplicates.
+typeset -gU cdpath fpath mailpath path
+
+# Set the list of directories that cd searches.
+cdpath=(
+    $HOME
+    $HOME/Projects
+    $cdpath
+)
+
+# Set the list of directories that Zsh searches for functions.
+fpath=(~/.zsh/completions $fpath)
+
+# Set the list of directories that Zsh searches for executables.
+path=(
+    $HOME{,/.local}/bin
+    /usr/local/{bin,sbin}
+    $path
+)
