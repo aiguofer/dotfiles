@@ -61,4 +61,5 @@ if [[ ! -d "${TMPDIR}" ]]; then
 fi
 
 # this needs to be here so that it runs on Gnome login
-start_systemd &!
+# it needs full path since .zshrc hasn't run yet
+~/.local/bin/start_systemd &!
