@@ -10,5 +10,12 @@ for installer in $git_installers; do
     curl -sL https://raw.githubusercontent.com/$installer | bash
 done
 
+# instal pipx and python executables
+curl -sL https://raw.githubusercontent.com/cs01/pipx/master/get-pipx.py | PYENV_VERSION=system python3
+
+for pkg in $(cat ./requirements_pipx.txt);do
+    pipx install $pkg
+done
+
 # get zsh completions
 ./generate_completions.sh

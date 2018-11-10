@@ -1,0 +1,13 @@
+black
+pyment
+isort
+flake8
+python-language-server
+poetry
+tox
+cookiecutter
+pre-commit
+git-up
+bumpversion
+awscli
+argcomplete
