@@ -1,0 +1,10 @@
+[Unit]
+Description=GeoClue demo agent
+After=started.target
+
+[Service]
+ExecStart=/usr/libexec/geoclue-2.0/demos/agent
+Restart=on-failure
+
+[Install]
+WantedBy=started.target
