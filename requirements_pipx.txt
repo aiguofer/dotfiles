@@ -11,3 +11,4 @@ git-up
 bumpversion
 awscli
 argcomplete
+emacs-keys-everywhere
