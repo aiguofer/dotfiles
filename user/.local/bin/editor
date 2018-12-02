@@ -1,10 +1,16 @@
 #!/bin/sh
 
+# SOCKET=/tmp/emacs$UID/server
+
+SOCKET=$(lsof -c emacs | grep $USER | grep server | grep STREAM | awk '{print $9}')
+
+PARAMS="--socket-name=$SOCKET"
+
 if [[ $TMUX || $SSH_CLIENT ]]
 then
-    echo $TMUX
-    echo $SSH_CLIENT
-    exec /usr/bin/emacsclient -t "$@"
+    PARAMS+=" -t"
 else
-    exec /usr/bin/emacsclient -c "$@"
+    PARAMS+=" -c"
 fi
+
+exec /usr/bin/emacsclient $PARAMS "$@"
