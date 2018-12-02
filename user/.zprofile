@@ -63,5 +63,10 @@ fi
 # fix paths here so gnome session has them set correctly
 source ~/.zshpaths
 
+if [ -n "$DESKTOP_SESSION" ];then
+    eval $(gnome-keyring-daemon --start)
+    export SSH_AUTH_SOCK
+fi
+
 # this needs to be here so that it runs on Gnome login
 start_systemd &!

@@ -12,7 +12,7 @@ Requires=started.target
 Type=simple
 ExecStart=/usr/bin/emacs --fg-daemon
 ExecStop=/usr/bin/emacsclient --eval "(save-buffers-kill-emacs)"
-Environment=SSH_AUTH_SOCK=%t/keyring/ssh
+# Environment=SSH_AUTH_SOCK=%t/keyring/ssh
 Restart=on-failure
 
 [Install]
