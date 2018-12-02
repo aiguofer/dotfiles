@@ -1,5 +1,19 @@
 #!/bin/sh
 
+echo "Symlinking user dirs"
+# must happen before files
+user_dirs=(
+    user/.local/share/systemd
+    user/.zsh
+)
+
+for dir in $user_dirs; do
+    dest_dir=${dir/"user"/$HOME}
+    parent_dir=$(echo $dir | sed -E 's/\/[^/]*$//')
+    mkdir -p $parent_dir
+    ln -sf $(pwd)/$dir $dest_dir
+done
+
 echo "Symlinking user files"
 user_files=$(find user -type f)
 
