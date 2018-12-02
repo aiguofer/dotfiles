@@ -1,5 +1,5 @@
 [Unit]
-Description=Devil's Pie
+Description=Devils Pie
 After=started.target
 
 [Service]

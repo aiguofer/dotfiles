@@ -4,7 +4,7 @@ After=started.target
 
 [Service]
 # Need to wait so that systray is loaded before it starts
-ExecStartPre=/usr/bin/sleep 15
+# ExecStartPre=/usr/bin/sleep 15
 ExecStart=/usr/bin/rescuetime
 Restart=always
 RestartSec=2

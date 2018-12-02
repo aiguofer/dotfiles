@@ -1,0 +1,5 @@
+[Timer]
+OnActiveSec=10
+Unit=started.target
+RemainAfterElapse=false
+AccuracySec=1s

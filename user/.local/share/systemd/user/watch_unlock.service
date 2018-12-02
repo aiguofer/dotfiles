@@ -3,7 +3,7 @@ Description=watching Gnome screen lock status to start unlocked.target
 After=started.target
 
 [Service]
-ExecStartPre=/usr/bin/sleep 15
+# ExecStartPre=/usr/bin/sleep 15
 ExecStart=/bin/bash -c watch_unlock
 Restart=on-failure
 
