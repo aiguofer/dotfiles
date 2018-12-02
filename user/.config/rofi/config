@@ -1,0 +1,13 @@
+rofi.combi-modi: window,run,drun
+rofi.theme: Arc-Dark
+rofi.show: combi
+
+rofi.sidebar-mode: true
+rofi.show-icons: true
+rofi.fuzzy: true
+# rofi.name-only: true
+# rofi.drun-icon-theme: Papirus-Dark
+# rofi.terminal: terminator
+
+# Run command to execute that runs in shell
+# rofi.run-shell-command:              {terminal} -e {cmd}
