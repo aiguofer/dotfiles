@@ -1,5 +1,7 @@
 #!/bin/sh
 
+rfkill unblock bluetooth
+sleep 1
 sudo modprobe -r btusb
 sleep 1
 sudo modprobe btusb

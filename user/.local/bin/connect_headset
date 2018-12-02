@@ -1,0 +1,7 @@
+#!/bin/sh
+
+rfkill unblock bluetooth
+
+echo "connect 10:4F:A8:D3:C7:A4" | bluetoothctl
+sleep 5
+echo "exit" | bluetoothctl
