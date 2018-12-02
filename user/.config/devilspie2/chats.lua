@@ -3,7 +3,7 @@
 
 app_name = string.lower(get_window_name())
 start_xchat, last = string.find(app_name, 'hexchat')
-start_slack, last = string.find(app_name, 'slack')
+start_slack, last = string.find(app_name, 'franz')
 
 debug_print(app_name)
 debug_print(string.find(app_name, 'hexchat'))

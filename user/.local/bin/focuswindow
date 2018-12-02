@@ -1,6 +1,6 @@
 #!/bin/sh
 
-win_id=$(xdotool search --onlyvisible --$1 "$2")
+win_id=$(xdotool search --maxdepth 2 --onlyvisible --$1 "$2")
 current=$(xdotool getactivewindow)
 last=$(cat ~/.lastwindow)
 current_ws=$(wmctrl -d | grep '*' | cut -d' ' -f1)
