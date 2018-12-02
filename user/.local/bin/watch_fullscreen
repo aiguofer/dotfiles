@@ -1,0 +1,20 @@
+#!/bin/sh
+
+while true
+do
+    activ_win_id=$(xprop -root _NET_ACTIVE_WINDOW)
+    is_fullscreen=$(xprop -id ${activ_win_id:40:9} | grep _NET_WM_STATE_FULLSCREEN | wc -l)
+    # is_target_active=$(systemctl --user status fullscreen.target | grep " active" | wc -l)
+    if [[ $is_fullscreen == 1 ]]; then
+        cmd=stop
+    else
+        cmd=start
+    fi
+
+    # if [[ $is_fullscreen != $is_target_active ]]; then
+    echo "running $cmd"
+    systemctl --user --no-block $cmd xautolock.service
+    # fi
+
+    sleep 5
+done

@@ -1,0 +1,11 @@
+[Unit]
+Description=watch for battery to alert when its low
+After=started.target
+
+[Service]
+# ExecStartPre=/usr/bin/sleep 15
+ExecStart=/bin/bash -c watch_battery
+Restart=on-failure
+
+[Install]
+WantedBy=started.target

@@ -1,5 +1,7 @@
 #!/bin/sh
 
+# install https://gitlab.com/wavexx/acpilight
+
 git_installers=(
     getantibody/installer/master/install # antibody
     creationix/nvm/v0.33.11/install.sh   # nvm

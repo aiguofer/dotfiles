@@ -1,0 +1,9 @@
+[Unit]
+Description=lock screen after a few minutes of inactivity
+
+[Service]
+Type=simple
+ExecStart=/bin/bash -c watch_fullscreen
+
+[Install]
+WantedBy=started.target

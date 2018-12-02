@@ -1,0 +1,11 @@
+[Unit]
+Description=lock screen after a few minutes of inactivity
+Conflicts=fullscreen.target
+PartOf=started.target
+
+[Service]
+Type=simple
+ExecStart=/usr/bin/xautolock -time 10 -locker "systemctl --user restart i3lock.service"
+
+[Install]
+WantedBy=started.target

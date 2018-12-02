@@ -1,0 +1,20 @@
+#!/bin/bash
+
+TOO_LOW=20 # how low is too low?
+NOT_CHARGING="discharging"
+ICON="/usr/share/icons/HighContrast/scalable/status/battery-low.svg" # eye candy
+LAST_NOTIFICATION="$HOME/.last_battery_notification"
+
+while true;
+      do
+          BATTERY_LEVEL=$(upower -i /org/freedesktop/UPower/devices/DisplayDevice | grep percentage | awk '{print $2}' | cut -d'.' -f1)
+          STATUS=$(upower -i /org/freedesktop/UPower/devices/DisplayDevice | grep state | awk '{print $2}')
+          # LAST_NOTIFIED=$(cat $LAST_NOTIFICATION)
+
+          if [ $BATTERY_LEVEL -le $TOO_LOW -a $STATUS = $NOT_CHARGING ]
+          then
+              notify-send -u critical -i "$ICON" -t 3000 "Battery low" "Battery level is ${BATTERY_LEVEL}%!"
+              # echo $BATTERY_LEVEL >! $LAST_NOTIFICATION
+          fi
+          sleep 300
+done

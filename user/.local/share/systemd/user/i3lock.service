@@ -1,0 +1,9 @@
+[Unit]
+Description=Lock on suspend
+
+[Service]
+Type=forking
+ExecStart=/usr/bin/i3lock -c 000000
+
+[Install]
+WantedBy=sleep.target

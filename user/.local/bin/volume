@@ -1,0 +1,25 @@
+#/bin/sh
+
+active_sinks=$(pactl list sinks short | grep RUNNING | cut -f1)
+
+case "$1" in
+    up)
+        cmd=set-sink-volume
+        val=+5%
+        ;;
+    down)
+        cmd=set-sink-volume
+        val=-5%
+        ;;
+    mute)
+        cmd=set-sink-mute
+        val=toggle
+        ;;
+    *)
+        echo $"Usage: $0 {up|down|mute}"
+        exit 1
+esac
+
+for active_sink in $active_sinks; do
+    pactl $cmd $active_sink $val
+done
