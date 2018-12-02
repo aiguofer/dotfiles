@@ -1,6 +1,6 @@
 [user]
-	name = Diego Fernandez
-	email = aiguo.fernandez@gmail.com
+  name = Diego Fernandez
+  email = aiguo.fernandez@gmail.com
 
 [alias]
   prune = fetch --prune
@@ -58,11 +58,22 @@
   # https://git-scm.com/docs/git-config#git-config-transferfsckObjects
   # via https://groups.google.com/forum/#!topic/binary-transparency/f-BI4o8HZW0
 
+[gpg]
+  program = /usr/bin/gpg2
+
 # A nice little github-like colorful, split diff right in the console.
 # via http://owen.cymru/github-style-diff-in-terminal-with-icdiff/
 [diff]
   tool = icdiff
+
 [difftool]
   prompt = false
+
 [difftool "icdiff"]
   cmd = /usr/local/bin/icdiff --line-numbers $LOCAL $REMOTE
+
+[includeIf "gitdir:~/work/"]
+    path = ~/work/.gitconfig
+
+[includeIf "gitdir:~/personal/"]
+    path = ~/personal/.gitconfig
