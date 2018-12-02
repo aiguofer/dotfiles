@@ -1,0 +1,13 @@
+[Unit]
+Description=Insync
+After=started.target
+
+[Service]
+# Need to wait so that systray is loaded before it starts
+# ExecStartPre=/usr/bin/sleep 15
+ExecStart=/usr/bin/insync start --no-daemon
+Restart=always
+RestartSec=2
+
+[Install]
+WantedBy=started.target
