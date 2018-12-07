@@ -46,8 +46,12 @@
 
 (use-package auto-package-update
   :ensure t
+(use-package windmove
   :config
-  (auto-package-update-maybe))
+  (global-set-key (kbd "M-j") 'windmove-left)
+  (global-set-key (kbd "M-i") 'windmove-up)
+  (global-set-key (kbd "M-k") 'windmove-down)
+  (global-set-key (kbd "M-l") 'windmove-right))
 
 (use-package subword
   :ensure t
