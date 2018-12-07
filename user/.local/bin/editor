@@ -1,8 +1,7 @@
 #!/bin/sh
-
 # SOCKET=/tmp/emacs$UID/server
 
-SOCKET=$(lsof -c emacs | grep $USER | grep server | grep STREAM | awk '{print $9}')
+SOCKET=$(lsof -c emacs | grep $USER | grep server | grep STREAM | awk '{print $9}' | sort | uniq)
 
 PARAMS="--socket-name=$SOCKET"
 
@@ -13,4 +12,4 @@ else
     PARAMS+=" -c"
 fi
 
-exec /usr/bin/emacsclient $PARAMS "$@"
+exec  /usr/bin/emacsclient $PARAMS $@
