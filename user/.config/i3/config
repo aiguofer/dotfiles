@@ -30,9 +30,6 @@ font pango:monospace 8
 # Use Mouse+$mod to drag floating windows to their wanted position
 floating_modifier $mod
 
-# start a terminal
-bindsym $mod+Return exec terminator
-
 # kill focused window
 bindsym $mod+q kill
 bindsym --release $mod+Shift+q exec xkill
@@ -221,6 +218,7 @@ exec --no-startup-id franz # "sh -c 'sleep 10; exec franz'"
 
 # exec --no-startup-id volumeicon
 # app shortcuts
+bindsym $mod+ctrl+t exec terminator
 bindsym $mod+ctrl+e exec editor
 bindsym $mod+ctrl+i exec google-chrome
 bindsym $mod+Ctrl+m exec raiseplayer
