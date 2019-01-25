@@ -401,6 +401,12 @@
   :init
   (session-initialize))
 
+
+(use-package exec-path-from-shell
+  :ensure t
+  :init
+  (exec-path-from-shell-initialize))
+
 (use-package yasnippet
   :ensure t
   :bind
