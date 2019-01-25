@@ -22,7 +22,8 @@ background = #222
 background-alt = #444
 ;foreground = ${xrdb:color7:#222}
 foreground = #dfdfdf
-foreground-alt = #555
+; foreground-alt = #555
+foreground-alt = #dfdfdf
 primary = #ffb52a
 secondary = #e60053
 alert = #bd2c40
@@ -51,13 +52,18 @@ padding-right = 2
 module-margin-left = 1
 module-margin-right = 2
 
-font-0 = fixed:pixelsize=10;1
-font-1 = unifont:fontformat=truetype:size=8:antialias=false;0
-font-2 = siji:pixelsize=10;1
+font-0 = "fixed:pixelsize=10;1"
+font-1 = "unifont:fontformat=truetype:size=8:antialias=false;0"
+font-2 = "siji:pixelsize=10;1"
+font-3 = "MaterialIcons:style=Regular:size=10;1"
+; font-3 =q "FontAwesome:style=Regular:pixelsize=10;1"
+; font-3 = "Font Awesome 5 Free:style=Regular:pixelsize=8;1"
+; font-4 = "Font Awesome 5 Free:style=Solid:pixelsize=8;1"
+; font-5 = "Font Awesome 5 Brands:pixelsize=8;1"
 
 modules-left = i3
-; modules-center = mpd
-modules-right = filesystem xbacklight alsa pulseaudio xkeyboard memory cpu wlan eth battery temperature date powermenu
+modules-center = memory cpu temperature filesystem
+modules-right = backlight pulseaudio wlan eth battery date powermenu
 
 tray-position = right
 tray-padding = 2
@@ -96,6 +102,7 @@ type = internal/fs
 interval = 25
 
 mount-0 = /
+mount-1 = /home
 
 label-mounted = %{F#0a81f5}%mountpoint%%{F-}: %percentage_used%%
 label-unmounted = %mountpoint% not mounted
@@ -152,27 +159,23 @@ label-urgent-padding = 2
 ; label-song-maxlen = 25
 ; label-song-ellipsis = true
 
-[module/xbacklight]
-type = internal/xbacklight
-
-format = <label> <bar>
-label = BL
-
-bar-width = 10
-bar-indicator = |
-bar-indicator-foreground = #fff
-bar-indicator-font = 2
-bar-fill = ─
-bar-fill-font = 2
-bar-fill-foreground = #9f78e1
-bar-empty = ─
-bar-empty-font = 2
-bar-empty-foreground = ${colors.foreground-alt}
-
-[module/backlight-acpi]
-inherit = module/xbacklight
+[module/backlight]
 type = internal/backlight
 card = intel_backlight
+
+format = <ramp>
+
+; ramp-0 = 1
+; ramp-1 = 2
+; ramp-2 = 3
+; ramp-3 = 4
+; ramp-4 = 5
+
+ramp-0 = 🌕
+ramp-1 = 🌔
+ramp-2 = 🌓
+ramp-3 = 🌒
+ramp-4 = 🌑
 
 [module/cpu]
 type = internal/cpu
@@ -301,7 +304,9 @@ bar-volume-empty-foreground = ${colors.foreground-alt}
 
 [module/battery]
 type = custom/script
-exec = upower -i /org/freedesktop/UPower/devices/DisplayDevice | grep percentage | awk '{print $2}' | cut -d'.' -f1
+exec = /usr/local/bin/battery-combined-udev.sh
+tail = true
+; exec = upower -i /org/freedesktop/UPower/devices/DisplayDevice | grep percentage | awk '{print $2}' | cut -d'.' -f1
 
 ; type = internal/battery
 ; battery = BAT0
