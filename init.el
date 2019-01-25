@@ -44,14 +44,18 @@
   (package-refresh-contents)
   (package-install 'use-package))
 
-(use-package auto-package-update
-  :ensure t
+;; (use-package auto-package-update
+;;   :ensure t
+;;   :config
+;;   (auto-package-update-maybe))
+
 (use-package windmove
   :config
   (global-set-key (kbd "M-j") 'windmove-left)
   (global-set-key (kbd "M-i") 'windmove-up)
   (global-set-key (kbd "M-k") 'windmove-down)
   (global-set-key (kbd "M-l") 'windmove-right))
+
 
 (use-package subword
   :ensure t
@@ -190,8 +194,8 @@
 (use-package web-completion-data
   :ensure t)
 
-(use-package ac-html-bootstrap
-  :ensure t)
+;; (use-package ac-html-bootstrap
+;;   :ensure t)
 
 (use-package ac-html-csswatcher
   :ensure t)
