@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 dbus-monitor --system "type='signal',interface='org.freedesktop.login1.Manager',member=PrepareForSleep" | while read x; do
     case "$x" in

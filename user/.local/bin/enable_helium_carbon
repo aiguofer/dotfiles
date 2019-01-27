@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 pkg=$(adb shell pm path com.koushikdutta.backup)
 # apparently pm path appends a carriage return which screws

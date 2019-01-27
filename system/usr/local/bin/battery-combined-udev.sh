@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 battery_print() {
     path_ac="/sys/class/power_supply/AC"

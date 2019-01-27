@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 # install https://gitlab.com/wavexx/acpilight
 
@@ -8,7 +8,7 @@ git_installers=(
     pyenv/pyenv-installer/master/bin/pyenv-installer # pyenv
 )
 
-for installer in $git_installers; do
+for installer in "${git_installers[@]}"; do
     curl -sL https://raw.githubusercontent.com/$installer | bash
 done
 

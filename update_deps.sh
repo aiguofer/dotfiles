@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 if [ $commands[antibody] ]; then
     antibody update

@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 set_a2dp() {
     pacmd set-card-profile bluez_card.$BT_DEVICE_ADDR a2dp_sink

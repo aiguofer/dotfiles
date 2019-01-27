@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 echo "Symlinking user dirs"
 # must happen before files
@@ -7,7 +7,7 @@ user_dirs=(
     user/.zsh
 )
 
-for dir in $user_dirs; do
+for dir in "${user_dirs[@]}"; do
     dest_dir=${dir/"user"/$HOME}
     parent_dir=$(echo $dir | sed -E 's/\/[^/]*$//')
     mkdir -p $parent_dir

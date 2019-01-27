@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 COMPLETIONS_DIR=~/.zsh/completions
 
 completion_generators=(

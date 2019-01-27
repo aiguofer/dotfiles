@@ -1,5 +1,4 @@
-#!/bin/sh
-# SOCKET=/tmp/emacs$UID/server
+#!/bin/bash
 
 SOCKET=$(lsof -c emacs | grep $USER | grep server | grep STREAM | awk '{print $9}' | sort | uniq)
 

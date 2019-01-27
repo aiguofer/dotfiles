@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 win_id=$(xdotool search --maxdepth 2 --onlyvisible --$1 "$2")
 current=$(xdotool getactivewindow)
