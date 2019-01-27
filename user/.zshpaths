@@ -7,7 +7,8 @@ typeset -gU cdpath fpath mailpath path
 # Set the list of directories that cd searches.
 cdpath=(
     $HOME
-    $HOME/Projects
+    $HOME/work
+    $HOME/personal
     $cdpath
 )
 
