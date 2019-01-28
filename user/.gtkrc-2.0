@@ -3,9 +3,9 @@
 
 include "/home/rdu/difernan/.gtkrc-2.0.mine"
 gtk-theme-name="Arc-Dark"
-gtk-icon-theme-name="Adwaita"
+gtk-icon-theme-name="Ubuntu-mono-dark"
 gtk-font-name="Sans 10"
-gtk-cursor-theme-name="Adwaita"
+gtk-cursor-theme-name="Capitaine"
 gtk-cursor-theme-size=0
 gtk-toolbar-style=GTK_TOOLBAR_BOTH
 gtk-toolbar-icon-size=GTK_ICON_SIZE_LARGE_TOOLBAR

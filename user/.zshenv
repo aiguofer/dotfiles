@@ -21,4 +21,7 @@ export FTE=https://api.access.devgssfte.devlab.phx1.redhat.com
 export RHUSER=rhn-support-difernan
 export DEFAULT_USER=difernan
 
+# get theme right
 export GTK_THEME=Arc-Dark
+export XDG_CURRENT_DESKTOP=GNOME
+export QT_QPA_PLATFORMTHEME=gtk2
