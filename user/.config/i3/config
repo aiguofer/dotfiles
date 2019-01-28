@@ -226,7 +226,7 @@ bindsym $mod+ctrl+i exec google-chrome
 bindsym $mod+Ctrl+m exec raiseplayer
 bindsym $mod+Ctrl+u exec songliker
 
-bindsym $mod+Ctrl+l exec i3lock -c 000000
+bindsym $mod+Ctrl+l exec lock_screen
 
 bindsym Print exec shutter -f   # full screenshot
 bindsym Shift+Print exec shutter -s #select screenshot

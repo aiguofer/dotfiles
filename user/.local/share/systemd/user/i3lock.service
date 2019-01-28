@@ -1,9 +1,10 @@
 [Unit]
 Description=Lock on suspend
+Before=sleep.target
 
 [Service]
 Type=forking
-ExecStart=/usr/bin/i3lock -c 000000
+ExecStart=/bin/bash -c lock_screen
 
 [Install]
 WantedBy=sleep.target
