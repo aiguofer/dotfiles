@@ -52,11 +52,11 @@ padding-right = 2
 module-margin-left = 1
 module-margin-right = 2
 
-font-0 = "fixed:pixelsize=10;1"
-font-1 = "unifont:fontformat=truetype:size=8:antialias=false;0"
+font-0 = "DejaVu Sans Mono:pixelsize=10;1"
+font-1 = "unifont:fontformat=truetype:size=10:antialias=false;1"
 font-2 = "siji:pixelsize=10;1"
 font-3 = "MaterialIcons:style=Regular:size=10;1"
-; font-3 =q "FontAwesome:style=Regular:pixelsize=10;1"
+; font-3 = "FontAwesome:style=Regular:pixelsize=10;1"
 ; font-3 = "Font Awesome 5 Free:style=Regular:pixelsize=8;1"
 ; font-4 = "Font Awesome 5 Free:style=Solid:pixelsize=8;1"
 ; font-5 = "Font Awesome 5 Brands:pixelsize=8;1"
@@ -102,7 +102,7 @@ type = internal/fs
 interval = 25
 
 mount-0 = /
-mount-1 = /home
+# mount-1 = /home
 
 label-mounted = %{F#0a81f5}%mountpoint%%{F-}: %percentage_used%%
 label-unmounted = %mountpoint% not mounted
@@ -195,7 +195,7 @@ label = %percentage_used%%
 
 [module/wlan]
 type = internal/network
-interface = wlp4s0
+interface = wlp2s0
 interval = 3.0
 
 format-connected = <ramp-signal> <label-connected>
