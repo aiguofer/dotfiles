@@ -1,0 +1,43 @@
+#!/usr/bin/env python
+from os import path
+
+import todoist
+from gi.repository import Gtk
+
+
+class NewTaskWindow(Gtk.Dialog):
+    def __init__(self):
+        Gtk.Dialog.__init__(self)
+        self.set_decorated(False)
+        box = self.get_content_area()
+        self.entry = Gtk.Entry()
+        self.entry.set_text("New Task")
+        self.entry.set_completion("more stuff")
+        self.entry.connect("activate", self.create_task)
+        self.entry.connect("destroy", Gtk.main_quit)
+
+        box.add(self.entry)
+
+    def create_task(self, entry):
+        task = entry.get_text()
+        print(task)
+        create_new_task(task)
+        self.destroy()
+
+
+def show_prompt():
+    win = NewTaskWindow()
+    win.connect("destroy", Gtk.main_quit)
+    win.show_all()
+    Gtk.main()
+
+
+def create_new_task(task):
+    config = path.expanduser("~/.config/todoist")
+    with open(config) as stream:
+        api = todoist.TodoistAPI(stream.read())
+        api.add_item(task)
+
+
+if __name__ == "__main__":
+    show_prompt()
