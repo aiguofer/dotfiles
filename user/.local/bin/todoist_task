@@ -1,43 +1,81 @@
 #!/usr/bin/env python
+
+from builtins import super
 from os import path
 
 import todoist
 from gi.repository import Gtk
 
+CONFIG = path.expanduser("~/.config/todoist")
 
-class NewTaskWindow(Gtk.Dialog):
-    def __init__(self):
-        Gtk.Dialog.__init__(self)
+
+class Prompt(Gtk.Dialog):
+    def __init__(self, message):
+        super().__init__()
         self.set_decorated(False)
         box = self.get_content_area()
         self.entry = Gtk.Entry()
-        self.entry.set_text("New Task")
-        self.entry.set_completion("more stuff")
-        self.entry.connect("activate", self.create_task)
+        self.entry.set_text(message)
+
         self.entry.connect("destroy", Gtk.main_quit)
 
+        self.entry.grab_focus()
         box.add(self.entry)
 
-    def create_task(self, entry):
-        task = entry.get_text()
-        print(task)
+
+class APITokenPrompt(Prompt):
+    def __init__(self, reason=""):
+        super().__init__("API Token")
+        self.entry.connect("activate", self.save_api)
+
+        label = Gtk.Label()
+        if reason != "":
+            reason += ". "
+
+        label.set_markup(
+            "{}<a href='https://todoist.com/prefs/integrations'>Get your API token here</a>".format(
+                reason
+            )
+        )
+        box = self.get_content_area()
+        box.add(label)
+
+    def save_api(self, *args):
+        with open(CONFIG, "w") as stream:
+            stream.write(self.entry.get_text())
+        self.destroy()
+
+
+class NewTaskWindow(Prompt):
+    def __init__(self):
+        super().__init__("New Task")
+        self.entry.connect("activate", self.create_task)
+
+    def create_task(self, *args):
+        task = self.entry.get_text()
         create_new_task(task)
         self.destroy()
 
 
-def show_prompt():
-    win = NewTaskWindow()
-    win.connect("destroy", Gtk.main_quit)
-    win.show_all()
+def show_prompt(prompt):
+    prompt.show_all()
     Gtk.main()
 
 
 def create_new_task(task):
-    config = path.expanduser("~/.config/todoist")
-    with open(config) as stream:
+    with open(CONFIG) as stream:
         api = todoist.TodoistAPI(stream.read())
-        api.add_item(task)
+        res = api.add_item(task)
+
+        if res.get("error_tag") == "AUTH_INVALID_TOKEN":
+            show_prompt(APITokenPrompt("Invalid token"))
+
+
+def main():
+    if not path.exists(CONFIG):
+        show_prompt(APITokenPrompt("Missing token"))
+    show_prompt(NewTaskWindow())
 
 
 if __name__ == "__main__":
-    show_prompt()
+    main()
