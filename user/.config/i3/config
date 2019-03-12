@@ -222,12 +222,13 @@ exec --no-startup-id nm-applet # "sh -c 'sleep 10; exec nm-applet'"
 
 
 # exec --no-startup-id volumeicon
-# app shortcuts
+# app key shortcuts
 bindsym $mod+ctrl+t exec terminator
 bindsym $mod+ctrl+e exec editor
 bindsym $mod+ctrl+i exec google-chrome
 bindsym $mod+Ctrl+m exec raiseplayer
 bindsym $mod+Ctrl+u exec songliker
+bindsym $mod+Ctrl+n exec todoist_task
 
 bindsym $mod+Ctrl+l exec lock_screen
 
