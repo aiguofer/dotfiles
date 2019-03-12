@@ -101,6 +101,9 @@ bindsym $mod+Shift+space floating toggle
 # change focus between tiling / floating windows
 bindsym $mod+space focus mode_toggle
 
+# force apps as floating
+for_window [title="Eddie.*"] floating enable
+
 # focus the parent container
 bindsym $mod+p focus parent
 
