@@ -245,11 +245,11 @@ DEVICES_TO_DISABLE_ON_BAT_NOT_IN_USE="bluetooth"
 # required). Charging starts when the remaining capacity falls below the
 # START_CHARGE_THRESH value and stops when exceeding the STOP_CHARGE_THRESH value.
 # Main / Internal battery (values in %)
-START_CHARGE_THRESH_BAT0=85
-STOP_CHARGE_THRESH_BAT0=90
+START_CHARGE_THRESH_BAT0=70
+STOP_CHARGE_THRESH_BAT0=80
 # Ultrabay / Slice / Replaceable battery (values in %)
-START_CHARGE_THRESH_BAT1=85
-STOP_CHARGE_THRESH_BAT1=90
+START_CHARGE_THRESH_BAT1=70
+STOP_CHARGE_THRESH_BAT1=80
 
 # ------------------------------------------------------------------------------
 # tlp-rdw - Parameters for the radio device wizard
