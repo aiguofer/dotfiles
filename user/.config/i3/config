@@ -215,10 +215,8 @@ bindsym Ctrl+$alt++space exec playerctl play-pause
 
 # autostart
 exec --no-startup-id /usr/lib/policykit-1-gnome/polkit-gnome-authentication-agent-1
-exec --no-startup-id nm-applet # "sh -c 'sleep 10; exec nm-applet'"
-# exec --no-startup-id hexchat # "sh -c 'sleep 10; exec hexchat'"
-# exec --no-startup-id franz # "sh -c 'sleep 10; exec franz'"
-# exec --no-startup-id "sh -c 'sleep 10; exec blueman-applet'"
+exec --no-startup-id nm-applet
+exec --no-startup-id autorandr -c
 
 
 # exec --no-startup-id volumeicon
