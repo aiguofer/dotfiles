@@ -64,5 +64,8 @@ export GTK_THEME=Arc-Dark
 export XDG_CURRENT_DESKTOP=GNOME
 export QT_QPA_PLATFORMTHEME=gtk2
 
+# to prevent Ubuntu from calling compinit, want this done by prezto
+export skip_global_compinit=1
+
 # this needs to be here so that it runs on Gnome login
 start_systemd &!
