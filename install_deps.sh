@@ -30,8 +30,6 @@ done
 
 # enable emacs keys everywhere
 emacs-keys-everywhere
-# setup python environment
-
 
 # get zsh completions
 ./generate_completions.sh

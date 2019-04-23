@@ -3,7 +3,6 @@ Description=watch for sleep signal to start sleep.target
 After=started.target
 
 [Service]
-# ExecStartPre=/usr/bin/sleep 15
 ExecStart=/bin/bash -c watch_sleep
 Restart=on-failure
 

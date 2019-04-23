@@ -13,7 +13,10 @@ cdpath=(
 )
 
 # Set the list of directories that Zsh searches for functions.
-fpath=(~/.zsh/completions $fpath)
+fpath=(
+    ~/.zsh/completions
+    $fpath
+)
 
 # Set the list of directories that Zsh searches for executables.
 path=(
