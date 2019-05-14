@@ -21,8 +21,8 @@ pyenv global default3 default2
 pip2 install -r requirements.txt
 pip3 install -r requirements.txt
 
-# instal pipx and python executables
-curl -sL https://raw.githubusercontent.com/cs01/pipx/master/get-pipx.py | PYENV_VERSION=system python3
+# install pipx and python executables
+PYENV_VERSION=system pip3 install --user pipx
 
 for pkg in $(cat ./requirements_pipx.txt);do
     pipx install $pkg
