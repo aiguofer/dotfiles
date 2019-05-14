@@ -9,7 +9,7 @@
   go_left = None
   go_right = None
   go_up = None
-  new_tab = <Ctrl>T
+  new_tab = None
   split_horiz = None
   split_vert = None
 [layouts]

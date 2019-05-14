@@ -103,6 +103,7 @@ bindsym $mod+space focus mode_toggle
 
 # force apps as floating
 for_window [title="Eddie.*"] floating enable
+for_window [title="Calculator"] floating enable
 
 # focus the parent container
 bindsym $mod+p focus parent
@@ -122,6 +123,20 @@ set $ws7 "7"
 set $ws8 "8"
 set $ws9 "9"
 set $ws10 "10"
+
+# bind workspaces to specific monitors
+workspace $ws1 output eDP-1
+workspace $ws4 output eDP-1
+workspace $ws7 output eDP-1
+workspace $ws10 output eDP-1
+
+workspace $ws2 output DP-1-8
+workspace $ws3 output DP-1-8
+workspace $ws5 output DP-1-8
+
+workspace $ws3 output DP-1-1
+workspace $ws6 output DP-1-1
+workspace $ws9 output DP-1-1
 
 # switch to workspace
 bindsym $mod+1 workspace $ws1
@@ -207,11 +222,14 @@ bindsym XF86MonBrightnessUp exec xbacklight -inc 10 # increase screen brightness
 bindsym XF86MonBrightnessDown exec xbacklight -dec 10 # decrease screen brightness
 
 # Media player controls
-bindsym XF86AudioPlay exec playerctl play
+bindsym XF86AudioPlay exec playerctl play-pause
 bindsym XF86AudioPause exec playerctl play-pause
 bindsym XF86AudioNext exec playerctl next
 bindsym XF86AudioPrev exec playerctl previous
 bindsym Ctrl+$alt++space exec playerctl play-pause
+
+# Other controls
+bindsym XF86Calculator exec gnome-calculator
 
 # autostart
 exec --no-startup-id /usr/lib/policykit-1-gnome/polkit-gnome-authentication-agent-1
