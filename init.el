@@ -139,16 +139,12 @@
                   inferior-js-mode-hook))
     (add-hook hook
               (lambda ()
-                (tern-mode)
+                (tide-mode)
 
                 (add-to-list (make-local-variable 'company-backends)
-                             '(company-tern company-yasnippet))
-
-                (add-hook 'before-save-hook 'web-beautify-js-buffer t t))))
+                             '(company-tide company-yasnippet))
+                )))
   )
-
-(use-package json-reformat
-  :ensure t)
 
 (use-package json-snatcher
   :ensure t
@@ -229,7 +225,7 @@
             (lambda ()
               (make-local-variable 'company-backends)
               (add-to-list 'company-backends
-                           '(company-nxml company-web-html company-tern
+                           '(company-nxml company-web-html company-tide
                                           company-yasnippet company-css))
               (company-web-bootstrap+)
               (add-hook 'before-save-hook 'web-beautify-html-buffer t t)
@@ -562,9 +558,35 @@
                              (sml/setup)
                              (powerline-default-theme)))
 
-(use-package tern
+(use-package tide
   :ensure t
-  :commands (tern-mode))
+  :config
+  (defun setup-tide-mode ()
+    "Set up Tide mode."
+    (interactive)
+    (tide-setup)
+    (flycheck-mode +1)
+    (setq flycheck-check-syntax-automatically '(save-mode-enabled))
+    (eldoc-mode +1)
+    (tide-hl-identifier-mode +1)
+    (company-mode +1))
+
+  (setq company-tooltip-align-annotations t)
+  (add-hook 'before-save-hook 'tide-format-before-save)
+  (add-hook 'js2-mode-hook #'setup-tide-mode)
+  (add-hook 'typescript-mode-hook #'setup-tide-mode)
+
+  ;; Enable JavaScript completion between <script>...</script> etc.
+  (defadvice company-tide (before web-mode-set-up-ac-sources activate)
+    "Set `tide-mode' based on current language before running `company-tide'."
+    (if (equal major-mode 'web-mode)
+        (let ((web-mode-cur-language (web-mode-language-at-pos)))
+          (if (or (string= web-mode-cur-language "javascript")
+                  (string= web-mode-cur-language "jsx"))
+              (unless tide-mode (tide-mode))
+            (if tide-mode (tide-mode -1))))))
+
+  )
 
 (use-package cc-mode
   :config
@@ -620,19 +642,7 @@
     (("C-<tab>" . company-try-hard)
      :map company-active-map
      ("C-<tab>" . company-try-hard)))
-
-  (use-package company-tern
-    :ensure t
-    :config
-    ;; Enable JavaScript completion between <script>...</script> etc.
-    (defadvice company-tern (before web-mode-set-up-ac-sources activate)
-      "Set `tern-mode' based on current language before running `company-tern'."
-      (if (equal major-mode 'web-mode)
-          (let ((web-mode-cur-language (web-mode-language-at-pos)))
-            (if (or (string= web-mode-cur-language "javascript")
-                    (string= web-mode-cur-language "jsx"))
-                (unless tern-mode (tern-mode))
-              (if tern-mode (tern-mode -1))))))))
+)
 
 (use-package ignoramus
   :ensure t
