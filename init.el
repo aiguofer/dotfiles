@@ -50,11 +50,12 @@
 ;;   (auto-package-update-maybe))
 
 (use-package windmove
-  :config
-  (global-set-key (kbd "M-j") 'windmove-left)
-  (global-set-key (kbd "M-i") 'windmove-up)
-  (global-set-key (kbd "M-k") 'windmove-down)
-  (global-set-key (kbd "M-l") 'windmove-right))
+  :bind
+  (("M-j" . windmove-left)
+  ("M-i" . windmove-up)
+  ("M-k" . windmove-down)
+  ("M-l" . windmove-right))
+)
 
 
 (use-package subword
@@ -244,6 +245,9 @@
   :commands (web-beautify-css-buffer web-beautify-html-buffer web-beautify-js-buffer))
 
 (use-package python
+  :bind
+  (("C-c C-2" . run-python2)
+  ("C-c C-3" . run-python3))
   :config
 
   (setq python-shell-interpreter "jupyter-console"
@@ -271,9 +275,6 @@
           (python-shell-interpreter-args "--simple-prompt --kernel=python3")
           )
       (run-python nil nil t)))
-
-  (global-set-key (kbd "C-c C-2") 'run-python2)
-  (global-set-key (kbd "C-c C-3") 'run-python3)
 
   (use-package pyenv
     :load-path "pyenv.el"
@@ -322,6 +323,10 @@
 
   (use-package elpy
     :ensure t
+    :bind
+    (:map elpy-mode-map
+          ("C-M-n" . elpy-nav-forward-block)
+          ("C-M-p" . elpy-nav-backward-block))
     :init
     (elpy-enable)
     :config
