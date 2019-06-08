@@ -673,21 +673,23 @@
 
 (use-package switch-buffer-functions
   :config
+  (defun update-pyenv-on-buffer-switch (prev curr)
+    "Function that will set appropriate pyenv and restart RPC server if needed
+when switching buffers "
+    (if (string-equal "Python" (format-mode-line mode-name nil nil curr))
+        (progn
+          (let* ((old_pyenv (pyenv--active-python-version))
+                 (local_pyenv (pyenv--locate-file ".python-version"))
+                 (new_pyenv (if local_pyenv
+                                (pyenv--read-version-from-file local_pyenv)
+                              (pyenv--global-python-version))))
+            (if (not (string-equal old_pyenv new_pyenv))
+                (progn
+                  (pyenv-use new_pyenv)
+                  (elpy-rpc-restart))
+              )))))
   ;; Update pyenv and restart Elpy RPC if needed when switching buffers
-  (add-hook 'switch-buffer-functions
-            (lambda (prev cur)
-              (if (string-equal "Python" (format-mode-line mode-name nil nil cur))
-                  (progn
-                    (let ((old_pyenv (pyenv--active-python-version))
-                          (new_pyenv (if (pyenv--locate-file ".python-version")
-                                         (pyenv--read-version-from-file (pyenv--locate-file ".python-version"))
-                                       (pyenv--global-python-version))))
-                      (progn
-                        (if (not (string-equal old_pyenv new_pyenv))
-                            (progn
-                              (pyenv-use new_pyenv)
-                              (elpy-rpc-restart))
-                          )))))))
+  (add-hook 'switch-buffer-functions 'update-pyenv-on-buffer-switch)
   )
 
 ;;; init.el ends here
