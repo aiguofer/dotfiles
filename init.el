@@ -655,4 +655,24 @@
   (setq auto-save-file-name-transforms
         `((".*" ,temporary-file-directory t))))
 
+
+(use-package switch-buffer-functions
+  :config
+  ;; Update pyenv and restart Elpy RPC if needed when switching buffers
+  (add-hook 'switch-buffer-functions
+            (lambda (prev cur)
+              (if (string-equal "Python" (format-mode-line mode-name nil nil cur))
+                  (progn
+                    (let ((old_pyenv (pyenv--active-python-version))
+                          (new_pyenv (if (pyenv--locate-file ".python-version")
+                                         (pyenv--read-version-from-file (pyenv--locate-file ".python-version"))
+                                       (pyenv--global-python-version))))
+                      (progn
+                        (if (not (string-equal old_pyenv new_pyenv))
+                            (progn
+                              (pyenv-use new_pyenv)
+                              (elpy-rpc-restart))
+                          )))))))
+  )
+
 ;;; init.el ends here
