@@ -12,6 +12,7 @@
   new_tab = None
   split_horiz = None
   split_vert = None
+  edit_tab_title = None
 [layouts]
   [[default]]
     [[[child1]]]
