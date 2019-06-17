@@ -555,9 +555,12 @@
   :straight t
   :commands (powerline-default-theme))
 
+(use-package arc-dark-theme
+  :straight (:host github :repo "cfraz89/arc-dark-theme"))
+
 ;; This doesn't seem to work right in use-package
 (add-hook 'after-init-hook (lambda ()
-                             (load-theme 'tango-dark t)
+                             (load-theme 'arc-dark t)
                              (sml/setup)
                              (powerline-default-theme)))
 
