@@ -36,3 +36,29 @@ emacs-keys-everywhere
 
 # set up Caps as extra Ctrl key
 localectl set-x11-keymap us pc105 "" ctrl:nocaps
+
+necessary_packages=(
+    curl
+    python2
+    zsh
+    powerline
+    rofi
+    i3
+    i3lock-color # https://github.com/codejamninja/i3lock-color-ubuntu
+    polybar
+    shutter
+    ag
+    autorandr
+    playerctl
+    dunst
+    tmux
+    terminator
+)
+
+# install fonts
+mkdir -p ~/personal
+cd personal
+git clone https://github.com/ryanoasis/nerd-fonts.git
+cd nerd-fonts
+./install.sh DejaVuSansMono
+./install.sh Hack
