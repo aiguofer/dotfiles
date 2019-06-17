@@ -1,12 +1,11 @@
 [Unit]
-Description=Rescuetime
+Description=Todoist
 After=started.target polybar.service
 PartOf=graphical-session.target
 
 [Service]
-ExecStart=/usr/bin/rescuetime
+ExecStart=/usr/local/bin/todoist
 Restart=always
-RestartSec=2
 
 [Install]
 WantedBy=started.target

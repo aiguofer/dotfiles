@@ -31,11 +31,11 @@ alert = #bd2c40
 [bar/example]
 ;monitor = ${env:MONITOR:HDMI-1}
 width = 100%
-height = 27
+height = 25
 ;offset-x = 1%
 ;offset-y = 1%
-radius = 6.0
-fixed-center = false
+; radius = 6.0
+fixed-center = true
 
 background = ${colors.background}
 foreground = ${colors.foreground}
@@ -43,14 +43,16 @@ foreground = ${colors.foreground}
 line-size = 3
 line-color = #f00
 
-border-size = 4
+border-size = 0
+; border-top-size = 8
+; border-left-size = 8
+; border-right-size = 8
+; border-bottom-size = 0
 border-color = #00000000
 
-padding-left = 0
-padding-right = 2
+padding = 0
 
-module-margin-left = 1
-module-margin-right = 2
+module-margin = 1
 
 font-0 = "DejaVu Sans Mono:pixelsize=10;1"
 font-1 = "unifont:fontformat=truetype:size=10:antialias=false;1"
@@ -63,7 +65,7 @@ font-3 = "MaterialIcons:style=Regular:size=10;1"
 
 modules-left = i3
 modules-center = memory cpu temperature filesystem
-modules-right = backlight pulseaudio wlan eth battery date powermenu
+modules-right = backlight pulseaudio wlan battery date powermenu
 
 tray-position = right
 tray-padding = 2

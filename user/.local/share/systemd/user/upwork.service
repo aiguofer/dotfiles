@@ -1,12 +1,10 @@
 [Unit]
-Description=Rescuetime
+Description=Upwork
 After=started.target polybar.service
 PartOf=graphical-session.target
 
 [Service]
-ExecStart=/usr/bin/rescuetime
-Restart=always
-RestartSec=2
+ExecStart=/usr/bin/upwork
 
 [Install]
 WantedBy=started.target

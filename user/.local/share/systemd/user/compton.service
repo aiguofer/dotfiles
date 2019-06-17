@@ -1,0 +1,9 @@
+[Unit]
+Description=Launch compton
+PartOf=i3.target
+
+[Service]
+ExecStart=/usr/bin/compton -f
+
+[Install]
+WantedBy=i3.target

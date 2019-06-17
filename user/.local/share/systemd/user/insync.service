@@ -1,6 +1,6 @@
 [Unit]
 Description=Insync
-After=started.target
+After=started.target polybar.service
 PartOf=graphical-session.target
 
 [Service]

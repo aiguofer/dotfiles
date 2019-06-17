@@ -1,0 +1,12 @@
+[Unit]
+Description=Launch polybar
+After=compton.service
+PartOf=i3.target
+
+[Service]
+ExecStart=/usr/local/bin/polybar -l error example
+Restart=always
+RestartSec=2
+
+[Install]
+WantedBy=i3.target

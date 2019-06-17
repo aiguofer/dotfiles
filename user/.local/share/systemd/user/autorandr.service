@@ -1,0 +1,10 @@
+[Unit]
+Description=Run autorandr
+Before=feh.service
+
+[Service]
+Type=oneshot
+ExecStart=/usr/bin/autorandr -c
+
+[Install]
+WantedBy=i3.target

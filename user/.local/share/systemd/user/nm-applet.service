@@ -1,0 +1,10 @@
+[Unit]
+Description=NetworkManager applet
+After=i3.target polybar.service
+# PartOf=graphical-session.target
+
+[Service]
+ExecStart=/usr/bin/nm-applet
+
+[Install]
+WantedBy=i3.target

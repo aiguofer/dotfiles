@@ -1,9 +1,7 @@
 [Unit]
 Description=Redshift display colour temperature adjustment (GUI)
 Documentation=http://jonls.dk/redshift/
-After=display-manager.service
-After=started.target
-After=geoclue_agent.service
+After=started.target geoclue_agent.service polybar.service
 PartOf=graphical-session.target
 
 [Service]

@@ -12,21 +12,6 @@
 set $mod Mod4
 set $alt Mod1
 
-# Font for window titles. Will also be used by the bar unless a different font
-# is used in the bar {} block below.
-# font pango:monospace 8
-
-# This font is widely installed, provides lots of unicode glyphs, right-to-left
-# text rendering and scalability on retina/hidpi displays (thanks to pango).
-font pango:DejaVu Sans Mono 8
-
-# Before i3 v4.8, we used to recommend this one as the default:
-# font -misc-fixed-medium-r-normal--13-120-75-75-C-70-iso10646-1
-# The font above is very space-efficient, that is, it looks good, sharp and
-# clear in small sizes. However, its unicode glyph coverage is limited, the old
-# X core fonts rendering does not support right-to-left and this being a bitmap
-# font, it doesn’t scale on retina/hidpi displays.
-
 # Use Mouse+$mod to drag floating windows to their wanted position
 floating_modifier $mod
 
@@ -36,28 +21,6 @@ bindsym --release $mod+Shift+q exec xkill
 
 # start dmenu (a program launcher)
 bindsym $mod+d exec rofi -show combi
-
-# emacs key window mgmt
-# bindsym $mod+Ctrl+b focus left
-# bindsym $mod+Ctrl+n focus down
-# bindsym $mod+Ctrl+p focus up
-# bindsym $mod+Ctrl+f focus right
-
-# bindsym $mod+Shift+b move left
-# bindsym $mod+Shift+n move down
-# bindsym $mod+Shift+p move up
-# bindsym $mod+Shift+f move right
-
-# vim key window mgmt
-# bindsym $mod+j focus left
-# bindsym $mod+k focus down
-# bindsym $mod+l focus up
-# bindsym $mod+semicolon focus right
-
-# bindsym $mod+Shift+j move left
-# bindsym $mod+Shift+k move down
-# bindsym $mod+Shift+l move up
-# bindsym $mod+Shift+semicolon move right
 
 # jikl key window mgmt
 bindsym $mod+j focus left
@@ -90,6 +53,9 @@ bindsym $mod+v split v
 # enter fullscreen mode for the focused container
 bindsym $mod+f fullscreen toggle
 
+# toggle stickyness for floating window
+bindsym $mod+Shift+s sticky toggle
+
 # change container layout (stacked, tabbed, toggle split)
 bindsym $mod+s layout stacking
 bindsym $mod+w layout tabbed
@@ -100,10 +66,6 @@ bindsym $mod+Shift+space floating toggle
 
 # change focus between tiling / floating windows
 bindsym $mod+space focus mode_toggle
-
-# force apps as floating
-for_window [title="Eddie.*"] floating enable
-for_window [title="Calculator"] floating enable
 
 # focus the parent container
 bindsym $mod+p focus parent
@@ -125,18 +87,26 @@ set $ws9 "9"
 set $ws10 "10"
 
 # bind workspaces to specific monitors
-workspace $ws1 output eDP-1
-workspace $ws4 output eDP-1
-workspace $ws7 output eDP-1
-workspace $ws10 output eDP-1
+workspace $ws1 output "eDP-1"
+workspace $ws4 output "eDP-1"
+workspace $ws7 output "eDP-1"
+workspace $ws10 output "eDP-1"
 
-workspace $ws2 output DP-1-8
-workspace $ws3 output DP-1-8
-workspace $ws5 output DP-1-8
+workspace $ws2 output "DP-1-8"
+workspace $ws5 output "DP-1-8"
+workspace $ws8 output "DP-1-8"
 
-workspace $ws3 output DP-1-1
-workspace $ws6 output DP-1-1
-workspace $ws9 output DP-1-1
+workspace $ws3 output "DP-1-1"
+workspace $ws6 output "DP-1-1"
+workspace $ws9 output "DP-1-1"
+
+# set rules for windows
+for_window [title="Eddie.*"] floating enable
+for_window [title="Calculator"] floating enable
+for_window [title="Control Panel" class="(?i)upwork"] floating enable, move container to workspace $ws1, sticky enable
+for_window [class="(?i)google play music desktop player"] move container to workspace $ws10
+# for_window [class="polybar"]
+
 
 # switch to workspace
 bindsym $mod+1 workspace $ws1
@@ -161,6 +131,9 @@ bindsym $mod+Shift+7 move container to workspace $ws7
 bindsym $mod+Shift+8 move container to workspace $ws8
 bindsym $mod+Shift+9 move container to workspace $ws9
 bindsym $mod+Shift+0 move container to workspace $ws10
+
+# Context swap; swap the "active" workspaces for each monitor
+bindsym $mod+ctrl+s "rename workspace 1 to temporary; rename workspace 4 to 1; rename workspace temporary to 4; rename workspace 2 to temporary; rename workspace 5 to 2; rename workspace temporary to 5; rename workspace 3 to temporary; rename workspace 6 to 3; rename workspace temporary to 6; workspace 1; workspace 3; workspace 2;"
 
 # reload the configuration file
 bindsym $mod+Shift+c reload
@@ -209,7 +182,7 @@ bindsym $mod+r mode "resize"
 #         status_command py3status -b -c ~/.config/i3/i3status.conf
 # }
 
-exec_always --no-startup-id $HOME/.config/polybar/launch.sh
+# exec_always --no-startup-id $HOME/.config/polybar/launch.sh
 
 # media keys
 # Pulse Audio controls
@@ -231,13 +204,7 @@ bindsym Ctrl+$alt++space exec playerctl play-pause
 # Other controls
 bindsym XF86Calculator exec gnome-calculator
 
-# autostart
-exec --no-startup-id /usr/lib/policykit-1-gnome/polkit-gnome-authentication-agent-1
-exec --no-startup-id nm-applet
-exec --no-startup-id autorandr -c
 
-
-# exec --no-startup-id volumeicon
 # app key shortcuts
 bindsym $mod+ctrl+t exec terminator
 bindsym $mod+ctrl+e exec editor
@@ -248,7 +215,83 @@ bindsym $mod+Ctrl+n exec todoist_task
 
 bindsym $mod+Ctrl+l exec lock_screen
 
-bindsym Print exec shutter -f   # full screenshot
-bindsym Shift+Print exec shutter -s #select screenshot
-bindsym $alt+Print exec shutter -a   #active screenshot
-bindsym Ctrl+Print exec shutter -w   #select window screenshot
+# bindsym Print exec shutter -f   # full screenshot
+# bindsym Shift+Print exec shutter -s #select screenshot
+# bindsym $alt+Print exec shutter -a   #active screenshot
+# bindsym Ctrl+Print exec shutter -w   #select window screenshot
+
+bindsym Print exec flameshot full   # full screenshot
+bindsym Shift+Print exec flameshot gui #select screenshot
+bindsym $alt+Print exec flameshot screen   #active screenshot
+# bindsym Ctrl+Print exec shutter -w   #select window screenshot
+
+# ------------------------------- looks and behavior -----------------------------
+
+# Font for window titles. Will also be used by the bar unless a different font
+# is used in the bar {} block below.
+# font pango:monospace 8
+
+# This font is widely installed, provides lots of unicode glyphs, right-to-left
+# text rendering and scalability on retina/hidpi displays (thanks to pango).
+font pango:DejaVu Sans Mono 8
+
+# Disable titlebar
+# new_window pixel 2
+for_window [class="^.*"] border pixel 1
+
+# new_float pixel 1
+
+# Gaps (i3-gaps)
+gaps inner 8
+gaps outer 0
+
+# Disable mouse focus
+focus_follows_mouse no
+
+# Enable popups while in full screen
+popup_during_fullscreen smart
+
+# smart i3-gaps functionality
+smart_gaps on
+# smart_borders on
+
+# # This is the Solarized color palette.
+# set $base03    #002b36
+# set $base02    #073642
+# set $base01    #586e75
+# set $base00    #657b83
+# set $base0     #839496
+# set $base1     #93a1a1
+# set $base2     #eee8d5
+# set $base3     #fdf6e3
+# set $yellow    #b58900
+# set $orange    #cb4b10
+# set $red       #dc322f
+# set $magenta   #d33682
+# set $violet    #6c71c4
+# set $blue      #268bd2
+# set $cyan      #2aa198
+# set $green     #859900
+# set $transparent #00000000
+# set $lucent    #00000088
+
+
+# # Window Border color
+client.focused          #ffffff #ffffff #ffffff #ffffff
+# client.focused_inactive #ffffff #ffffff #ffffff #ffffff
+client.focused_inactive #000000 #000000 #000000 #000000
+client.unfocused        #000000 #000000 #000000 #000000
+# client.urgent           #002b36 #dc322f
+
+
+exec --no-startup-id start_systemd
+exec --no-startup-id systemctl --user start i3.target
+
+# autostart
+# TODO: Move these to systemd
+exec --no-startup-id /usr/lib/policykit-1-gnome/polkit-gnome-authentication-agent-1
+# exec --no-startup-id nm-applet
+# exec --no-startup-id upwork
+
+# Refresh wallpaper when monitor configuration changes.
+exec --no-startup-id /usr/bin/xeventbind resolution /usr/bin/wallpaper-refresh.sh
