@@ -12,9 +12,12 @@
 # fi
 
 # theme customizations
+export DEFAULT_USER=aiguofer
 export POWERLEVEL9K_LEFT_PROMPT_ELEMENTS=(status virtualenv context dir vcs)
 export POWERLEVEL9K_RIGHT_PROMPT_ELEMENTS=()
-export POWERLEVEL9K_VIRTUALENV_BACKGROUND='blue'
+export POWERLEVEL9K_VIRTUALENV_BACKGROUND='green'
+export POWERLEVEL9K_STATUS_CROSS=true
+export POWERLEVEL9K_STATUS_OK=false
 export VIRTUAL_ENV_DISABLE_PROMPT=1
 export TERM=xterm-256color
 
