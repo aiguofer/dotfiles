@@ -77,3 +77,6 @@
 
 [includeIf "gitdir:~/personal/"]
     path = ~/personal/.gitconfig
+
+[fetch.fsck]
+    zeroPaddedFilemode = warn
