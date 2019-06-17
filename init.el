@@ -247,9 +247,29 @@
    ("C-c C-3" . run-python3))
   :config
 
+  (use-package jupyter
+    :straight t
+    :hook
+    (jupyter-repl-mode . (lambda ()
+                           (setq company-backends '(company-capf))))
+    :bind
+    (:map jupyter-repl-mode-map
+          ("C-M-n" . jupyter-repl-history-next)
+          ("C-M-p" . jupyter-repl-history-previous)
+          ("M-n" . jupyter-repl-forward-cell)
+          ("M-p" . jupyter-repl-backward-cell)
+          :map jupyter-repl-interaction-mode-map
+          ("M-i" . nil)
+          ("C-?" . jupyter-inspect-at-point)
+          )
+    )
+
+
   (setq python-shell-interpreter "jupyter-console"
         python-shell-interpreter-args "--simple-prompt"
         python-shell-prompt-detect-failure-warning nil)
+  (add-to-list 'python-shell-completion-native-disabled-interpreters
+               "jupyter-console")
   (add-to-list 'python-shell-completion-native-disabled-interpreters
                "jupyter")
 
