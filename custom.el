@@ -77,6 +77,7 @@
  '(sml/name-width 5)
  '(sml/shorten-mode-string "")
  '(sml/theme (quote dark))
+ '(tool-bar-mode nil)
  '(vc-follow-symlinks t)
  '(web-mode-auto-close-style 2)
  '(web-mode-code-indent-offset 3)
