@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 import json
 from os import path
+from subprocess import call
 
 import websocket
 
@@ -79,7 +80,9 @@ class GPMDP:
         thumbs_up = {"namespace": "rating", "method": "setRating", "arguments": [5]}
 
         self.ws.send(json.dumps(thumbs_up))
-        return self.get_response("rating")["payload"]
+        res = self.get_response("rating")["payload"]
+        call(["notify-send", "Liked song on GPMDP"])
+        return res
 
 
 if __name__ == "__main__":
