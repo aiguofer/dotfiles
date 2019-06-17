@@ -7,7 +7,7 @@ LAST_NOTIFICATION="$HOME/.last_battery_notification"
 
 while true;
       do
-          BATTERY_LEVEL=$(upower -i /org/freedesktop/UPower/devices/DisplayDevice | grep percentage | awk '{print $2}' | cut -d'.' -f1)
+          BATTERY_LEVEL=$(upower -i /org/freedesktop/UPower/devices/DisplayDevice | grep percentage | awk '{print $2}' | cut -d'.' -f1 | sed 's/%//')
           STATUS=$(upower -i /org/freedesktop/UPower/devices/DisplayDevice | grep state | awk '{print $2}')
           # LAST_NOTIFIED=$(cat $LAST_NOTIFICATION)
 
