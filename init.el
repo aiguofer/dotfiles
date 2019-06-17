@@ -28,6 +28,8 @@
       (list (format "%s %%S: %%j " (system-name))
         '(buffer-file-name "%f" (dired-directory dired-directory "%b"))))
 
+;; allow typing y/n instead of yes/no
+(defalias 'yes-or-no-p 'y-or-n-p)
 
 ;; Bootstrap `straight.el'
 (defvar bootstrap-version)
