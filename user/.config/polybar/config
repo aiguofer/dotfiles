@@ -54,9 +54,8 @@ padding = 0
 
 module-margin = 1
 
-font-0 = "DejaVu Sans Mono:pixelsize=10;1"
-font-1 = "Siji:pixelsize=10;1"
-font-2 = "MaterialIcons:style=Regular:size=10;1"
+font-0 = "Siji:pixelsize=10;1"
+font-1 = "DejaVu Sans Mono Nerd Font:pixelsize=10;1"
 
 modules-left = i3
 modules-center = memory cpu temperature filesystem
@@ -168,11 +167,11 @@ format = <ramp>
 ; ramp-3 = 4
 ; ramp-4 = 5
 
-ramp-0 = 🌕
-ramp-1 = 🌔
-ramp-2 = 🌓
-ramp-3 = 🌒
-ramp-4 = 🌑
+ramp-0 = 
+ramp-1 = 
+ramp-2 = 
+ramp-3 = 
+ramp-4 = 
 
 [module/cpu]
 type = internal/cpu
