@@ -691,4 +691,9 @@ when switching buffers "
   (add-hook 'switch-buffer-functions 'update-pyenv-on-buffer-switch)
   )
 
+(use-package smart-jump
+  :straight t
+  :config
+  (smart-jump-setup-default-registers))
+
 ;;; init.el ends here
