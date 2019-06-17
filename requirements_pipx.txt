@@ -12,3 +12,4 @@ bumpversion
 awscli
 argcomplete
 emacs-keys-everywhere
+twine
