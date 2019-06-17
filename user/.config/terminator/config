@@ -1,18 +1,35 @@
 [global_config]
-  dbus = False
-  enabled_plugins = LaunchpadCodeURLHandler, APTURLHandler, MavenPluginURLHandler, LaunchpadBugURLHandler
   focus = system
+  title_transmit_fg_color = "#2E3440"
+  title_transmit_bg_color = "#88C0D0"
+  title_receive_fg_color = "#2E3440"
+  title_receive_bg_color = "#8FBCBB"
+  title_inactive_fg_color = "#D8DEE9"
+  title_inactive_bg_color = "#4C566A"
+  enabled_plugins = LaunchpadCodeURLHandler, APTURLHandler, MavenPluginURLHandler, LaunchpadBugURLHandler
 [keybindings]
-  broadcast_group = None
-  close_term = <Primary><Shift>w
+  new_tab = None
+  go_up = None
   go_down = None
   go_left = None
   go_right = None
-  go_up = None
-  new_tab = None
   split_horiz = None
   split_vert = None
+  close_term = <Primary><Shift>w
+  broadcast_group = None
   edit_tab_title = None
+[profiles]
+  [[default]]
+    background_color = "#2e3440"
+    cursor_color = "#D8DEE9"
+    font = Hack Nerd Font 12
+    foreground_color = "#d8dee9"
+    scrollback_lines = 10000
+    palette = "#3b4252:#bf616a:#a3be8c:#ebcb8b:#81a1c1:#b48ead:#88c0d0:#e5e9f0:#4c566a:#bf616a:#a3be8c:#ebcb8b:#81a1c1:#b48ead:#8fbcbb:#eceff4"
+    login_shell = True
+    use_custom_command = True
+    custom_command = tmux attach -t base || tmux new -s base
+    use_system_font = False
 [layouts]
   [[default]]
     [[[child1]]]
@@ -23,25 +40,3 @@
       parent = ""
       type = Window
 [plugins]
-[profiles]
-  [[default]]
-    background_darkness = 0.81
-    background_type = transparent
-    cursor_color = "#ffffff"
-    custom_command = tmux attach -t base || tmux new -s base
-    font = Liberation Mono for Powerline 11
-    foreground_color = "#ffffff"
-    login_shell = True
-    scrollback_lines = 10000
-    use_custom_command = True
-    use_system_font = False
-  [[solarized-dark]]
-    background_color = "#002b36"
-    background_darkness = 0.88
-    background_type = transparent
-    cursor_color = "#eee8d5"
-    font = Liberation Mono for Powerline 11
-    foreground_color = "#839496"
-    palette = "#073642:#dc322f:#859900:#b58900:#268bd2:#d33682:#2aa198:#eee8d5:#002b36:#cb4b16:#586e75:#657b83:#839496:#6c71c4:#93a1a1:#fdf6e3"
-    use_system_font = False
-  [[solidbg]]
