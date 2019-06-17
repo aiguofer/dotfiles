@@ -60,9 +60,6 @@
  '(magit-pull-arguments (quote ("--rebase")))
  '(markdown-command "/usr/bin/pandoc")
  '(mode-require-final-newline (quote visit-save))
- '(package-selected-packages
-   (quote
-    (ignoramus company-tern company-try-hard company-web company-statistics tern smart-mode-line-powerline-theme linum-off imenu-anywhere helm-pydoc keyfreq company-quickhelp geeknote edit-color-stamp helm-rg helm-ag yaml-mode rainbow-delimiters helm-projectile session elpy python-docstring blacken web-beautify web-mode django-mode ac-html-csswatcher ac-html-bootstrap web-completion-data js-doc diminish sudo-edit magit-filenotify magit js2-mode json-mode systemd typescript-mode swiper coffee-mode vmd-mode pkgbuild-mode markdown-mode flycheck-tip flycheck dockerfile-mode auto-package-update use-package)))
  '(powerline-default-separator (quote utf-8))
  '(projectile-completion-system (quote helm))
  '(projectile-mode-line nil)

@@ -7,17 +7,6 @@
 (setq custom-file (concat user-emacs-directory "custom.el"))
 (load custom-file)
 
-(setq load-prefer-newer t)
-
-(require 'package)
-
-(setq package-enable-at-startup nil)
-
-(add-to-list 'package-archives
-             '("melpa" . "https://melpa.org/packages/") t)
-
-(package-initialize)
-
 ;; Use UTF8 everywhere, see https://thraxys.wordpress.com/2016/01/13/utf-8-in-emacs-everywhere-forever/
 (setq locale-coding-system 'utf-8)
 (set-terminal-coding-system 'utf-8)
@@ -39,15 +28,23 @@
       (list (format "%s %%S: %%j " (system-name))
         '(buffer-file-name "%f" (dired-directory dired-directory "%b"))))
 
-;; Bootstrap `use-package'
-(unless (package-installed-p 'use-package)
-  (package-refresh-contents)
-  (package-install 'use-package))
 
-;; (use-package auto-package-update
-;;   :ensure t
-;;   :config
-;;   (auto-package-update-maybe))
+;; Bootstrap `straight.el'
+(defvar bootstrap-version)
+(let ((bootstrap-file
+       (expand-file-name "straight/repos/straight.el/bootstrap.el" user-emacs-directory))
+      (bootstrap-version 5))
+  (unless (file-exists-p bootstrap-file)
+    (with-current-buffer
+        (url-retrieve-synchronously
+         "https://raw.githubusercontent.com/raxod502/straight.el/develop/install.el"
+         'silent 'inhibit-cookies)
+      (goto-char (point-max))
+      (eval-print-last-sexp)))
+  (load bootstrap-file nil 'nomessage))
+
+;; Download and set up use-package
+(straight-use-package 'use-package)
 
 (use-package windmove
   :bind
@@ -59,39 +56,39 @@
 
 
 (use-package subword
-  :ensure t
+  :straight t
   :diminish subword-mode
   :init
   (global-subword-mode))
 
 (use-package semantic
-  :ensure t
+  :straight t
   :init
   (semantic-mode 1))
 
 (use-package dockerfile-mode
-  :ensure t
+  :straight t
   :mode "Dockerfile\\'")
 
 (use-package flycheck
-  :ensure t
+  :straight t
   :init
   (global-flycheck-mode))
 
 (use-package flycheck-tip
-  :ensure t
+  :straight t
   :init
   (define-key global-map (kbd "C-c C-n") 'error-tip-cycle-dwim)
   (define-key global-map (kbd "C-c C-p") 'error-tip-cycle-dwim-reverse))
 
 (use-package markdown-mode
-  :ensure t
+  :straight t
   :mode
   (("\\.md\\'" . markdown-mode)
    ("\\.markdown\\'" . markdown-mode)))
 
 (use-package pkgbuild-mode
-  :ensure t
+  :straight t
   :mode "/PKGBUILD$")
 
 (use-package sh-mode
@@ -105,33 +102,33 @@
    ("runcoms/[a-zA-Z]+$" . sh-mode)))
 
 (use-package vmd-mode
-  :ensure t
+  :straight t
   :commands (vmd-mode)
   :init
   (add-hook 'markdown-mode-hook 'vmd-mode))
 
 (use-package coffee-mode
-  :ensure t)
+  :straight t)
 
 (use-package swiper
-  :ensure t
+  :straight t
   :bind
   (("C-s" . swiper)
    ("C-r" . swiper)))
 
 (use-package typescript-mode
-  :ensure t
+  :straight t
   :mode "\\.ts\\'")
 
 (use-package systemd
-  :ensure t)
+  :straight t)
 
 (use-package json-mode
-  :ensure t
+  :straight t
   :mode "\\.json\\'")
 
 (use-package js2-mode
-  :ensure t
+  :straight t
   :mode "\\.js\\'"
   :interpreter "node"
   :config
@@ -148,7 +145,7 @@
   )
 
 (use-package json-snatcher
-  :ensure t
+  :straight t
   :config
   (defun js-mode-bindings ()
     "Sets a hotkey for using the json-snatcher plugin"
@@ -158,28 +155,28 @@
   (add-hook 'js2-mode-hook 'js-mode-bindings))
 
 (use-package magit
-  :ensure t
+  :straight t
   :commands (magit-status magit-log)
   :init
   (global-magit-file-mode))
 
 (use-package magit-filenotify
-  :ensure t
+  :straight t
   :commands (magit-filenotify-mode)
   :config
   (add-hook 'magit-status-mode-hook 'magit-filenotify-mode))
 
 (use-package sudo-edit
-  :ensure t)
+  :straight t)
 
 (use-package diminish
-  :ensure t)
+  :straight t)
 
 (use-package bind-key
-  :ensure t)
+  :straight t)
 
 (use-package js-doc
-  :ensure t
+  :straight t
   :commands (js-doc-insert-function-doc js-doc-insert-tag)
   :config
   (add-hook 'js2-mode-hook
@@ -189,21 +186,21 @@
                 )))
 
 (use-package web-completion-data
-  :ensure t)
+  :straight t)
 
 ;; (use-package ac-html-bootstrap
-;;   :ensure t)
+;;   :straight t)
 
 (use-package ac-html-csswatcher
-  :ensure t)
+  :straight t)
 
 (use-package django-mode
-  :ensure t
+  :straight t
   :mode
   (("\\.djhtml$" . django-html-mode)))
 
 (use-package web-mode
-  :ensure t
+  :straight t
   :mode
   (("\\.tpl" . web-mode)
    ("\\.php" . web-mode)
@@ -241,13 +238,13 @@
   )
 
 (use-package web-beautify
-  :ensure t
+  :straight t
   :commands (web-beautify-css-buffer web-beautify-html-buffer web-beautify-js-buffer))
 
 (use-package python
   :bind
   (("C-c C-2" . run-python2)
-  ("C-c C-3" . run-python3))
+   ("C-c C-3" . run-python3))
   :config
 
   (setq python-shell-interpreter "jupyter-console"
@@ -277,52 +274,38 @@
       (run-python nil nil t)))
 
   (use-package pyenv
-    :load-path "pyenv.el"
+    :straight (:host github :repo "aiguofer/pyenv.el")
     :config
-    (global-pyenv-mode)
-    (dolist (hook '(prog-mode-hook js2-mode-hook))
-      (add-hook hook #'pyenv-use-corresponding)))
+    (global-pyenv-mode))
 
   (use-package buftra
-    :load-path "buftra.el")
+    :straight (:host github :repo "humitos/buftra.el"))
 
   (use-package py-pyment
-    :load-path "py-cmd-buffer.el"
+    :straight (:host github :repo "humitos/py-cmd-buffer.el")
     :config
     (setq py-pyment-options '("--output=numpydoc")))
 
   (use-package py-isort
-    :load-path "py-cmd-buffer.el"
+    :straight (:host github :repo "humitos/py-cmd-buffer.el")
     :config
     (setq py-isort-options '("--lines=88" "-m=3" "-tc" "-fgw=0" "-ca"))
     (add-hook 'python-mode-hook 'py-isort-enable-on-save)
-
-    ;; Above breaks kill-ring on save, see:
-    ;; https://www.reddit.com/r/emacs/comments/4vo9qh/losing_killring_on_save/
-    ;; start workaround
-    (require 'nadvice)
-
-    (defun my-save-kill-ring (fun &rest _args)
-      (let ((kill-ring nil))
-        (funcall fun)))
-
-    (advice-add 'py-isort-buffer :around 'my-save-kill-ring)
-    ;; end workaround
     )
 
   (use-package blacken
-    :ensure t
+    :straight t
     :config
     (setq blacken-line-length '88)
     (add-hook 'python-mode-hook 'blacken-mode))
 
   (use-package python-docstring
-    :ensure t
+    :straight t
     :init
     (add-hook 'python-mode-hook 'python-docstring-mode))
 
   (use-package elpy
-    :ensure t
+    :straight t
     :bind
     (:map elpy-mode-map
           ("C-M-n" . elpy-nav-forward-block)
@@ -342,7 +325,7 @@
     )
 
   ;; (use-package lsp-mode
-  ;;   :ensure t
+  ;;   :straight t
   ;;   :config
 
   ;;   ;; make sure we have lsp-imenu everywhere we have LSP
@@ -364,7 +347,7 @@
 
   ;;   ;; lsp extras
   ;;   (use-package lsp-ui
-  ;;     :ensure t
+  ;;     :straight t
   ;;     :config
   ;;     (setq lsp-ui-sideline-ignore-duplicate t)
   ;;     (add-hook 'lsp-mode-hook 'lsp-ui-mode)
@@ -374,7 +357,7 @@
   ;;       #'lsp-ui-peek-find-references))
 
   ;;   (use-package company-lsp
-  ;;     :ensure t
+  ;;     :straight t
   ;;     :config
   ;;     (add-hook 'python-mode-hook
   ;;               (lambda ()
@@ -398,18 +381,18 @@
 
 
 (use-package session
-  :ensure t
+  :straight t
   :init
   (session-initialize))
 
 
 (use-package exec-path-from-shell
-  :ensure t
+  :straight t
   :init
   (exec-path-from-shell-initialize))
 
 (use-package yasnippet
-  :ensure t
+  :straight t
   :bind
   (:map yas-minor-mode-map
         ("<tab>" . nil)
@@ -432,7 +415,7 @@
   )
 
 (use-package projectile
-  :ensure t
+  :straight t
   :diminish projectile-mode
   :init
   ;; this must be done before :config
@@ -445,7 +428,7 @@
   )
 
 (use-package helm-projectile
-  :ensure t
+  :straight t
   :bind
   (("C-x C-f" . proj-open-file))
   :init
@@ -460,6 +443,7 @@
   (helm-projectile-on))
 
 (use-package keyfreq
+  :straight t
   :init
   (setq keyfreq-excluded-commands
         '(self-insert-command
@@ -480,7 +464,7 @@
   (keyfreq-autosave-mode 1))
 
 (use-package rainbow-delimiters
-  :ensure t
+  :straight t
   :init
   (add-hook 'prog-mode-hook 'rainbow-delimiters-mode)
   :config
@@ -488,31 +472,25 @@
   (electric-pair-mode 1))
 
 (use-package yaml-mode
-  :ensure t
+  :straight t
   :mode "\\.yml\\'")
 
 (use-package helm-ag
-  :ensure t)
+  :straight t)
 
 (use-package helm-rg
-  :ensure t)
+  :straight t)
 
 (use-package company-quickhelp
-  :ensure t
+  :straight t
   :config
   (company-quickhelp-mode))
 
-(use-package keyfreq
-  :ensure t
-  :config
-  (keyfreq-mode 1)
-  (keyfreq-autosave-mode 1))
-
 (use-package sudo-edit
-  :ensure t)
+  :straight t)
 
 (use-package helm
-  :ensure t
+  :straight t
   :diminish helm-mode
   :bind
   (("M-x" . helm-M-x)
@@ -524,7 +502,7 @@
   (helm-adaptive-mode))
 
 (use-package helm-pydoc
-  :ensure t
+  :straight t
   :config
   (with-eval-after-load "python"
     (define-key python-mode-map (kbd "C-c C-d") 'helm-pydoc)))
@@ -541,7 +519,7 @@
   (add-hook 'before-save-hook 'delete-trailing-whitespace))
 
 (use-package linum-off
-  :ensure t
+  :straight t
   :config
   (global-linum-mode 1)
 
@@ -554,7 +532,7 @@
   (add-hook 'find-file-hook 'my-find-file-check-make-large-file-read-only-hook))
 
 (use-package smart-mode-line-powerline-theme
-  :ensure t
+  :straight t
   :commands (powerline-default-theme))
 
 ;; This doesn't seem to work right in use-package
@@ -564,7 +542,7 @@
                              (powerline-default-theme)))
 
 (use-package tide
-  :ensure t
+  :straight t
   :config
   (defun setup-tide-mode ()
     "Set up Tide mode."
@@ -619,7 +597,7 @@
   (add-hook 'minibuffer-exit-hook #'my-minibuffer-exit-hook))
 
 (use-package company
-  :ensure t
+  :straight t
   :diminish company-mode
   :init
   (global-company-mode)
@@ -633,16 +611,16 @@
           ))
 
   (use-package company-statistics
-    :ensure t
+    :straight t
     :init
     (company-statistics-mode))
 
   (use-package company-web
-    :ensure t
+    :straight t
     :commands (company-web-bootstrap+ company-web-html))
 
   (use-package company-try-hard
-    :ensure t
+    :straight t
     :bind
     (("C-<tab>" . company-try-hard)
      :map company-active-map
@@ -650,7 +628,7 @@
 )
 
 (use-package ignoramus
-  :ensure t
+  :straight t
   :init
   (ignoramus-setup))
 
@@ -672,6 +650,7 @@
 
 
 (use-package switch-buffer-functions
+  :straight t
   :config
   (defun update-pyenv-on-buffer-switch (prev curr)
     "Function that will set appropriate pyenv and restart RPC server if needed
