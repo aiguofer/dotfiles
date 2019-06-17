@@ -623,6 +623,11 @@
   (add-hook 'minibuffer-setup-hook #'my-minibuffer-setup-hook)
   (add-hook 'minibuffer-exit-hook #'my-minibuffer-exit-hook))
 
+(use-package ibuffer
+  :bind (([remap list-buffers] . ibuffer))
+  :custom
+  (ibuffer-expert t))
+
 (use-package company
   :straight t
   :diminish company-mode
