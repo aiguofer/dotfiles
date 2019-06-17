@@ -1,0 +1,59 @@
+#!/usr/bin/env python
+# -*_ coding: utf-8 -*-
+
+import json
+from os import path
+
+import requests
+
+CONFIG = path.expanduser("~/.config/lastfm")
+
+
+def get_creds():
+    with open(CONFIG) as stream:
+        return json.load(stream)
+
+
+def make_request(user, api_key):
+    base_url = "https://ws.audioscrobbler.com/2.0/?method=user.getrecenttracks"
+    parameters = {
+        "api_key": api_key,
+        "format": "json",
+        "limit": "1",
+        "nowplaying": "true",
+        "user": user,
+    }
+    return requests.get(base_url, parameters)
+
+
+def process_result(request):
+    response = request.json()
+    return response["recenttracks"]["track"][0]
+
+
+def is_now_playing(track):
+    return track["@attr"]["nowplaying"] == "true"
+
+
+def format_track(track):
+    artist = track["artist"]["#text"]
+    title = track["name"]
+    return "%s - %s" % (artist, title)
+
+
+if __name__ == "__main__":
+    import time
+
+    creds = get_creds()
+    while True:
+        try:
+            request = make_request(creds["user"], creds["api_key"])
+            if request.status_code == 200:
+                most_recent_track = process_result(request)
+
+                if is_now_playing(most_recent_track):
+                    now_playing = format_track(most_recent_track)
+                    print(now_playing, flush=True)
+        except:
+            pass
+        time.sleep(5)

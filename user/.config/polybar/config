@@ -56,7 +56,7 @@ module-margin = 1
 
 font-0 = "DejaVu Sans Mono Nerd Font:pixelsize=10;1"
 
-modules-left = i3
+modules-left = i3 now_playing
 modules-center = memory cpu temperature filesystem
 modules-right = backlight pulseaudio wlan battery date powermenu
 
@@ -379,6 +379,19 @@ menu-2-0 = power off
 menu-2-0-exec = sudo poweroff
 menu-2-1 = cancel
 menu-2-1-exec = menu-open-0
+
+[module/now_playing]
+type = custom/script
+
+exec = "now_playing"
+
+tail = true
+
+format = <label>
+format-prefix = " "
+format-prefix-foreground = ${colors.foreground}
+
+label = %output:0:50%
 
 [settings]
 screenchange-reload = true
