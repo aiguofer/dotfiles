@@ -4,11 +4,12 @@ Documentation=http://jonls.dk/redshift/
 After=display-manager.service
 After=started.target
 After=geoclue_agent.service
+PartOf=graphical-session.target
 
 [Service]
-# ExecStartPre=/usr/bin/sleep 15
 ExecStart=/usr/bin/redshift-gtk
 Restart=always
+RestartSec=2
 
 [Install]
 WantedBy=started.target

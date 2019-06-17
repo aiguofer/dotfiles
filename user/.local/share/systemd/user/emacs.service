@@ -1,12 +1,8 @@
-## If your Emacs is installed in a non-standard location, you may need
-## to copy this file to a standard directory, eg ~/.config/systemd/user/ .
-## If you install this file by hand, change the "Exec" lines below
-## to use absolute file names for the executables.
 [Unit]
 Description=Emacs text editor
 Documentation=info:emacs man:emacs(1) https://gnu.org/software/emacs/
-After=started.target
-Requires=started.target
+After=started.target graphical-session.target
+PartOf=graphical-session.target
 
 [Service]
 Type=simple
