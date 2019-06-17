@@ -299,15 +299,15 @@ bar-volume-empty-font = 2
 bar-volume-empty-foreground = ${colors.foreground-alt}
 
 [module/battery]
-type = custom/script
-exec = /usr/local/bin/battery-combined-udev.sh
-tail = true
-; exec = upower -i /org/freedesktop/UPower/devices/DisplayDevice | grep percentage | awk '{print $2}' | cut -d'.' -f1
+; Script for 2 batteries
+; type = custom/script
+; exec = /usr/local/bin/battery-combined-udev.sh
+; tail = true
 
-; type = internal/battery
-; battery = BAT0
-; adapter = AC
-; full-at = 98
+type = internal/battery
+battery = BAT0
+adapter = AC
+full-at = 79
 
 format-charging = <animation-charging> <label-charging>
 format-charging-underline = #ffb52a
