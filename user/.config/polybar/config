@@ -360,7 +360,7 @@ format-spacing = 1
 
 label-open = " "
 label-open-foreground = ${colors.secondary}
-label-close = 
+label-close = "ﰸ "
 label-close-foreground = ${colors.secondary}
 label-separator = |
 label-separator-foreground = ${colors.foreground-alt}
