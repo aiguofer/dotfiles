@@ -31,6 +31,8 @@
 ;; allow typing y/n instead of yes/no
 (defalias 'yes-or-no-p 'y-or-n-p)
 
+(add-hook 'after-save-hook 'executable-make-buffer-file-executable-if-script-p)
+
 ;; Bootstrap `straight.el'
 (defvar bootstrap-version)
 (let ((bootstrap-file
