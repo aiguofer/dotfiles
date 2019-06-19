@@ -1,0 +1,11 @@
+[Unit]
+Description=watch for resolution changes to re-set background
+After=started.target i3.target
+PartOf=graphical-session.target
+
+[Service]
+ExecStart=/usr/bin/xeventbind resolution systemctl --user restart set_background
+Restart=on-failure
+
+[Install]
+WantedBy=i3.target

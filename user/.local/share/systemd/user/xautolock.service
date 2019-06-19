@@ -5,7 +5,7 @@ PartOf=started.target
 
 [Service]
 Type=simple
-ExecStart=/usr/bin/xautolock -time 10 -locker "systemctl --user restart i3lock.service"
+ExecStart=/usr/bin/xautolock -time 10 -locker "systemctl --user restart lock_screen.service"
 
 [Install]
 WantedBy=started.target

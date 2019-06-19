@@ -1,0 +1,10 @@
+[Unit]
+Description=Set background
+After=i3.target autorandr.service
+
+[Service]
+Type=oneshot
+ExecStart=/bin/bash -c set_wallpaper
+
+[Install]
+WantedBy=i3.target

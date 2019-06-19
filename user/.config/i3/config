@@ -133,7 +133,7 @@ bindsym $mod+Shift+9 move container to workspace $ws9
 bindsym $mod+Shift+0 move container to workspace $ws10
 
 # Context swap; swap the "active" workspaces for each monitor
-bindsym $mod+ctrl+s "rename workspace 1 to temporary; rename workspace 4 to 1; rename workspace temporary to 4; rename workspace 2 to temporary; rename workspace 5 to 2; rename workspace temporary to 5; rename workspace 3 to temporary; rename workspace 6 to 3; rename workspace temporary to 6; workspace 1; workspace 3; workspace 2;"
+bindsym $mod+Ctrl+s "rename workspace 1 to temporary; rename workspace 4 to 1; rename workspace temporary to 4; rename workspace 2 to temporary; rename workspace 5 to 2; rename workspace temporary to 5; rename workspace 3 to temporary; rename workspace 6 to 3; rename workspace temporary to 6; workspace 1; workspace 3; workspace 2;"
 
 # reload the configuration file
 bindsym $mod+Shift+c reload
@@ -199,21 +199,19 @@ bindsym XF86AudioPlay exec playerctl play-pause
 bindsym XF86AudioPause exec playerctl play-pause
 bindsym XF86AudioNext exec playerctl next
 bindsym XF86AudioPrev exec playerctl previous
-bindsym Ctrl+$alt++space exec playerctl play-pause
+bindsym Ctrl+$alt+space exec playerctl play-pause
 
 # Other controls
 bindsym XF86Calculator exec gnome-calculator
-
+bindsym $mod+Ctrl+l exec lock_screen
 
 # app key shortcuts
-bindsym $mod+ctrl+t exec terminator
-bindsym $mod+ctrl+e exec editor
-bindsym $mod+ctrl+i exec google-chrome
+bindsym $mod+Ctrl+t exec terminator
+bindsym $mod+Ctrl+e exec editor
+bindsym $mod+Ctrl+i exec google-chrome
 bindsym $mod+Ctrl+m exec raiseplayer
 bindsym $mod+Ctrl+u exec songliker
 bindsym $mod+Ctrl+n exec todoist_task
-
-bindsym $mod+Ctrl+l exec lock_screen
 
 # bindsym Print exec shutter -f   # full screenshot
 # bindsym Shift+Print exec shutter -s #select screenshot
@@ -253,28 +251,6 @@ popup_during_fullscreen smart
 
 # smart i3-gaps functionality
 smart_gaps on
-# smart_borders on
-
-# # This is the Solarized color palette.
-# set $base03    #002b36
-# set $base02    #073642
-# set $base01    #586e75
-# set $base00    #657b83
-# set $base0     #839496
-# set $base1     #93a1a1
-# set $base2     #eee8d5
-# set $base3     #fdf6e3
-# set $yellow    #b58900
-# set $orange    #cb4b10
-# set $red       #dc322f
-# set $magenta   #d33682
-# set $violet    #6c71c4
-# set $blue      #268bd2
-# set $cyan      #2aa198
-# set $green     #859900
-# set $transparent #00000000
-# set $lucent    #00000088
-
 
 # # Window Border color
 client.focused          #ffffff #ffffff #ffffff #ffffff
@@ -290,8 +266,3 @@ exec --no-startup-id systemctl --user start i3.target
 # autostart
 # TODO: Move these to systemd
 exec --no-startup-id /usr/lib/policykit-1-gnome/polkit-gnome-authentication-agent-1
-# exec --no-startup-id nm-applet
-# exec --no-startup-id upwork
-
-# Refresh wallpaper when monitor configuration changes.
-exec --no-startup-id /usr/bin/xeventbind resolution /usr/bin/wallpaper-refresh.sh
