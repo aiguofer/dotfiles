@@ -3,7 +3,6 @@ Description=watch for fullscreen to disable xautolock
 After=started.target
 
 [Service]
-# ExecStartPre=/usr/bin/sleep 15
 ExecStart=/bin/bash -c watch_fullscreen
 Restart=on-failure
 
