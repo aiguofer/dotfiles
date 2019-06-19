@@ -8,8 +8,9 @@ from time import sleep
 
 import websocket
 
+# TODO: change these to args?
 MAX_LEN = 60
-
+MODULE_NAME = "now_playing_gpmdp"
 NOW_PLAYING_FILE = Path("~/.now_playing").expanduser()
 
 now_playing_data = {}
@@ -55,7 +56,7 @@ def clear_song():
 
 
 def send_polybar(hook):
-    subprocess.call(["polybar-msg", "hook", "now_playing", str(hook)])
+    subprocess.call(["polybar-msg", "hook", MODULE_NAME, str(hook)])
 
 
 def main():

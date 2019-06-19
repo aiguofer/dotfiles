@@ -1,7 +1,7 @@
 [Unit]
 Description=watch for song changes and tell polybar
 After=polybar.service
-PartOf=i3.target
+PartOf=i3.target polybar.service
 
 [Service]
 ExecStart=/bin/bash -c now_playing_gpmdp

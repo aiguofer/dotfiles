@@ -56,7 +56,7 @@ module-margin = 1
 
 font-0 = "DejaVu Sans Mono Nerd Font:pixelsize=10;1"
 
-modules-left = i3 now_playing_gpdmp
+modules-left = i3 now_playing_gpmdp
 modules-center = memory cpu temperature filesystem
 modules-right = backlight pulseaudio wlan battery date powermenu
 
@@ -395,6 +395,9 @@ format = <output>
 format-prefix = " "
 format-prefix-foreground = ${colors.foreground}
 
+click-left = playerctl play-pause
+click-right = playerctl next
+double-click-left = songliker
 
 [settings]
 screenchange-reload = true
