@@ -1,0 +1,70 @@
+#!/usr/bin/env python
+# -*_ coding: utf-8 -*-
+
+import json
+import subprocess
+from pathlib import Path
+from time import sleep
+
+import websocket
+
+MAX_LEN = 60
+
+NOW_PLAYING_FILE = Path("~/.now_playing").expanduser()
+
+now_playing_data = {}
+
+
+def handle_message(ws, message):
+    global now_playing_data
+    if any(
+        '"channel":"{0}"'.format(channel) in message for channel in ["track", "rating"]
+    ):
+        msg = json.loads(message)
+
+        now_playing_data.update(msg["payload"])
+
+        # track messages always come in first, update once we get rating message
+        if now_playing_data["title"] and msg["channel"] == "rating":
+            send_curr_song()
+
+
+def truncate_title_if_needed():
+    # 7 hardcoded chars
+    str_len = 7 + sum(
+        len(v) for k, v in now_playing_data.items() if k in ["artist", "title"]
+    )
+
+    if str_len > MAX_LEN:
+        # 3 chars for ellipsis
+        to_remove = MAX_LEN - str_len - 3
+        now_playing_data["title"] = now_playing_data["title"][:to_remove] + "..."
+
+
+def send_curr_song():
+    now_playing_data["liked"] = "" if now_playing_data["liked"] else ""
+
+    truncate_title_if_needed()
+    msg = "{artist} - {title} | {liked}".format(**now_playing_data)
+    NOW_PLAYING_FILE.write_text(msg)
+    send_polybar(2)
+
+
+def clear_song():
+    send_polybar(1)
+
+
+def send_polybar(hook):
+    subprocess.call(["polybar-msg", "hook", "now_playing", str(hook)])
+
+
+def main():
+    while True:
+        ws = websocket.WebSocketApp("ws://localhost:5672", on_message=handle_message)
+        ws.run_forever()
+        clear_song()
+        sleep(5)
+
+
+if __name__ == "__main__":
+    main()

@@ -2,15 +2,16 @@
 # -*_ coding: utf-8 -*-
 
 import json
-from os import path
+from pathlib import Path
+from time import sleep
 
 import requests
 
-CONFIG = path.expanduser("~/.config/lastfm")
+CONFIG = Path("~/.config/lastfm").expanduser()
 
 
 def get_creds():
-    with open(CONFIG) as stream:
+    with CONFIG.open() as stream:
         return json.load(stream)
 
 
@@ -41,9 +42,7 @@ def format_track(track):
     return "%s - %s" % (artist, title)
 
 
-if __name__ == "__main__":
-    import time
-
+def main():
     creds = get_creds()
     while True:
         try:
@@ -56,4 +55,8 @@ if __name__ == "__main__":
                     print(now_playing, flush=True)
         except:
             pass
-        time.sleep(5)
+        sleep(5)
+
+
+if __name__ == "__main__":
+    main()

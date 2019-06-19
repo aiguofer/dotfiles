@@ -56,7 +56,7 @@ module-margin = 1
 
 font-0 = "DejaVu Sans Mono Nerd Font:pixelsize=10;1"
 
-modules-left = i3 now_playing
+modules-left = i3 now_playing_gpdmp
 modules-center = memory cpu temperature filesystem
 modules-right = backlight pulseaudio wlan battery date powermenu
 
@@ -71,6 +71,8 @@ scroll-down = i3wm-wsprev
 
 cursor-click = pointer
 cursor-scroll = ns-resize
+
+enable-ipc = true
 
 [module/xwindow]
 type = internal/xwindow
@@ -370,10 +372,10 @@ menu-0-0-exec = systemctl reboot -i
 menu-0-1 = power off
 menu-0-1-exec = systemctl poweroff
 
-[module/now_playing]
+[module/now_playing_lastfm]
 type = custom/script
 
-exec = "now_playing"
+exec = "now_playing_lastfm"
 
 tail = true
 
@@ -382,6 +384,17 @@ format-prefix = " "
 format-prefix-foreground = ${colors.foreground}
 
 label = %output:0:50%
+
+[module/now_playing_gpmdp]
+type = custom/ipc
+
+hook-0 = echo ""
+hook-1 = cat "${HOME}/.now_playing"
+
+format = <output>
+format-prefix = " "
+format-prefix-foreground = ${colors.foreground}
+
 
 [settings]
 screenchange-reload = true
