@@ -203,6 +203,7 @@ bindsym Ctrl+$alt+space exec playerctl play-pause
 
 # Other controls
 bindsym XF86Calculator exec gnome-calculator
+bindsym $mod+Ctrl+h exec switch_headset
 bindsym $mod+Ctrl+l exec lock_screen
 
 # app key shortcuts
