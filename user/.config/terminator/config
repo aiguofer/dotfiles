@@ -18,6 +18,7 @@
   close_term = <Primary><Shift>w
   broadcast_group = None
   edit_tab_title = None
+  layout_launcher = None
 [profiles]
   [[default]]
     background_color = "#2e3440"
