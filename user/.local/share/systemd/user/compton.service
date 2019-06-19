@@ -3,7 +3,7 @@ Description=Launch compton
 PartOf=i3.target
 
 [Service]
-ExecStart=/usr/bin/compton -f
+ExecStart=/bin/bash -c compton -f
 
 [Install]
 WantedBy=i3.target

@@ -55,6 +55,9 @@ necessary_packages=(
     terminator
 )
 
+# deps for building compton
+# sudo apt install meson libev4 libev libev-dev xcb-dev x11-xcb libx11-xcb libx11-xcb-dev libxcb-damage0-dev libxcb-sync-dev libxcb-xinerama0-dev libxcb-present-dev uthash-dev libconfig-dev libxdg-basedir-dev gl-dev libglc-dev
+
 # install fonts
 mkdir -p ~/personal
 cd personal
