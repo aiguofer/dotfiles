@@ -5,7 +5,6 @@ PartOf=graphical-session.target
 
 [Service]
 ExecStart=/usr/local/bin/todoist
-Restart=always
 
 [Install]
 WantedBy=started.target

@@ -5,7 +5,7 @@ PartOf=graphical-session.target
 
 [Service]
 ExecStart=/usr/bin/rescuetime
-Restart=always
+Restart=on-failure
 RestartSec=2
 
 [Install]
