@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/zsh
 COMPLETIONS_DIR=~/.zsh/completions
 
 completion_generators=(
@@ -12,7 +12,7 @@ completion_generators=(
 for completion_generator in "${completion_generators[@]}"; do
     cmd=$(echo $completion_generator | cut -d' ' -f1)
     if [ $commands[$cmd] ]; then
-        $completion_generator > $COMPLETIONS_DIR/_$cmd
+        $completion_generator >! $COMPLETIONS_DIR/_$cmd
     fi
 done
 
