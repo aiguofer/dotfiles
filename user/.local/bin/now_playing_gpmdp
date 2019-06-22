@@ -2,7 +2,9 @@
 # -*_ coding: utf-8 -*-
 
 import json
+import signal
 import subprocess
+import sys
 from pathlib import Path
 from time import sleep
 
@@ -59,8 +61,14 @@ def send_polybar(hook):
     subprocess.call(["polybar-msg", "hook", MODULE_NAME, str(hook)])
 
 
+def signal_handler(sig, frame):
+    clear_song()
+    sys.exit(0)
+
+
 def main():
     while True:
+        signal.signal(signal.SIGTERM, signal_handler)
         ws = websocket.WebSocketApp("ws://localhost:5672", on_message=handle_message)
         ws.run_forever()
         clear_song()
