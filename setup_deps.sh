@@ -31,6 +31,7 @@ necessary_packages=(
     shutter
     silver-searcher # ag
     autorandr
+    arandr
     playerctl
     dunst
     tmux
