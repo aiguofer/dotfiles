@@ -4,8 +4,9 @@ bt_device_addr=$(pacmd list-cards | grep -i 'name:.*bluez_card' | sed -E 's/.*<?
 device_mac=$(echo $bt_device_addr | sed 's/_/:/g')
 
 a2dp_available=$(pacmd list-cards | grep -A30 bluez | grep "A2DP Sink" | sed -E 's/.* available: ([a-z]+)\)/\1/g')
+active_profile=$(pacmd list-cards | grep -A30 bluez | grep "active profile" | sed -E 's/.*<([a-z_-]+)>.*/\1/g')
 
-if [[ "$a2dp_available" == "no" ]]
+if [[ "$a2dp_available" == "no" ]] || [[ "$active_profile" == "off" ]]
 then
     dbus-send --system --dest=org.bluez --print-reply /org/bluez/hci0/dev_$bt_device_addr org.bluez.Device1.Connect
 
