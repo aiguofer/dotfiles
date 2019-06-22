@@ -1,7 +1,5 @@
 #!/bin/bash
 
-# install https://gitlab.com/wavexx/acpilight
-
 git_installers=(
     getantibody/installer/master/install # antibody
     creationix/nvm/v0.33.11/install.sh   # nvm
@@ -40,6 +38,9 @@ necessary_packages=(
     redshift-gtk
     insync
     google-play-music-desktop-player
+    xbacklight # https://gitlab.com/wavexx/acpilight
+    feh
+    compton
 )
 
 wanted_packages=(
