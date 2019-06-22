@@ -395,8 +395,8 @@ format = <output>
 format-prefix = " "
 format-prefix-foreground = ${colors.foreground}
 
-click-left = playerctl play-pause
-click-right = playerctl next
+click-left = playerctl --player=google-play-music-desktop-player play-pause
+click-right = playerctl --player=google-play-music-desktop-player next
 double-click-left = songliker
 
 [settings]
