@@ -13,3 +13,4 @@ awscli
 argcomplete
 emacs-keys-everywhere
 twine
+pip-tools
