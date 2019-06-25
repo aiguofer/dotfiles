@@ -42,6 +42,7 @@ necessary_packages=(
     xbacklight # https://gitlab.com/wavexx/acpilight
     feh
     compton
+    earlyoom # prevent system from locking up due to OOM
 )
 
 wanted_packages=(

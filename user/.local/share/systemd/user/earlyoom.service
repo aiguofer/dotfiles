@@ -1,0 +1,9 @@
+[Unit]
+Description=Early OOM Daemon
+Documentation=man:earlyoom(1) https://github.com/rfjakob/earlyoom
+
+[Service]
+ExecStart=/usr/bin/earlyoom -n -m 5 --avoid "^(chrome|tmux|emacs|upwork|rescuetime)$"
+
+[Install]
+WantedBy=multi-user.target
