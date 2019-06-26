@@ -294,14 +294,14 @@ bar-volume-empty-foreground = ${colors.foreground-alt}
 
 [module/battery]
 ; Script for 2 batteries
-; type = custom/script
-; exec = /usr/local/bin/battery-combined-udev.sh
-; tail = true
+type = custom/script
+exec = /usr/local/bin/battery-combined-udev.sh
+tail = true
 
-type = internal/battery
-battery = BAT0
-adapter = AC
-full-at = 79
+; type = internal/battery
+; battery = BAT0
+; adapter = AC
+; full-at = 79
 
 format-charging = <animation-charging> <label-charging>
 ; format-charging-underline = #ffb52a

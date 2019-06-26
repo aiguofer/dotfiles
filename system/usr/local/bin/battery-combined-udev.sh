@@ -40,27 +40,29 @@ battery_print() {
 
 
     if [ "$ac" -eq 1 ]; then
-        icon=""
+        icon=""
 
-        if [ "$battery_percent" -gt 85 ]; then
+        if [ "$battery_percent" -ge 79 ]; then
             echo "$icon"
         else
-            echo "$icon $battery_percent %"
+            echo "$icon $battery_percent%"
         fi
     else
         if [ "$battery_percent" -gt 60 ]; then
-            icon=""
-        elif [ "$battery_percent" -gt 30 ]; then
-            icon=""
+            icon=""
+        elif [ "$battery_percent" -gt 40 ]; then
+            icon=""
+        elif [ "$battery_percent" -gt 20 ]; then
+            icon=""
         else
-            icon=""
+            icon=""
         fi
 
-        echo "$icon $battery_percent %"
+        echo "$icon $battery_percent%"
     fi
 }
 
-path_pid="$HOME/.config/polybar/battery-combined-udev.pid"
+path_pid="/tmp/battery-combined-udev.pid"
 
 case "$1" in
     --update)

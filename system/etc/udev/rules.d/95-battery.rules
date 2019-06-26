@@ -1,4 +1,1 @@
-SUBSYSTEM=="power_supply", ENV{POWER_SUPPLY_ONLINE}=="0", \
-    RUN+="/usr/local/bin/battery-combined-udev.sh --update"
-SUBSYSTEM=="power_supply", ENV{POWER_SUPPLY_ONLINE}=="1", \
-    RUN+="/usr/local/bin/battery-combined-udev.sh --update"
+ACTION=="change", SUBSYSTEM=="power_supply", ATTR{type}=="Mains", RUN+="/usr/local/bin/battery-combined-udev.sh --update"
