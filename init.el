@@ -1,7 +1,8 @@
 ;; .emacs --- My emacs config
 ;;; Commentary:
 ;;; Code:
-
+(add-to-list 'default-frame-alist
+             '(font . "Hack Nerd Font 12"))
 ;; Move to top to fix package-selected-package
 ;; see https://github.com/jwiegley/use-package/issues/397
 (setq custom-file (concat user-emacs-directory "custom.el"))
