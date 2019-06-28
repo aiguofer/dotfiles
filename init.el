@@ -56,9 +56,11 @@
   (("M-j" . windmove-left)
   ("M-i" . windmove-up)
   ("M-k" . windmove-down)
-  ("M-l" . windmove-right))
-)
+  ("M-l" . windmove-right)))
 
+(use-package midnight
+  :config
+  (midnight-mode))
 
 (use-package subword
   :straight t
