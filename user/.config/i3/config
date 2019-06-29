@@ -219,9 +219,9 @@ bindsym $mod+Ctrl+n exec todoist_task
 # bindsym $alt+Print exec shutter -a   #active screenshot
 # bindsym Ctrl+Print exec shutter -w   #select window screenshot
 
-bindsym Print exec flameshot full   # full screenshot
-bindsym Shift+Print exec flameshot gui #select screenshot
-bindsym $alt+Print exec flameshot screen   #active screenshot
+bindsym Print exec flameshot full -p ~/Pictures/Screenshots  # full screenshot
+bindsym Shift+Print exec flameshot gui -p ~/Pictures/Screenshots #select screenshot
+bindsym Ctrl+Print exec flameshot screen -p ~/Pictures/Screenshots  #active screenshot
 # bindsym Ctrl+Print exec shutter -w   #select window screenshot
 
 # ------------------------------- looks and behavior -----------------------------
