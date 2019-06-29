@@ -24,6 +24,8 @@ background-alt = #444
 foreground = #dfdfdf
 ; foreground-alt = #555
 foreground-alt = #dfdfdf
+foreground-disabled = #aaa
+
 primary = #ffb52a
 secondary = #e60053
 alert = #bd2c40
@@ -51,14 +53,15 @@ border-size = 0
 border-color = #00000000
 
 padding = 0
+separator = |
 
 module-margin = 1
 
 font-0 = "DejaVu Sans Mono Nerd Font:pixelsize=10;1"
 
-modules-left = i3 now_playing_gpmdp
+modules-left = powermenu i3 now_playing_gpmdp
 modules-center = memory cpu temperature filesystem
-modules-right = backlight pulseaudio wlan battery date powermenu
+modules-right = wlan pulseaudio battery backlight date
 
 tray-position = right
 tray-padding = 2
@@ -84,23 +87,12 @@ blacklist-0 = num lock
 
 format-prefix = " "
 format-prefix-foreground = ${colors.foreground-alt}
-; format-prefix-underline = ${colors.secondary}
 
 label-layout = %layout%
-; label-layout-underline = ${colors.secondary}
 
 label-indicator-padding = 2
 label-indicator-margin = 1
 label-indicator-background = ${colors.secondary}
-; label-indicator-underline = ${colors.secondary}
-
-[module/filesystem]
-type = internal/fs
-interval = 25
-
-mount-0 = /
-
-label-mounted =  %percentage_used%%
 
 [module/i3]
 type = internal/i3
@@ -118,7 +110,6 @@ label-mode-background = ${colors.primary}
 ; focused = Active workspace on focused monitor
 label-focused = %index%
 label-focused-background = ${colors.background-alt}
-; label-focused-underline= ${colors.primary}
 label-focused-padding = 2
 
 ; unfocused = Inactive workspace on any monitor
@@ -128,7 +119,6 @@ label-unfocused-padding = 2
 ; visible = Active workspace on unfocused monitor
 label-visible = %index%
 label-visible-background = ${self.label-focused-background}
-; label-visible-underline = ${self.label-focused-underline}
 label-visible-padding = ${self.label-focused-padding}
 
 ; urgent = Workspace with urgency hint set
@@ -139,31 +129,11 @@ label-urgent-padding = 2
 ; Separator in between workspaces
 ; label-separator = |
 
-
-; [module/mpd]
-; type = internal/mpd
-; format-online = <label-song>  <icon-prev> <icon-stop> <toggle> <icon-next>
-
-; icon-prev = 
-; icon-stop = 
-; icon-play = 
-; icon-pause = 
-; icon-next = 
-
-; label-song-maxlen = 25
-; label-song-ellipsis = true
-
 [module/backlight]
 type = internal/backlight
 card = intel_backlight
 
-format = <ramp>
-
-; ramp-0 = 1
-; ramp-1 = 2
-; ramp-2 = 3
-; ramp-3 = 4
-; ramp-4 = 5
+format = <ramp> <label>
 
 ramp-0 = 
 ramp-1 = 
@@ -176,16 +146,24 @@ type = internal/cpu
 interval = 2
 format-prefix = " "
 format-prefix-foreground = ${colors.foreground-alt}
-; format-underline = #f90000
-label = %percentage:2%%
+
+label = %percentage%%
 
 [module/memory]
 type = internal/memory
 interval = 2
 format-prefix = " "
 format-prefix-foreground = ${colors.foreground-alt}
-; format-underline = #4bffdc
+
 label = %percentage_used%%
+
+[module/filesystem]
+type = internal/fs
+interval = 25
+
+mount-0 = /
+
+label-mounted =  %percentage_used%%
 
 [module/wlan]
 type = internal/network
@@ -193,33 +171,15 @@ interface = wlp2s0
 interval = 3.0
 
 format-connected = <ramp-signal> <label-connected>
-; format-connected-underline = #9f78e1
+
 label-connected = %essid%
 
-format-disconnected = 睊
-;format-disconnected = <label-disconnected>
-;format-disconnected-underline = ${self.format-connected-underline}
-;label-disconnected = %ifname% disconnected
-;label-disconnected-foreground = ${colors.foreground-alt}
+format-disconnected = <label-disconnected>
+label-disconnected = 睊
+label-disconnected-foreground = ${colors.foreground-disabled}
 
 ramp-signal-0 = 直
 ramp-signal-foreground = ${colors.foreground-alt}
-
-[module/eth]
-type = internal/network
-interface = virbr0-nic
-interval = 3.0
-
-; format-connected-underline = #55aa55
-format-connected-prefix = " "
-format-connected-prefix-foreground = ${colors.foreground-alt}
-label-connected = %local_ip%
-
-format-disconnected =
-;format-disconnected = <label-disconnected>
-;format-disconnected-underline = ${self.format-connected-underline}
-;label-disconnected = %ifname% disconnected
-;label-disconnected-foreground = ${colors.foreground-alt}
 
 [module/date]
 type = internal/date
@@ -228,41 +188,28 @@ interval = 5
 date =
 date-alt = "%a %Y-%m-%d"
 
-time = %I:%M %p
+time = "%I:%M %p"
 time-alt =
 
 format-prefix = " "
 format-prefix-foreground = ${colors.foreground-alt}
-; format-underline = #0a6cf5
 
 label = %time% %date%
 
 [module/pulseaudio]
 type = internal/pulseaudio
 
-format-volume = <label-volume> <bar-volume>
-label-volume = VOL %percentage%%
+use-ui-max = true
+
+format-volume = <ramp-volume> <label-volume>
 label-volume-foreground = ${root.foreground}
 
 label-muted =  muted
-label-muted-foreground = #aaa
+label-muted-foreground = ${colors.foreground-disabled}
 
-bar-volume-width = 10
-bar-volume-foreground-0 = #55aa55
-bar-volume-foreground-1 = #55aa55
-bar-volume-foreground-2 = #55aa55
-bar-volume-foreground-3 = #55aa55
-bar-volume-foreground-4 = #55aa55
-bar-volume-foreground-5 = #f5a70a
-bar-volume-foreground-6 = #ff5555
-bar-volume-gradient = false
-bar-volume-indicator = |
-bar-volume-indicator-font = 2
-bar-volume-fill = ─
-bar-volume-fill-font = 2
-bar-volume-empty = ─
-bar-volume-empty-font = 2
-bar-volume-empty-foreground = ${colors.foreground-alt}
+ramp-volume-0 = 奄
+ramp-volume-1 = 奔
+ramp-volume-2 = 墳
 
 [module/alsa]
 type = internal/alsa
@@ -298,42 +245,6 @@ type = custom/script
 exec = /usr/local/bin/battery-combined-udev.sh
 tail = true
 
-; type = internal/battery
-; battery = BAT0
-; adapter = AC
-; full-at = 79
-
-format-charging = <animation-charging> <label-charging>
-; format-charging-underline = #ffb52a
-
-format-discharging = <ramp-capacity> <label-discharging>
-; format-discharging-underline = ${self.format-charging-underline}
-
-format-full-prefix = " "
-format-full-prefix-foreground = ${colors.foreground-alt}
-; format-full-underline = ${self.format-charging-underline}
-
-ramp-capacity-0 = 
-ramp-capacity-1 = 
-ramp-capacity-2 = 
-ramp-capacity-3 = 
-ramp-capacity-4 = 
-ramp-capacity-foreground = ${colors.foreground-alt}
-
-animation-charging-0 = 
-animation-charging-1 = 
-animation-charging-2 = 
-animation-charging-3 = 
-animation-charging-4 = 
-animation-charging-foreground = ${colors.foreground-alt}
-animation-charging-framerate = 1000
-
-; animation-discharging-0 = 
-; animation-discharging-1 = 
-; animation-discharging-2 = 
-; animation-discharging-foreground = ${colors.foreground-alt}
-; animation-discharging-framerate = 750
-
 [module/temperature]
 type = internal/temperature
 thermal-zone = 0
@@ -360,9 +271,9 @@ expand-right = true
 
 format-spacing = 1
 
-label-open = " "
+label-open = " "
 label-open-foreground = ${colors.secondary}
-label-close = "ﰸ "
+label-close = " ﰸ"
 label-close-foreground = ${colors.secondary}
 label-separator = |
 label-separator-foreground = ${colors.foreground-alt}
