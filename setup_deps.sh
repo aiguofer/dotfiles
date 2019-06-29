@@ -43,6 +43,8 @@ necessary_packages=(
     feh
     compton
     earlyoom # prevent system from locking up due to OOM
+    pasystray
+    nm-applet
 )
 
 wanted_packages=(
