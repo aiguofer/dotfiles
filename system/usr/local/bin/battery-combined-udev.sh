@@ -37,7 +37,9 @@ battery_print() {
     battery_percent=$(("$battery_level * 100"))
     battery_percent=$(("$battery_percent / $battery_max"))
 
-
+    icons=""
+    charging_icons=""
+    full_charge=""
 
     if [ "$ac" -eq 1 ]; then
         icon=""
@@ -45,6 +47,15 @@ battery_print() {
         if [ "$battery_percent" -ge 79 ]; then
             echo "$icon"
         else
+            if [ "$battery_percent" -gt 60 ]; then
+                icon=""
+            elif [ "$battery_percent" -gt 40 ]; then
+                icon=""
+            elif [ "$battery_percent" -gt 20 ]; then
+                icon=""
+            else
+                icon=""
+            fi
             echo "$icon $battery_percent%"
         fi
     else
