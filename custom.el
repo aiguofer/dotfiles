@@ -41,7 +41,7 @@
  '(elpy-mode-hook (quote (subword-mode)))
  '(elpy-modules
    (quote
-    (elpy-module-eldoc elpy-module-pyvenv elpy-module-highlight-indentation elpy-module-yasnippet elpy-module-sane-defaults)))
+    (elpy-module-company elpy-module-eldoc elpy-module-highlight-indentation elpy-module-yasnippet elpy-module-django elpy-module-autodoc elpy-module-sane-defaults)))
  '(elpy-rpc-backend "jedi")
  '(elpy-rpc-timeout 4)
  '(helm-ag-use-agignore t)
