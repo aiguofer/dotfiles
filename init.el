@@ -310,7 +310,8 @@
   (use-package pyenv
     :straight (:host github :repo "aiguofer/pyenv.el")
     :config
-    (global-pyenv-mode))
+    (global-pyenv-mode)
+    (add-hook 'pyenv-mode-hook 'elpy-rpc-restart))
 
   (use-package buftra
     :straight (:host github :repo "humitos/buftra.el"))
@@ -709,24 +710,8 @@
 (use-package switch-buffer-functions
   :straight t
   :config
-  (defun update-pyenv-on-buffer-switch (prev curr)
-    "Function that will set appropriate pyenv and restart RPC server if needed
-when switching buffers "
-    (if (string-equal "Python" (format-mode-line mode-name nil nil curr))
-        (progn
-          (let* ((old_pyenv (pyenv--active-python-version))
-                 (local_pyenv (pyenv--locate-file ".python-version"))
-                 (new_pyenv (if local_pyenv
-                                (pyenv--read-version-from-file local_pyenv)
-                              (pyenv--global-python-version))))
-            (if (not (string-equal old_pyenv new_pyenv))
-                (progn
-                  (pyenv-use new_pyenv)
-                  (elpy-rpc-restart))
-              )))))
-  ;; Update pyenv and restart Elpy RPC if needed when switching buffers
-  (add-hook 'switch-buffer-functions 'update-pyenv-on-buffer-switch)
-  )
+  (add-hook 'switch-buffer-functions 'pyenv-update-on-buffer-switch))
+
 
 (use-package smart-jump
   :straight t
