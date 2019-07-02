@@ -62,6 +62,7 @@
  '(markdown-command "/usr/bin/pandoc")
  '(mode-require-final-newline (quote visit-save))
  '(powerline-default-separator (quote utf-8))
+ '(powerline-gui-use-vcs-glyph t)
  '(projectile-completion-system (quote helm))
  '(projectile-mode-line nil)
  '(python-indent-offset 4)
