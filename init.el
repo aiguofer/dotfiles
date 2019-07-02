@@ -638,8 +638,14 @@
 
 (use-package ibuffer
   :bind (([remap list-buffers] . ibuffer))
-  :custom
-  (ibuffer-expert t))
+  :init
+  (setq ibuffer-expert t)
+  (setq ibuffer-fontification-alist
+        (append '((1 (eq major-mode 'python-mode) font-lock-string-face)
+                  (1 (eq major-mode 'fundamental-mode) green-face)
+                  (1 (member major-mode '(shell-mode sh-mode shell-script-mode))
+                     font-lock-function-name-face))
+                ibuffer-fontification-alist)))
 
 (use-package company
   :straight t
