@@ -65,8 +65,15 @@
 (use-package subword
   :straight t
   :diminish subword-mode
+  ;; need to load after diminish so it gets diminished
+  :after (diminish)
   :init
   (global-subword-mode))
+
+(use-package autorevert
+  :diminish auto-revert-mode
+  :config
+  (global-auto-revert-mode))
 
 (use-package semantic
   :straight t
