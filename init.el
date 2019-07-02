@@ -560,16 +560,26 @@
 
 (use-package smart-mode-line-powerline-theme
   :straight t
-  :commands (powerline-default-theme))
+  :after (arc-dark-theme)
+  :init
+  (setq sml/mule-info nil)
+  (setq sml/no-confirm-load-theme t)
+
+  :config
+  (sml/setup)
+  (powerline-default-theme)
+
+
+  (add-to-list 'sml/replacer-regexp-list
+               '("^~/.pyenv/versions/\\([a-zA-Z0-9_-]+\\)/"
+                 (lambda (s) (concat ":PE:" (match-string 1 s) ":")))
+               t)
+  )
 
 (use-package arc-dark-theme
-  :straight (:host github :repo "cfraz89/arc-dark-theme"))
-
-;; This doesn't seem to work right in use-package
-(add-hook 'after-init-hook (lambda ()
-                             (load-theme 'arc-dark t)
-                             (sml/setup)
-                             (powerline-default-theme)))
+  :straight (:host github :repo "cfraz89/arc-dark-theme")
+  :config
+  (load-theme 'arc-dark t))
 
 (use-package tide
   :straight t

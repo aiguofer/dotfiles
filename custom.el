@@ -74,11 +74,6 @@
    (quote
     (global-semantic-idle-scheduler-mode global-semanticdb-minor-mode global-semantic-idle-local-symbol-highlight-mode)))
  '(send-mail-function (quote mailclient-send-it))
- '(sml/extra-filler -6)
- '(sml/mode-width (quote right))
- '(sml/name-width 5)
- '(sml/shorten-mode-string "")
- '(sml/theme (quote dark))
  '(tool-bar-mode nil)
  '(vc-follow-symlinks t)
  '(web-mode-auto-close-style 2)
