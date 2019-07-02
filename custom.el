@@ -104,5 +104,6 @@
  '(company-tooltip-common ((t (:inherit font-lock-constant-face))))
  '(company-tooltip-selection ((t (:inherit font-lock-function-name-face))))
  '(js2-object-property ((t (:inherit default :foreground "gray"))))
- '(sml/folder ((t (:inherit sml/global :background "grey22" :foreground "white" :weight normal)))))
+ '(sml/filename ((t (:inherit sml/global :background "black" :foreground "gold"))))
+ )
 ;;; custom.el ends here
