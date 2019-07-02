@@ -651,8 +651,7 @@
     (company-statistics-mode))
 
   (use-package company-web
-    :straight t
-    :commands (company-web-bootstrap+ company-web-html))
+    :straight t)
 
   (use-package company-try-hard
     :straight t
