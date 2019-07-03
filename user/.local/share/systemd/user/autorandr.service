@@ -1,6 +1,5 @@
 [Unit]
-Description=Run autorandr
-Before=feh.service
+Description=Run autorandr at startup
 
 [Service]
 Type=oneshot
