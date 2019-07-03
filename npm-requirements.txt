@@ -1,0 +1,6 @@
+npm-check-updates
+tide
+prettier
+react
+vscode-html-languageserver-bin
+js-beautify
