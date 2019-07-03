@@ -1,7 +1,7 @@
 [Unit]
 Description=Rescuetime
 After=started.target polybar.service
-PartOf=graphical-session.target
+PartOf=graphical-session.target polybar.service
 
 [Service]
 ExecStart=/usr/bin/rescuetime
