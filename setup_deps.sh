@@ -50,6 +50,8 @@ necessary_packages=(
     qalculate-gtk
     lightdm-gtk-greeter
     lightdm
+    gthumb
+    google-chrome
 )
 
 wanted_packages=(
