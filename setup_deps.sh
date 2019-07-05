@@ -10,6 +10,9 @@ for installer in "${git_installers[@]}"; do
     curl -sL https://raw.githubusercontent.com/$installer | bash
 done
 
+# install pyenv-version-alias plugin
+git clone https://github.com/aiguofer/pyenv-version-alias $(pyenv root)/plugins/pyenv-version-alias
+
 # install pipx and python executables
 PYENV_VERSION=system pip3 install --user pipx
 

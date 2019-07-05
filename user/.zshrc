@@ -14,9 +14,9 @@
 # theme customizations
 export DEFAULT_USER=aiguofer
 export POWERLEVEL9K_MODE=nerdfont-complete
-export POWERLEVEL9K_LEFT_PROMPT_ELEMENTS=(status virtualenv context dir vcs)
+export POWERLEVEL9K_LEFT_PROMPT_ELEMENTS=(status pyenv context dir vcs)
 export POWERLEVEL9K_RIGHT_PROMPT_ELEMENTS=()
-export POWERLEVEL9K_VIRTUALENV_BACKGROUND='green'
+export POWERLEVEL9K_PYENV_BACKGROUND='yellow'
 export POWERLEVEL9K_STATUS_CROSS=true
 export POWERLEVEL9K_STATUS_OK=false
 export VIRTUAL_ENV_DISABLE_PROMPT=1
@@ -31,6 +31,20 @@ antibody bundle < ~/.zsh_plugins.txt
 
 # some of these must be loaded after the extension so these can't be in zshenv
 export ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE="fg=3"
+
+set_default POWERLEVEL9K_PYENV_PROMPT_ALWAYS_SHOW false
+prompt_pyenv() {
+  if [[ -n "$PYENV_VERSION" ]]; then
+    "$1_prompt_segment" "$0" "$2" "blue" "$DEFAULT_COLOR" "$PYENV_VERSION" 'PYTHON_ICON'
+  elif [ $commands[pyenv] ]; then
+    local pyenv_version_name="$(pyenv version-alias)"
+    local pyenv_global="global"
+    if [[ "${pyenv_version_name}" != "${pyenv_global}" || "${POWERLEVEL9K_PYENV_PROMPT_ALWAYS_SHOW}" == "true" ]]; then
+      "$1_prompt_segment" "$0" "$2" "blue" "$DEFAULT_COLOR" "$pyenv_version_name" 'PYTHON_ICON'
+    fi
+  fi
+}
+
 
 # custom functions
 pip_install_save() {
