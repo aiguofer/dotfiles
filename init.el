@@ -199,8 +199,7 @@
          (css-mode . setup-css-mode))
   :config
   (setq web-mode-engines-alist
-        '(("django"    . "segmentation.*\\.html")
-          ("django"    . "klink.*\\.html")
+        '(("django"    . "textmyjournal.*\\.html")
           ("ctemplate"  . "\\.template")
           ("angular"  . "tunecakes.*\\.ejs"))
         )
