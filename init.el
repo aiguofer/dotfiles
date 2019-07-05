@@ -493,6 +493,9 @@
 (use-package helm-rg
   :straight t)
 
+(use-package ripgrep
+  :straight t)
+
 (use-package company-quickhelp
   :straight t
   :config
