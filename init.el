@@ -120,8 +120,7 @@
 (use-package vmd-mode
   :straight t
   :commands (vmd-mode)
-  :init
-  (add-hook 'markdown-mode-hook 'vmd-mode))
+  :hook markdown-mode)
 
 (use-package coffee-mode
   :straight t)
@@ -156,8 +155,7 @@
 (use-package magit-filenotify
   :straight t
   :commands (magit-filenotify-mode)
-  :config
-  (add-hook 'magit-status-mode-hook 'magit-filenotify-mode))
+  :hook (magit-status-mode . magit-filenotify-mode))
 
 (use-package sudo-edit
   :straight t)
@@ -171,12 +169,11 @@
 (use-package js-doc
   :straight t
   :commands (js-doc-insert-function-doc js-doc-insert-tag)
-  :config
-  (add-hook 'js2-mode-hook
-            #'(lambda ()
-                (define-key js2-mode-map "\C-ci" 'js-doc-insert-function-doc)
-                (define-key js2-mode-map "@" 'js-doc-insert-tag)
-                )))
+  :bind
+  (:map js2-mode-map
+        ("C-ci" . js-doc-insert-function-doc)
+        ("@" . js-doc-insert-tag)
+        ))
 
 (use-package web-completion-data
   :straight t)
@@ -198,6 +195,8 @@
    ("\\.ejs" . web-mode)
    ("\\.html?$" . web-mode)
    ("\\.template?" . web-mode))
+  :hook ((web-mode . setup-web-mode)
+         (css-mode . setup-css-mode))
   :config
   (setq web-mode-engines-alist
         '(("django"    . "segmentation.*\\.html")
@@ -205,19 +204,15 @@
           ("ctemplate"  . "\\.template")
           ("angular"  . "tunecakes.*\\.ejs"))
         )
+  (defun setup-web-mode ()
+    (make-local-variable 'company-backends)
+    (add-to-list 'company-backends
+                 '(company-yasnippet))
+    (add-hook 'before-save-hook 'web-beautify-html-buffer t t)
+    )
 
-  (add-hook 'web-mode-hook
-            (lambda ()
-              (make-local-variable 'company-backends)
-              (add-to-list 'company-backends
-                           '(company-yasnippet))
-              (add-hook 'before-save-hook 'web-beautify-html-buffer t t)
-              ))
-
-
-  (add-hook 'css-mode-hook
-            (lambda ()
-              (add-hook 'before-save-hook 'prettier-js-mode t t))))
+  (defun setup-css-mode ()
+    (add-hook 'before-save-hook 'prettier-js-mode t t)))
 
 (use-package web-beautify
   :straight t
@@ -231,6 +226,7 @@
   :bind
   (("C-c C-2" . run-python2)
    ("C-c C-3" . run-python3))
+  :hook (inferior-python-mode . fix-python-password-entry)
   :config
 
   (use-package jupyter
@@ -259,10 +255,9 @@
   (add-to-list 'python-shell-completion-native-disabled-interpreters
                "jupyter")
 
-  (add-hook 'inferior-python-mode-hook
-            (lambda ()
-              (push
-               'comint-watch-for-password-prompt comint-output-filter-functions)))
+  (defun fix-python-password-entry ()
+    (push
+     'comint-watch-for-password-prompt comint-output-filter-functions))
 
   (defun run-python2 ()
     (interactive)
@@ -281,9 +276,9 @@
 
   (use-package pyenv
     :straight (:host github :repo "aiguofer/pyenv.el")
+    :hook (pyenv-mode . elpy-rpc-restart)
     :config
-    (global-pyenv-mode)
-    (add-hook 'pyenv-mode-hook 'elpy-rpc-restart))
+    (global-pyenv-mode))
 
   (use-package buftra
     :straight (:host github :repo "humitos/buftra.el"))
@@ -295,21 +290,19 @@
 
   (use-package py-isort
     :straight (:host github :repo "humitos/py-cmd-buffer.el")
+    :hook (python-mode . py-isort-enable-on-save)
     :config
-    (setq py-isort-options '("--lines=88" "-m=3" "-tc" "-fgw=0" "-ca"))
-    (add-hook 'python-mode-hook 'py-isort-enable-on-save)
-    )
+    (setq py-isort-options '("--lines=88" "-m=3" "-tc" "-fgw=0" "-ca")))
 
   (use-package blacken
     :straight t
+    :hook (python-mode . blacken-mode)
     :config
-    (setq blacken-line-length '88)
-    (add-hook 'python-mode-hook 'blacken-mode))
+    (setq blacken-line-length '88))
 
   (use-package python-docstring
     :straight t
-    :init
-    (add-hook 'python-mode-hook 'python-docstring-mode))
+    :hook (python-mode . python-docstring-mode))
 
   (use-package elpy
     :straight t
@@ -317,13 +310,11 @@
     (:map elpy-mode-map
           ("C-M-n" . elpy-nav-forward-block)
           ("C-M-p" . elpy-nav-backward-block))
+    :hook (elpy-mode . flycheck-mode)
     :init
     (elpy-enable)
     :config
-
-    (when (require 'flycheck nil t)
-      (setq elpy-modules (delq 'elpy-module-flymake elpy-modules))
-      (add-hook 'elpy-mode-hook 'flycheck-mode)))
+    (setq elpy-modules (delq 'elpy-module-flymake elpy-modules)))
 
   ;; (use-package lsp-mode
   ;;   :straight t
@@ -398,6 +389,7 @@
   (:map yas-minor-mode-map
         ("<tab>" . nil)
         ("TAB" . nil))
+  :hook (yas-before-expand-snippet . expand-for-web-mode)
   :config
   (yas-global-mode)
 
@@ -411,8 +403,6 @@
                ((equal web-lang "css")        '(css-mode))
                ((equal web-lang "javascript") '(javascript-mode))
                )))))
-
-  (add-hook 'yas-before-expand-snippet-hook 'expand-for-web-mode)
   )
 
 (use-package projectile
@@ -466,8 +456,7 @@
 
 (use-package rainbow-delimiters
   :straight t
-  :init
-  (add-hook 'prog-mode-hook 'rainbow-delimiters-mode)
+  :hook (prog-mode . rainbow-delimiters-mode)
   :config
   (show-paren-mode 1)
   (electric-pair-mode 1))
@@ -518,12 +507,13 @@
 
 (use-package simple
   :diminish visual-line-mode
+  :hook (before-save . delete-trailing-whitespace)
   :config
-  (global-visual-line-mode)
-  (add-hook 'before-save-hook 'delete-trailing-whitespace))
+  (global-visual-line-mode))
 
 (use-package linum-off
   :straight t
+  :hook (find-file . my-find-file-check-make-large-file-read-only-hook)
   :config
   (global-linum-mode 1)
 
@@ -531,9 +521,7 @@
     "If a file is over a given size, turn off nlinum and font-lock-mode."
     (if (> (buffer-size) (* 1024 1024))
         (progn (linum-mode -1)
-               (font-lock-mode -1))))
-
-  (add-hook 'find-file-hook 'my-find-file-check-make-large-file-read-only-hook))
+               (font-lock-mode -1)))))
 
 (use-package smart-mode-line-powerline-theme
   :straight t
@@ -560,7 +548,7 @@
 
 (use-package tide
   :straight t
-  :hook ((js-mode js2-mode inferior-js-mode typescript-mode) . #'setup-tide-mode)
+  :hook ((js-mode js2-mode inferior-js-mode typescript-mode) . setup-tide-mode)
   :config
   (defun setup-tide-mode ()
     "Set up Tide mode."
@@ -591,18 +579,20 @@
   )
 
 (use-package cc-mode
+  :hook ((c-initialization . make-CR-do-indent)
+         (c-mode-common . c-mode-common-hook))
   :config
   (defun make-CR-do-indent ()
     (define-key c-mode-base-map "\C-m" 'c-context-line-break))
 
-  (add-hook 'c-initialization-hook 'make-CR-do-indent)
-
   (defun c-mode-common-hook ()
     (c-toggle-auto-hungry-state 1))
+  )
 
-  (add-hook 'c-mode-common-hook 'c-mode-common-hook))
 
 (use-package minibuffer
+  :hook   ((minibuffer-setup-hook . my-minibuffer-setup-hook)
+           (minibuffer-exit-hook . my-minibuffer-exit-hook))
   :config
   ;; lower garbage collect thresholds in minibuffer
   ;; see http://bling.github.io/blog/2016/01/18/why-are-you-changing-gc-cons-threshold/
@@ -611,9 +601,7 @@
 
   (defun my-minibuffer-exit-hook ()
     (setq gc-cons-threshold 800000))
-
-  (add-hook 'minibuffer-setup-hook #'my-minibuffer-setup-hook)
-  (add-hook 'minibuffer-exit-hook #'my-minibuffer-exit-hook))
+)
 
 (use-package ibuffer
   :bind (([remap list-buffers] . ibuffer))
@@ -680,8 +668,7 @@
 
 (use-package switch-buffer-functions
   :straight t
-  :config
-  (add-hook 'switch-buffer-functions 'pyenv-update-on-buffer-switch))
+  :hook (switch-buffer-functions . pyenv-update-on-buffer-switch))
 
 
 (use-package smart-jump
