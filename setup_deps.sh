@@ -38,8 +38,8 @@ necessary_packages=(
     terminator
     redshift-gtk
     insync
-    insync-nautilus
-    nautilus
+    insync-nemo
+    nemo
     google-play-music-desktop-player
     xbacklight # https://gitlab.com/wavexx/acpilight
     feh

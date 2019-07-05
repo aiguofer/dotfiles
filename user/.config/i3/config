@@ -210,7 +210,7 @@ bindsym $mod+Ctrl+l exec lock_screen
 bindsym $mod+Ctrl+t exec terminator
 bindsym $mod+Ctrl+e exec editor
 bindsym $mod+Ctrl+i exec google-chrome
-bindsym $mod+Ctrl+f exec nautilus
+bindsym $mod+Ctrl+f exec nemo
 bindsym $mod+Ctrl+u exec songliker
 bindsym $mod+Ctrl+n exec todoist_task
 
