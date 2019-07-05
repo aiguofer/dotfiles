@@ -140,23 +140,12 @@
   :straight t)
 
 (use-package json-mode
-  :straight t
-  :mode "\\.json\\'")
+  :straight t)
 
 (use-package js2-mode
   :straight t
   :mode "\\.js\\'"
   :interpreter "node")
-
-(use-package json-snatcher
-  :straight t
-  :config
-  (defun js-mode-bindings ()
-    "Sets a hotkey for using the json-snatcher plugin"
-    (when (string-match  "\\.json$" (buffer-name))
-      (local-set-key (kbd "C-c C-g") 'jsons-print-path)))
-  (add-hook 'js-mode-hook 'js-mode-bindings)
-  (add-hook 'js2-mode-hook 'js-mode-bindings))
 
 (use-package magit
   :straight t
