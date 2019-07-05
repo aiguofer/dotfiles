@@ -146,19 +146,7 @@
 (use-package js2-mode
   :straight t
   :mode "\\.js\\'"
-  :interpreter "node"
-  :config
-  (dolist (hook '(js-mode-hook
-                  js2-mode-hook
-                  inferior-js-mode-hook))
-    (add-hook hook
-              (lambda ()
-                (tide-mode)
-
-                (add-to-list (make-local-variable 'company-backends)
-                             '(company-tide company-yasnippet))
-                )))
-  )
+  :interpreter "node")
 
 (use-package json-snatcher
   :straight t
@@ -204,12 +192,6 @@
 (use-package web-completion-data
   :straight t)
 
-;; (use-package ac-html-bootstrap
-;;   :straight t)
-
-(use-package ac-html-csswatcher
-  :straight t)
-
 (use-package django-mode
   :straight t
   :mode
@@ -246,13 +228,15 @@
 
   (add-hook 'css-mode-hook
             (lambda ()
-              (add-hook 'before-save-hook 'web-beautify-css-buffer t t)
-              ))
-  )
+              (add-hook 'before-save-hook 'prettier-js-mode t t))))
 
 (use-package web-beautify
   :straight t
-  :commands (web-beautify-css-buffer web-beautify-html-buffer web-beautify-js-buffer))
+  :commands (web-beautify-html-buffer))
+
+(use-package prettier-js
+  :straight t
+  :hook (json-mode js-mode js2-mode inferior-js-mode))
 
 (use-package python
   :bind
@@ -584,6 +568,7 @@
 
 (use-package tide
   :straight t
+  :hook ((js-mode js2-mode inferior-js-mode typescript-mode) . #'setup-tide-mode)
   :config
   (defun setup-tide-mode ()
     "Set up Tide mode."
@@ -593,12 +578,13 @@
     (setq flycheck-check-syntax-automatically '(save-mode-enabled))
     (eldoc-mode +1)
     (tide-hl-identifier-mode +1)
-    (company-mode +1))
+    (company-mode +1)
+    (add-to-list (make-local-variable 'company-backends)
+               '(company-tide company-yasnippet)))
+
 
   (setq company-tooltip-align-annotations t)
   (add-hook 'before-save-hook 'tide-format-before-save)
-  (add-hook 'js2-mode-hook #'setup-tide-mode)
-  (add-hook 'typescript-mode-hook #'setup-tide-mode)
 
   ;; Enable JavaScript completion between <script>...</script> etc.
   (defadvice company-tide (before web-mode-set-up-ac-sources activate)
