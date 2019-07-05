@@ -102,7 +102,7 @@ workspace $ws9 output "DP-1-1"
 
 # set rules for windows
 for_window [title="Eddie.*"] floating enable
-for_window [title="Calculator"] floating enable
+for_window [class="Qalculate-gtk"] floating enable
 for_window [title="Control Panel" class="(?i)upwork"] floating enable, move container to workspace $ws1, sticky enable
 for_window [class="(?i)google play music desktop player"] move container to workspace $ws10
 # for_window [class="polybar"]
@@ -202,7 +202,7 @@ bindsym XF86AudioPrev exec playerctl previous
 bindsym Ctrl+$alt+space exec playerctl play-pause
 
 # Other controls
-bindsym XF86Calculator exec gnome-calculator
+bindsym XF86Calculator exec qalculate-gtk
 bindsym $mod+Ctrl+h exec switch_headset
 bindsym $mod+Ctrl+l exec lock_screen
 

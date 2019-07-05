@@ -47,6 +47,7 @@ necessary_packages=(
     earlyoom # prevent system from locking up due to OOM
     pasystray
     nm-applet
+    qalculate-gtk
 )
 
 wanted_packages=(
