@@ -48,6 +48,8 @@ necessary_packages=(
     pasystray
     nm-applet
     qalculate-gtk
+    lightdm-gtk-greeter
+    lightdm
 )
 
 wanted_packages=(
