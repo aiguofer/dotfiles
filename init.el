@@ -239,11 +239,8 @@
             (lambda ()
               (make-local-variable 'company-backends)
               (add-to-list 'company-backends
-                           '(company-nxml company-web-html company-tide
-                                          company-yasnippet company-css))
-              (company-web-bootstrap+)
+                           '(company-yasnippet))
               (add-hook 'before-save-hook 'web-beautify-html-buffer t t)
-              ;; (add-hook 'after-save-hook 'web-mode-reload t t)
               ))
 
 
@@ -353,13 +350,7 @@
 
     (when (require 'flycheck nil t)
       (setq elpy-modules (delq 'elpy-module-flymake elpy-modules))
-      (add-hook 'elpy-mode-hook 'flycheck-mode))
-
-    (add-hook 'python-mode-hook
-              (lambda ()
-                (add-to-list (make-local-variable 'company-backends)
-                             '(elpy-company-backend))))
-    )
+      (add-hook 'elpy-mode-hook 'flycheck-mode)))
 
   ;; (use-package lsp-mode
   ;;   :straight t

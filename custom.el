@@ -13,10 +13,6 @@
      (awk-mode . "awk")
      (other . "linux"))))
  '(clean-buffer-list-delay-general 1)
- '(company-backends
-   (quote
-    ((company-yasnippet company-web-jade company-web-html company-tide company-semantic company-bbdb company-nxml company-css company-eclim company-clang company-xcode company-cmake company-dabbrev-code company-gtags company-etags)
-     company-files company-capf company-oddmuse company-dabbrev)))
  '(company-dabbrev-downcase nil)
  '(company-dabbrev-ignore-case nil)
  '(company-idle-delay 0.5)
