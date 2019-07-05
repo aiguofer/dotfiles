@@ -211,6 +211,7 @@ bindsym $mod+Ctrl+t exec terminator
 bindsym $mod+Ctrl+e exec editor
 bindsym $mod+Ctrl+i exec google-chrome
 bindsym $mod+Ctrl+m exec raiseplayer
+bindsym $mod+Ctrl+f exec nautilus
 bindsym $mod+Ctrl+u exec songliker
 bindsym $mod+Ctrl+n exec todoist_task
 
