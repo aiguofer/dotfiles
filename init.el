@@ -675,4 +675,8 @@
   :config
   (smart-jump-setup-default-registers))
 
+(use-package docker
+  :straight t
+  :bind ("C-c d" . docker))
+
 ;;; init.el ends here
