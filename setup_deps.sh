@@ -33,8 +33,10 @@ necessary_packages=(
     polybar
     shutter
     silver-searcher # ag
+    ripgrep
     autorandr
     arandr
+    automirror # https://github.com/schlomo/automirror/
     playerctl
     dunst
     tmux
@@ -55,6 +57,7 @@ necessary_packages=(
     lightdm
     gthumb
     google-chrome
+    zathura
 )
 
 wanted_packages=(

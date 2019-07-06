@@ -202,6 +202,8 @@ bindsym XF86AudioPrev exec playerctl previous
 bindsym Ctrl+$alt+space exec playerctl play-pause
 
 # Other controls
+bindsym XF86Display exec automirror -i
+bindsym $mod+Ctrl+p exec automirror -i
 bindsym XF86Calculator exec qalculate-gtk
 bindsym $mod+Ctrl+h exec switch_headset
 bindsym $mod+Ctrl+l exec lock_screen
