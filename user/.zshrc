@@ -20,7 +20,7 @@ export POWERLEVEL9K_PYENV_BACKGROUND='yellow'
 export POWERLEVEL9K_STATUS_CROSS=true
 export POWERLEVEL9K_STATUS_OK=false
 export VIRTUAL_ENV_DISABLE_PROMPT=1
-export TERM=xterm-256color
+export TERM=screen-24bit
 
 export NVM_LAZY_LOAD=true
 export NVM_AUTO_USE=true
