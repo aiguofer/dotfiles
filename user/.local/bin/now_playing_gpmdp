@@ -5,10 +5,15 @@ import json
 import signal
 import subprocess
 import sys
-from pathlib import Path
 from time import sleep
 
 import websocket
+
+try:
+    from pathlib import Path
+except:
+    from pathlib2 import Path
+
 
 # TODO: change these to args?
 MAX_LEN = 60
