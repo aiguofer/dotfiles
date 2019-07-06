@@ -1,7 +1,11 @@
 #!/bin/bash
 
-SOCKET=$(lsof -c emacs | grep $USER | grep server | grep STREAM | awk '{print $9}' | sort | uniq)
+if [ -z "$(pgrep emacs)" ]; then
+    systemctl --user start emacs
+    sleep 10
+fi
 
+SOCKET=$(lsof -c emacs | grep $USER | grep server | grep STREAM | awk '{print $9}' | sort | uniq)
 PARAMS="--socket-name=$SOCKET"
 
 if [[ $TMUX || $SSH_CLIENT ]]
