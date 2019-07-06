@@ -1,3 +1,5 @@
+;;; -*- lexical-binding: t; -*-
+
 ;; .emacs --- My emacs config
 ;;; Commentary:
 ;;; Code:
@@ -522,9 +524,24 @@
         (progn (linum-mode -1)
                (font-lock-mode -1)))))
 
+(use-package nord-theme
+  :straight t
+  :config
+  ;; fix from https://github.com/arcticicestudio/nord-emacs/issues/59#issuecomment-414882071
+  ;; hopefully won't need this forever
+  (if (daemonp)
+      (cl-labels ((load-nord (frame)
+                             (with-selected-frame frame
+                               (load-theme 'nord t))
+                             (remove-hook
+                              'after-make-frame-functions
+                              #'load-nord)))
+        (add-hook 'after-make-frame-functions #'load-nord))
+    (load-theme 'nord t)))
+
 (use-package smart-mode-line-powerline-theme
   :straight t
-  :after (arc-dark-theme)
+  :after (nord-theme)
   :init
   (setq sml/mule-info nil)
   (setq sml/no-confirm-load-theme t)
@@ -533,17 +550,10 @@
   (sml/setup)
   (powerline-default-theme)
 
-
   (add-to-list 'sml/replacer-regexp-list
                '("^~/.pyenv/versions/\\([a-zA-Z0-9_-]+\\)/"
                  (lambda (s) (concat ":PE:" (match-string 1 s) ":")))
-               t)
-  )
-
-(use-package arc-dark-theme
-  :straight (:host github :repo "cfraz89/arc-dark-theme")
-  :config
-  (load-theme 'arc-dark t))
+               t))
 
 (use-package tide
   :straight t
