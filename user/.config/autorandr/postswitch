@@ -4,5 +4,6 @@
 systemctl --user --no-block restart compton
 # makes sure backgrounds are updated to match number of monitors
 systemctl --user --no-block restart set_wallpaper
-# fixes rescuetime icon dissapearing when switching
-systemctl --user --no-block restart rescuetime
+# make sure polybar gets moved to the right desktop
+# also makes sure rescuetime doesn't dissapear
+systemctl --user --no-block restart polybar
