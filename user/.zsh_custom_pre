@@ -1,0 +1,14 @@
+# variables and functions to customize ZSH plugins
+# these will get executed BEFORE plugins are loaded
+export DEFAULT_USER=aiguofer
+export POWERLEVEL9K_MODE=nerdfont-complete
+export POWERLEVEL9K_LEFT_PROMPT_ELEMENTS=(status pyenv context dir vcs)
+export POWERLEVEL9K_RIGHT_PROMPT_ELEMENTS=()
+export POWERLEVEL9K_STATUS_CROSS=true
+export POWERLEVEL9K_STATUS_OK=false
+export POWERLEVEL9K_PYENV_BACKGROUND='yellow'
+export POWERLEVEL9K_PYENV_PROMPT_ALWAYS_SHOW false
+export VIRTUAL_ENV_DISABLE_PROMPT=1
+
+export NVM_LAZY_LOAD=true
+export NVM_AUTO_USE=true

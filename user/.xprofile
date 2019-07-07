@@ -1,0 +1,4 @@
+# set up environment for X sessions; only called once on login
+
+source $HOME/.load_language_envs
+source $HOME/.env_common

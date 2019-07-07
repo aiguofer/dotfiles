@@ -1,0 +1,17 @@
+# variables and functions to customize ZSH plugins
+# these will get executed AFTER plugins are loaded
+
+export ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE="fg=3"
+
+# override to leverage pyenv version-alias
+prompt_pyenv() {
+  if [[ -n "$PYENV_VERSION" ]]; then
+    "$1_prompt_segment" "$0" "$2" "blue" "$DEFAULT_COLOR" "$PYENV_VERSION" 'PYTHON_ICON'
+  elif [ $commands[pyenv] ]; then
+    local pyenv_version_name="$(pyenv version-alias)"
+    local pyenv_global="global"
+    if [[ "${pyenv_version_name}" != "${pyenv_global}" || "${POWERLEVEL9K_PYENV_PROMPT_ALWAYS_SHOW}" == "true" ]]; then
+      "$1_prompt_segment" "$0" "$2" "blue" "$DEFAULT_COLOR" "$pyenv_version_name" 'PYTHON_ICON'
+    fi
+  fi
+}
