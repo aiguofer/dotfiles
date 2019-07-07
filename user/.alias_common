@@ -14,7 +14,6 @@ alias chown='chown --preserve-root'
 alias chmod='chmod --preserve-root'
 alias chgrp='chgrp --preserve-root'
 
-alias free='free -lth'
 
 ## get top process eating memory
 alias psmem='ps auxf | sort -nr -k 4'
@@ -24,10 +23,32 @@ alias psmem10='ps auxf | sort -nr -k 4 | head -10'
 alias pscpu='ps auxf | sort -nr -k 3'
 alias pscpu10='ps auxf | sort -nr -k 3 | head -10'
 
-alias psgrep='ps -ef | grep'
+alias _='sudo'
+alias b='${(z)BROWSER}'
+
+alias diffu="diff --unified"
+alias e='${EDITOR}'
+alias E='${SUDO_EDITOR}'
+alias p='${PAGER}'
+alias po='popd'
+alias pu='pushd'
+alias sa='alias | grep -i'
+alias type='type -a'
 
 alias wget='wget -c'
 
-alias E='${(z)SUDO_EDITOR}'
+alias l='ls -1A'         # Lists in one column, hidden files.
+alias ll='ls -lh'        # Lists human readable sizes.
+alias lr='ll -R'         # Lists human readable sizes, recursively.
+alias la='ll -A'         # Lists human readable sizes, hidden files.
+alias lm='la | "$PAGER"' # Lists human readable sizes, hidden files through pager.
+alias lx='ll -XB'        # Lists sorted by extension (GNU only).
+alias lk='ll -Sr'        # Lists sorted by size, largest last.
+alias lt='ll -tr'        # Lists sorted by date, most recent last.
+alias lc='lt -c'         # Lists sorted by date, most recent last, shows change time.
+alias lu='lt -u'         # Lists sorted by date, most recent last, shows access time.
+alias sl='ls'            # I often screw this up.
 
-alias ag='ag -u'
+alias df='df -kh'
+alias du='du -kh'
+alias free='free -lth'
