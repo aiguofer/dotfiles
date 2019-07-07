@@ -58,6 +58,7 @@ necessary_packages=(
     gthumb
     google-chrome
     zathura
+    fzy
 )
 
 wanted_packages=(
