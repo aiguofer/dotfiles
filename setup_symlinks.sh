@@ -3,7 +3,7 @@
 array_contains () {
     local e match="$1"
     shift
-    for e; do [[ "$match" =~ "$e" ]] && return 0; done
+    for e; do [[ "$match" =~ "$e/" ]] && return 0; done
     return 1
 }
 
@@ -24,7 +24,7 @@ for dir in "${user_dirs[@]}"; do
 done
 
 echo "Symlinking user files"
-user_files=$(find user -type f)
+user_files=$(find user -type f,l)
 
 for file in $user_files; do
     # skip files in the symlinked directories
@@ -38,7 +38,7 @@ done
 echo
 
 echo "Symlinking system files"
-system_files=$(find system -type f)
+system_files=$(find system -type f,l)
 
 for file in $system_files; do
     dest_file=${file/"system"/}
