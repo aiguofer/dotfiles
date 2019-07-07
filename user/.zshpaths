@@ -14,7 +14,7 @@ cdpath=(
 
 # Set the list of directories that Zsh searches for functions.
 fpath=(
-    ~/.zsh/completions
+    $HOME/.zsh/completions
     $fpath
 )
 

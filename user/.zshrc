@@ -9,6 +9,8 @@ source $HOME/.functions_common
 
 source $HOME/.zsh_custom_pre
 
+fpath=($HOME/.zsh/completions $fpath)
+
 # load antibody plugins
 source <(antibody init)
 antibody bundle < ~/.zsh_plugins.txt
@@ -27,7 +29,6 @@ source $HOME/.zshpaths
 
 # make sure autocompletions are loaded correctly
 autoload -Uz bashcompinit && bashcompinit
-autoload -Uz compinit && compinit
 
 # uncomment below to figure out bottlenecks
 # zprof
