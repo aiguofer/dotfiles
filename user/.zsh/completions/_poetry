@@ -42,7 +42,7 @@ _poetry_fb7de277048019ed_complete()
             ;;
 
             (cache:clear)
-            opts+=("--all:Clear all caches.")
+            opts+=("--all:Clear all entries in cache.")
             ;;
 
             (check)
