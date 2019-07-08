@@ -15,4 +15,9 @@ else
     PARAMS+=" -c"
 fi
 
-exec  /usr/bin/emacsclient $PARAMS $@
+# true color support https://github.com/syl20bnr/spacemacs/wiki/Terminal
+if infocmp xterm-24bit &> /dev/null; then
+    TERM=xterm-24bit
+fi
+
+exec /usr/bin/emacsclient $PARAMS $@
