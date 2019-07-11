@@ -24,7 +24,7 @@ for dir in "${user_dirs[@]}"; do
 done
 
 echo "Symlinking user files"
-user_files=$(find user -type f,l)
+user_files=$(find user \( -type f -o -type l \))
 
 for file in $user_files; do
     # skip files in the symlinked directories
@@ -38,7 +38,7 @@ done
 echo
 
 echo "Symlinking system files"
-system_files=$(find system -type f,l)
+system_files=$(find system \( -type f -o -type l \))
 
 for file in $system_files; do
     dest_file=${file/"system"/}
