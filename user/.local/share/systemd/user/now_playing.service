@@ -4,6 +4,7 @@ After=polybar.service
 PartOf=i3.target polybar.service
 
 [Service]
+Restart=always
 ExecStart=/bin/bash -c now_playing_gpmdp
 
 [Install]
