@@ -2,7 +2,10 @@
 
 if [ -z "$(pgrep emacs)" ]; then
     systemctl --user start emacs
-    sleep 10
+    while ! systemctl --user status emacs | grep "Starting Emacs daemon." &>/dev/null
+    do
+        sleep 0.5
+    done
 fi
 
 SOCKET=$(lsof -c emacs | grep $USER | grep server | grep STREAM | awk '{print $9}' | sort | uniq)
