@@ -277,9 +277,16 @@
 
   (use-package pyenv
     :straight (:host github :repo "aiguofer/pyenv.el")
-    :hook (pyenv-mode . elpy-rpc-restart)
     :config
-    (global-pyenv-mode))
+    (setq pyenv-use-alias 't)
+    (setq pyenv-modestring-prefix " ")
+    (setq pyenv-modestring-postfix nil)
+
+    (global-pyenv-mode)
+    (defun pyenv-update-on-buffer-switch (prev curr)
+      (if (string-equal "Python" (format-mode-line mode-name nil nil curr))
+          (pyenv-use-corresponding)))
+    (add-hook 'switch-buffer-functions 'pyenv-update-on-buffer-switch))
 
   (use-package buftra
     :straight (:host github :repo "humitos/buftra.el"))
@@ -311,7 +318,8 @@
     (:map elpy-mode-map
           ("C-M-n" . elpy-nav-forward-block)
           ("C-M-p" . elpy-nav-backward-block))
-    :hook (elpy-mode . flycheck-mode)
+    :hook ((elpy-mode . flycheck-mode)
+           (pyenv-mode . elpy-rpc-restart))
     :init
     (elpy-enable)
     :config
@@ -676,8 +684,7 @@
 
 
 (use-package switch-buffer-functions
-  :straight t
-  :hook (switch-buffer-functions . pyenv-update-on-buffer-switch))
+  :straight t)
 
 
 (use-package smart-jump
