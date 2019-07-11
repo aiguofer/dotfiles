@@ -1,0 +1,59 @@
+# Zathura configuration file
+# See man `man zathurarc'
+
+# Open document in fit-width mode by default
+set adjust-open "best-fit"
+
+# One page per row by default
+set pages-per-row 1
+
+#stop at page boundries
+set scroll-page-aware "true"
+set smooth-scroll "true"
+set scroll-full-overlap 0.01
+set scroll-step 100
+
+#zoom settings
+set zoom-min 10
+set guioptions ""
+
+# copy to clipboard
+set selection-clipboard clipboard
+
+set render-loading "false"
+set scroll-step 50
+unmap f
+map f toggle_fullscreen
+map [fullscreen] f toggle_fullscreen
+
+# ijkl navigation
+map i scroll up
+map j scroll left
+map k scroll down
+map l scroll right
+
+# emacs navigation
+map <C-p> scroll up
+map <C-b> scroll left
+map <C-n> scroll down
+map <C-f> scroll right
+map <A-v> scroll full-up
+map <C-a> scroll full-left
+map <C-e> scroll full-right
+map <C-v> scroll full-down
+map <A-\<> goto top
+map <A-\>> goto bottom
+
+# emacs exit
+map <C-g> abort
+
+# emacs search
+map <C-s> search next
+
+
+# Color settings
+include                     "themes/nord"
+
+# Status bar
+set font                    "Hack Nerd Font 12"
+set statusbar-basename      "true"

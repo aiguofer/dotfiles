@@ -209,7 +209,7 @@ bindsym $mod+Ctrl+h exec switch_headset
 bindsym $mod+Ctrl+l exec lock_screen
 
 # app key shortcuts
-bindsym $mod+Ctrl+t exec terminator
+bindsym $mod+Ctrl+t exec alacritty -e tmux attach -t base || tmux new -s base
 bindsym $mod+Ctrl+e exec editor
 bindsym $mod+Ctrl+i exec google-chrome
 bindsym $mod+Ctrl+f exec nemo

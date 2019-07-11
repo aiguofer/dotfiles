@@ -1,0 +1,16 @@
+# Color settings (Nord)
+set default-bg              "#2e3440"
+set default-fg              "#d8dee9"
+
+set statusbar-bg            "#2e3440"
+set statusbar-fg            "#d8dee9"
+
+set notification-bg         "#4c566a"
+set notification-fg         "#d8dee9"
+
+set recolor-lightcolor      "#2e3440"
+set recolor-darkcolor       "#d8dee9"
+
+# Default recolor settings for theme
+set recolor                 "true"
+set recolor-reverse-video   "true"
