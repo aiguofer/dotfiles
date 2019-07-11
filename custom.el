@@ -84,6 +84,5 @@
  '(company-tooltip-selection ((t (:inherit font-lock-function-name-face))))
  '(js2-object-property ((t (:inherit default :foreground "gray"))))
  '(pyenv-active-python-face ((t (:foreground "goldenrod" :weight bold))))
- '(sml/filename ((t (:inherit sml/global :background "black" :foreground "gold"))))
- )
+ '(sml/filename ((t (:inherit sml/global :background "black" :foreground "gold")))))
 ;;; custom.el ends here
