@@ -3,15 +3,11 @@
 
 export ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE="fg=3"
 
-# override to leverage pyenv version-alias
+# override powerlevel10k
 prompt_pyenv() {
-  if [[ -n "$PYENV_VERSION" ]]; then
-    "$1_prompt_segment" "$0" "$2" "blue" "$DEFAULT_COLOR" "$PYENV_VERSION" 'PYTHON_ICON'
-  elif [ $commands[pyenv] ]; then
-    local pyenv_version_name="$(pyenv version-alias)"
-    local pyenv_global="global"
-    if [[ "${pyenv_version_name}" != "${pyenv_global}" || "${POWERLEVEL9K_PYENV_PROMPT_ALWAYS_SHOW}" == "true" ]]; then
-      "$1_prompt_segment" "$0" "$2" "blue" "$DEFAULT_COLOR" "$pyenv_version_name" 'PYTHON_ICON'
+    local v=$(pyenv version-alias)
+
+    if [[ "${v}" != "global" || "${POWERLEVEL9K_PYENV_PROMPT_ALWAYS_SHOW}" == "true" ]]; then
+        "$1_prompt_segment" "$0" "$2" "blue" "$DEFAULT_COLOR" 'PYTHON_ICON' 0 '' "${v//\%/%%}"
     fi
-  fi
 }
