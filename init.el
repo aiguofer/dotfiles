@@ -535,6 +535,8 @@
 (use-package nord-theme
   :straight t
   :config
+  (setq nord-region-highlight "frost")
+
   ;; fix from https://github.com/arcticicestudio/nord-emacs/issues/59#issuecomment-414882071
   ;; hopefully won't need this forever
   (if (daemonp)
