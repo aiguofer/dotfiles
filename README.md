@@ -25,7 +25,7 @@ pip install -U jedi flake8 importmagic autopep8 yapf elpy
 Install javascript dependencies
 
 ```bash
-sudo npm install -g tern js-beautify vmd eslint eslint-plugin-angular
+npm install -g tide prettier js-beautify vmd eslint eslint-plugin-angular
 ```
 
 Install necessary external tools
