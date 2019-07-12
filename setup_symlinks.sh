@@ -12,6 +12,7 @@ echo "Symlinking user dirs"
 user_dirs=(
     user/.local/share/systemd
     user/.zsh
+    user/.emacs.d
 )
 
 for dir in "${user_dirs[@]}"; do
