@@ -381,6 +381,37 @@
   )
 
 
+(use-package lsp-mode
+  :straight t
+  :config
+
+  ;; make sure we have lsp-imenu everywhere we have LSP
+  (require 'lsp-clients)
+  (add-hook 'lsp-after-open-hook 'lsp-enable-imenu)
+
+
+  ;; lsp extras
+  (use-package lsp-ui
+    :straight t
+    :hook lsp-mode
+    :config
+    (setq lsp-ui-sideline-ignore-duplicate t)
+
+    (define-key lsp-ui-mode-map [remap xref-find-definitions]
+      #'lsp-ui-peek-find-definitions)
+    (define-key lsp-ui-mode-map [remap xref-find-references]
+      #'lsp-ui-peek-find-references))
+
+  (use-package company-lsp
+    :straight t
+    :config
+    (add-hook 'web-mode-hook
+              (lambda ()
+                (add-to-list (make-local-variable 'company-backends)
+                             '(company-lsp))))
+    ))
+
+
 (use-package session
   :straight t
   :init
