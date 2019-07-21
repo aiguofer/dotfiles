@@ -180,10 +180,10 @@
 (use-package web-completion-data
   :straight t)
 
-(use-package django-mode
-  :straight t
-  :mode
-  (("\\.djhtml$" . django-html-mode)))
+;; (use-package django-mode
+;;   :straight t
+;;   :mode
+;;   (("\\.djhtml$" . django-html-mode)))
 
 (use-package web-mode
   :straight t
@@ -329,6 +329,8 @@
     :config
     (setq elpy-modules (delq 'elpy-module-flymake elpy-modules)))
 
+  (use-package djangonaut
+    :straight t)
 
 
   )
