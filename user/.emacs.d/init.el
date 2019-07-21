@@ -330,8 +330,9 @@
     (setq elpy-modules (delq 'elpy-module-flymake elpy-modules)))
 
   (use-package djangonaut
-    :straight t)
-
+    :straight t
+    :config
+    (setq pythonic-interpreter "python"))
 
   )
 
