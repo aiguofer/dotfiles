@@ -1,4 +1,2 @@
-jupyter;python_version>="3.6"
-elpy
 websocket-client
 todoist-python

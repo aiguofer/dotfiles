@@ -224,9 +224,6 @@
   :hook (json-mode js-mode js2-mode inferior-js-mode))
 
 (use-package python
-  :bind
-  (("C-c C-2" . run-python2)
-   ("C-c C-3" . run-python3))
   :hook (inferior-python-mode . fix-python-password-entry)
   :config
 
@@ -260,20 +257,14 @@
     (push
      'comint-watch-for-password-prompt comint-output-filter-functions))
 
-  (defun run-python2 ()
-    (interactive)
-    "Run IPython with Python 2."
-    (let ((python-shell-buffer-name "Python 2")
-          (python-shell-interpreter-args "--simple-prompt --kernel=python2"))
-      (run-python nil nil t)))
+  (defun my-setup-python (orig-fun &rest args)
+    "Use corresponding kernel"
+    (let* ((curr-python (car (split-string (pyenv/version-name) ":")))
+           (python-shell-buffer-name (concat "Python-" curr-python))
+           (python-shell-interpreter-args (concat "--simple-prompt --kernel=" curr-python)))
+      (apply orig-fun args)))
 
-  (defun run-python3 ()
-    "Run IPython with Python 3."
-    (interactive)
-    (let ((python-shell-buffer-name "Python 3")
-          (python-shell-interpreter-args "--simple-prompt --kernel=python3")
-          )
-      (run-python nil nil t)))
+  (advice-add 'python-shell-get-process-name :around #'my-setup-python)
 
   (use-package pyenv
     :straight (:host github :repo "aiguofer/pyenv.el")
@@ -281,6 +272,7 @@
     (setq pyenv-use-alias 't)
     (setq pyenv-modestring-prefix " ")
     (setq pyenv-modestring-postfix nil)
+    (setq pyenv-set-path nil)
 
     (global-pyenv-mode)
     (defun pyenv-update-on-buffer-switch (prev curr)
@@ -301,6 +293,18 @@
     :hook (python-mode . py-isort-enable-on-save)
     :config
     (setq py-isort-options '("--lines=88" "-m=3" "-tc" "-fgw=0" "-ca")))
+
+  (use-package py-autoflake
+    :straight (:host github :repo "humitos/py-cmd-buffer.el")
+    :hook (python-mode . py-autoflake-enable-on-save)
+    :config
+    (setq py-autoflake-options '("--remove-all-unused-imports" "--expand-star-imports")))
+
+  (use-package py-docformatter
+    :straight (:host github :repo "humitos/py-cmd-buffer.el")
+    :hook (python-mode . py-docformatter-enable-on-save)
+    :config
+    (setq py-docformatter-options '("--wrap-summaries=88" "--pre-summary-newline")))
 
   (use-package blacken
     :straight t
@@ -325,59 +329,8 @@
     :config
     (setq elpy-modules (delq 'elpy-module-flymake elpy-modules)))
 
-  ;; (use-package lsp-mode
-  ;;   :straight t
-  ;;   :config
 
-  ;;   ;; make sure we have lsp-imenu everywhere we have LSP
-  ;;   (require 'lsp-imenu)
-  ;;   (add-hook 'lsp-after-open-hook 'lsp-enable-imenu)
 
-  ;;   ;; get lsp-python-enable defined
-  ;;   ;; NB: use either projectile-project-root or ffip-get-project-root-directory
-  ;;   ;;     or any other function that can be used to find the root directory of a project
-  ;;   (lsp-define-stdio-client lsp-python "python"
-  ;;                            #'projectile-project-root
-  ;;                            '("pyls"))
-
-  ;;   ;; make sure this is activated when python-mode is activated
-  ;;   ;; lsp-python-enable is created by macro above
-  ;;   (add-hook 'python-mode-hook
-  ;;             (lambda ()
-  ;;               (lsp-python-enable)))
-
-  ;;   ;; lsp extras
-  ;;   (use-package lsp-ui
-  ;;     :straight t
-  ;;     :config
-  ;;     (setq lsp-ui-sideline-ignore-duplicate t)
-  ;;     (add-hook 'lsp-mode-hook 'lsp-ui-mode)
-  ;;     (define-key lsp-ui-mode-map [remap xref-find-definitions]
-  ;;       #'lsp-ui-peek-find-definitions)
-  ;;     (define-key lsp-ui-mode-map [remap xref-find-references]
-  ;;       #'lsp-ui-peek-find-references))
-
-  ;;   (use-package company-lsp
-  ;;     :straight t
-  ;;     :config
-  ;;     (add-hook 'python-mode-hook
-  ;;               (lambda ()
-  ;;                 (add-to-list (make-local-variable 'company-backends)
-  ;;                              '(company-lsp))))
-  ;;     )
-
-  ;;   ;; NB: only required if you prefer flake8 instead of the default
-  ;;   ;; send pyls config via lsp-after-initialize-hook -- harmless for
-  ;;   ;; other servers due to pyls key, but would prefer only sending this
-  ;;   ;; when pyls gets initialised (:initialize function in
-  ;;   ;; lsp-define-stdio-client is invoked too early (before server
-  ;;   ;; start)) -- cpbotha
-  ;;   (defun lsp-set-cfg ()
-  ;;     (let ((lsp-cfg `(:pyls (:configurationSources ("flake8")))))
-  ;;       ;; TODO: check lsp--cur-workspace here to decide per server / project
-  ;;       (lsp--set-configuration lsp-cfg)))
-
-  ;;   (add-hook 'lsp-after-initialize-hook 'lsp-set-cfg))
   )
 
 

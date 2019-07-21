@@ -2,6 +2,8 @@ black
 pyment
 isort
 flake8
+autoflake
+docformatter
 python-language-server
 poetry
 tox
@@ -14,3 +16,5 @@ argcomplete
 emacs-keys-everywhere
 twine
 pip-tools
+--include-deps jupyterlab
+jupyter-console

@@ -10,15 +10,24 @@ for installer in "${git_installers[@]}"; do
     curl -sL https://raw.githubusercontent.com/$installer | bash
 done
 
-# install pyenv-version-alias plugin
-git clone https://github.com/aiguofer/pyenv-version-alias $(pyenv root)/plugins/pyenv-version-alias
+# install pyenv plugins
+pyenv_plugins=(
+    aiguofer/pyenv-version-alias
+    jawshooah/pyenv-default-packages
+    aiguofer/pyenv-jupyter-kernel
+)
+
+for plugin in "${pyenv_plugins[@]}"; do
+    plugin_name=$(echo $plugin | cut -d '/' -f2)
+    git clone https://github.com/$plugin $(pyenv root)/plugins/$plugin_name
+done
 
 # install pipx and python executables
 PYENV_VERSION=system pip3 install --user pipx
 
-for pkg in $(cat ./requirements_pipx.txt);do
+while read pkg; do
     pipx install $pkg
-done
+done < requirements_pipx.txt
 
 necessary_packages=(
     emacs
