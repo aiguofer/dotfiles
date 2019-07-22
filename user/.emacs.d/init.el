@@ -332,8 +332,9 @@
   (use-package djangonaut
     :straight t
     :config
-    (setq pythonic-interpreter "python"))
+    (setq pythonic-interpreter "python")
 
+    (global-djangonaut-mode))
   )
 
 
@@ -344,7 +345,6 @@
   ;; make sure we have lsp-imenu everywhere we have LSP
   (require 'lsp-clients)
   (add-hook 'lsp-after-open-hook 'lsp-enable-imenu)
-
 
   ;; lsp extras
   (use-package lsp-ui
