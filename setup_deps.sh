@@ -26,7 +26,7 @@ done
 PYENV_VERSION=system pip3 install --user pipx
 
 while read pkg; do
-    pipx install $pkg
+    $HOME/.local/bin/pipx install $pkg
 done < requirements_pipx.txt
 
 necessary_packages=(
