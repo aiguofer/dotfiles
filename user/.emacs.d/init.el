@@ -197,8 +197,7 @@
    ("\\.ejs" . web-mode)
    ("\\.html?$" . web-mode)
    ("\\.template?" . web-mode))
-  :hook ((web-mode . setup-web-mode)
-         (css-mode . setup-css-mode))
+  :hook (web-mode . setup-web-mode)
   :config
   (setq web-mode-engines-alist
         '(("django"    . "textmyjournal.*\\.html")
@@ -211,9 +210,7 @@
                  '(company-yasnippet))
     (add-hook 'before-save-hook 'web-beautify-html-buffer t t)
     )
-
-  (defun setup-css-mode ()
-    (add-hook 'before-save-hook 'prettier-js-mode t t)))
+  )
 
 (use-package web-beautify
   :straight t
@@ -221,7 +218,7 @@
 
 (use-package prettier-js
   :straight t
-  :hook (json-mode js-mode js2-mode inferior-js-mode))
+  :hook ((json-mode js2-mode inferior-js-mode typescript-mode css-mode) . prettier-js-mode))
 
 (use-package python
   :hook (inferior-python-mode . fix-python-password-entry)
@@ -554,7 +551,7 @@
 
 (use-package tide
   :straight t
-  :hook ((js-mode js2-mode inferior-js-mode typescript-mode) . setup-tide-mode)
+  :hook ((js2-mode inferior-js-mode typescript-mode) . setup-tide-mode)
   :config
   (defun setup-tide-mode ()
     "Set up Tide mode."
@@ -570,7 +567,6 @@
 
 
   (setq company-tooltip-align-annotations t)
-  (add-hook 'before-save-hook 'tide-format-before-save)
 
   ;; Enable JavaScript completion between <script>...</script> etc.
   (defadvice company-tide (before web-mode-set-up-ac-sources activate)
