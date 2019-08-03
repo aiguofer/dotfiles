@@ -3,7 +3,7 @@
 ;;; Code:
 (add-to-list 'default-frame-alist
              '(font . "Hack Nerd Font 12"))
-(set-face-attribute 'mode-line nil :font "Hack Nerd Font 11")
+(set-face-attribute 'mode-line nil :font "Hack Nerd Font 10")
 
 ;; Move to top to fix package-selected-package
 ;; see https://github.com/jwiegley/use-package/issues/397
