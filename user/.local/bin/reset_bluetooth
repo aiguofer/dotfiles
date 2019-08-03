@@ -1,6 +1,6 @@
 #!/bin/bash
 
-rfkill unblock bluetooth
+sudo rfkill unblock bluetooth
 sleep 1
 sudo modprobe -r btusb
 sleep 1
