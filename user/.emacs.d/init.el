@@ -258,10 +258,16 @@
     "Use corresponding kernel"
     (let* ((curr-python (car (split-string (pyenv/version-name) ":")))
            (python-shell-buffer-name (concat "Python-" curr-python))
-           (python-shell-interpreter-args (concat "--simple-prompt --kernel=" curr-python)))
+           (python-shell-interpreter-args (if (bound-and-true-p djangonaut-mode)
+                                              "shell_plus -- --simple-prompt"
+                                            (concat "--simple-prompt --kernel=" curr-python)))
+           (python-shell-interpreter (if (bound-and-true-p djangonaut-mode)
+                                         "django-admin"
+                                       python-shell-interpreter)))
       (apply orig-fun args)))
 
   (advice-add 'python-shell-get-process-name :around #'my-setup-python)
+  (advice-add 'python-shell-calculate-command :around #'my-setup-python)
 
   (use-package pyenv
     :straight (:host github :repo "aiguofer/pyenv.el")
