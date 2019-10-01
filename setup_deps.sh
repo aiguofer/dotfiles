@@ -4,6 +4,8 @@ git_installers=(
     getantibody/installer/master/install # antibody
     creationix/nvm/v0.33.11/install.sh   # nvm
     pyenv/pyenv-installer/master/bin/pyenv-installer # pyenv
+    rbenv/rbenv-installer/raw/master/bin/rbenv-installer # rbenv
+
 )
 
 for installer in "${git_installers[@]}"; do
