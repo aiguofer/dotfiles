@@ -301,7 +301,7 @@
     :straight (:host github :repo "humitos/py-cmd-buffer.el")
     :hook (python-mode . py-autoflake-enable-on-save)
     :config
-    (setq py-autoflake-options '("--remove-all-unused-imports" "--expand-star-imports")))
+    (setq py-autoflake-options '("--expand-star-imports")))
 
   (use-package py-docformatter
     :straight (:host github :repo "humitos/py-cmd-buffer.el")
