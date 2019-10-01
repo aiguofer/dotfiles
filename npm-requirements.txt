@@ -4,3 +4,4 @@ prettier
 react
 vscode-html-languageserver-bin
 js-beautify
+vmd
