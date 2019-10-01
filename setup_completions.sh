@@ -26,9 +26,9 @@ download_completions=(
     "docker/cli/master/contrib/completion/zsh/_docker _docker"
     "docker/compose/master/contrib/completion/zsh/_docker-compose _docker-compose"
     "robbyrussell/oh-my-zsh/master/plugins/geeknote/_geeknote _geeknote"
-    "janernsting/dotfiles/master/zsh/custom/plugins/tlp/_tlp _tlp"
-    "janernsting/dotfiles/master/zsh/custom/plugins/tlp/_tlp-radio-devices _tlp-radio-devices"
-    "janernsting/dotfiles/master/zsh/custom/plugins/tlp/_tlp-stat _tlp-stat"
+    # "janernsting/dotfiles/master/zsh/custom/plugins/tlp/_tlp _tlp"
+    # "janernsting/dotfiles/master/zsh/custom/plugins/tlp/_tlp-radio-devices _tlp-radio-devices"
+    # "janernsting/dotfiles/master/zsh/custom/plugins/tlp/_tlp-stat _tlp-stat"
 )
 base_url="https://raw.githubusercontent.com"
 for comp in "${download_completions[@]}"; do
