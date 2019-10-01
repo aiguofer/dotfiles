@@ -22,6 +22,11 @@ def get_saved_code():
         return config_location.read_text()
 
 
+def save_code(self, code):
+    with open(self.config_location, "w") as conf:
+        conf.write(code)
+
+
 def get_code(ws):
     code = get_saved_code()
 
