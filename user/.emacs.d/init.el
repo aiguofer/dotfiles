@@ -170,12 +170,7 @@
 
 (use-package js-doc
   :straight t
-  :commands (js-doc-insert-function-doc js-doc-insert-tag)
-  :bind
-  (:map js2-mode-map
-        ("C-ci" . js-doc-insert-function-doc)
-        ("@" . js-doc-insert-tag)
-        ))
+  :commands (js-doc-insert-function-doc js-doc-insert-tag))
 
 (use-package web-completion-data
   :straight t)
@@ -361,15 +356,16 @@
     (define-key lsp-ui-mode-map [remap xref-find-references]
       #'lsp-ui-peek-find-references))
 
-  (use-package company-lsp
-    :straight t
-    :config
-    (add-hook 'web-mode-hook
-              (lambda ()
-                (add-to-list (make-local-variable 'company-backends)
-                             '(company-lsp))))
-    ))
-
+  ;; completion backends
+  ;; (use-package company-lsp
+  ;;   :straight t
+  ;;   :config
+  ;;   (add-hook 'web-mode-hook
+  ;;             (lambda ()
+  ;;               (add-to-list (make-local-variable 'company-backends)
+  ;;                            '(company-lsp))))
+  ;;   )
+  )
 
 (use-package session
   :straight t
