@@ -22,8 +22,8 @@ def get_saved_code():
         return config_location.read_text()
 
 
-def save_code(self, code):
-    with open(self.config_location, "w") as conf:
+def save_code(code):
+    with open(config_location, "w") as conf:
         conf.write(code)
 
 
@@ -36,9 +36,9 @@ def get_code(ws):
 
 
 def authenticate(ws):
-    connect()
+    connect(ws)
     code = input("Please input code: ")
-    res = connect(code)
+    res = connect(ws, code)
     save_code(res)
     return res
 
