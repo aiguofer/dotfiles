@@ -8,6 +8,11 @@ fi
 if [ $commands[pyenv] ]; then
     echo "Updating pyenv"
     pyenv update
+
+    pyenv versions --bare \
+        | grep -v "/" \
+        | xargs -L 1 -i bash -c "PYENV_VERSION={} pip install -U -r ~/.pyenv/default-packages"
+
 fi
 
 tpm=$HOME/.tmux/plugins/tpm/bin/update_plugins
