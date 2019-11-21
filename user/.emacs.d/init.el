@@ -219,24 +219,6 @@
   :hook (inferior-python-mode . fix-python-password-entry)
   :config
 
-  (use-package jupyter
-    :straight t
-    :hook
-    (jupyter-repl-mode . (lambda ()
-                           (setq company-backends '(company-capf))))
-    :bind
-    (:map jupyter-repl-mode-map
-          ("C-M-n" . jupyter-repl-history-next)
-          ("C-M-p" . jupyter-repl-history-previous)
-          ("M-n" . jupyter-repl-forward-cell)
-          ("M-p" . jupyter-repl-backward-cell)
-          :map jupyter-repl-interaction-mode-map
-          ("M-i" . nil)
-          ("C-?" . jupyter-inspect-at-point)
-          )
-    )
-
-
   (setq python-shell-interpreter "jupyter-console"
         python-shell-interpreter-args "--simple-prompt"
         python-shell-prompt-detect-failure-warning nil)
@@ -333,6 +315,23 @@
     (setq pythonic-interpreter "python")
 
     (global-djangonaut-mode))
+
+  (use-package jupyter
+    :straight t
+    :hook
+    (jupyter-repl-mode . (lambda ()
+                           (setq company-backends '(company-capf))))
+    :bind
+    (:map jupyter-repl-mode-map
+          ("C-M-n" . jupyter-repl-history-next)
+          ("C-M-p" . jupyter-repl-history-previous)
+          ("M-n" . jupyter-repl-forward-cell)
+          ("M-p" . jupyter-repl-backward-cell)
+          :map jupyter-repl-interaction-mode-map
+          ("M-i" . nil)
+          ("C-?" . jupyter-inspect-at-point)
+          )
+    )
   )
 
 
@@ -468,11 +467,6 @@
 
 (use-package ripgrep
   :straight t)
-
-(use-package company-quickhelp
-  :straight t
-  :config
-  (company-quickhelp-mode))
 
 (use-package sudo-edit
   :straight t)
@@ -646,6 +640,11 @@
     (("C-<tab>" . company-try-hard)
      :map company-active-map
      ("C-<tab>" . company-try-hard)))
+
+  (use-package company-quickhelp
+    :straight t
+    :config
+    (company-quickhelp-mode))
 )
 
 (use-package ignoramus
