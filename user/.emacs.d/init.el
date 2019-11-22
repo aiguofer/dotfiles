@@ -233,7 +233,7 @@
 
   (defun my-setup-python (orig-fun &rest args)
     "Use corresponding kernel"
-    (let* ((curr-python (car (split-string (pyenv/version-name) ":")))
+    (let* ((curr-python (car (split-string (pyenv--version-name) ":")))
            (python-shell-buffer-name (concat "Python-" curr-python))
            (python-shell-interpreter-args (if (bound-and-true-p djangonaut-mode)
                                               "shell_plus -- --simple-prompt"
