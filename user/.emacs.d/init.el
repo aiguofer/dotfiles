@@ -303,8 +303,7 @@
     (:map elpy-mode-map
           ("C-M-n" . elpy-nav-forward-block)
           ("C-M-p" . elpy-nav-backward-block))
-    :hook ((elpy-mode . flycheck-mode)
-           (pyenv-mode . elpy-rpc-restart))
+    :hook ((elpy-mode . flycheck-mode))
     :init
     (elpy-enable)
     :config
