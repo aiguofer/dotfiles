@@ -95,9 +95,10 @@
 
 (use-package flycheck-tip
   :straight t
-  :init
-  (define-key global-map (kbd "C-c C-n") 'error-tip-cycle-dwim)
-  (define-key global-map (kbd "C-c C-p") 'error-tip-cycle-dwim-reverse))
+  :bind
+  (("C-c C-n" . error-tip-cycle-dwim)
+   ("C-c C-p" . error-tip-cycle-dwim-reverse))
+  )
 
 (use-package markdown-mode
   :straight t
@@ -403,7 +404,7 @@
   :straight t
   :diminish projectile-mode
   :init
-  ;; this must be done before :config
+  ;; this must be done before :config so we can't use :bind
   (define-key global-map (kbd "C-c p") 'projectile-command-map)
   :config
   (projectile-mode)
@@ -485,9 +486,11 @@
 
 (use-package helm-pydoc
   :straight t
-  :config
-  (with-eval-after-load "python"
-    (define-key python-mode-map (kbd "C-c C-d") 'helm-pydoc)))
+  :bind
+  (:map python-mode-map
+        ("C-c C-d" . helm-pydoc))
+  )
+
 (use-package tramp
   :init
   (setq tramp-default-method "ssh")
