@@ -20,6 +20,6 @@ tramp
 url
 xkcd
 transient
-
+user/.emacs.d/elpy
 straight/
 !straight/versions
