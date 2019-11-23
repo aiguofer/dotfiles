@@ -2,4 +2,5 @@ sorin-ionescu/prezto
 lukechilds/zsh-nvm
 lukechilds/zsh-better-npm-completion
 robbyrussell/oh-my-zsh path:plugins/aws
+robbyrussell/oh-my-zsh path:plugins/gcloud
 b4b4r07/enhancd
