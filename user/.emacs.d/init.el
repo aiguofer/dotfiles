@@ -122,8 +122,7 @@
 
 (use-package vmd-mode
   :straight t
-  :commands (vmd-mode)
-  :hook markdown-mode)
+  :commands (vmd-mode))
 
 (use-package coffee-mode
   :straight t)
