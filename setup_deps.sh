@@ -29,7 +29,7 @@ PYENV_VERSION=system pip3 install --user pipx
 
 while read pkg; do
     $HOME/.local/bin/pipx install $pkg
-done < requirements_pipx.txt
+done < packages/pipx.txt
 
 # install docker-machine
 base=https://github.com/docker/machine/releases/download/v0.16.0 &&

@@ -1,0 +1,10 @@
+antibody
+pyenv
+rbenv
+nvm
+pipx
+kubectl
+docker-machine
+kompose
+minikube
+travis

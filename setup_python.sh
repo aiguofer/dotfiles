@@ -6,5 +6,5 @@ pyenv virtualenv --system-site-packages -p /usr/bin/python3 default3
 
 pyenv global default3 default2
 
-pip2 install -r requirements.txt
-pip3 install -r requirements.txt
+pip2 install -r packages/python_global.txt
+pip3 install -r packages/python_global.txt
