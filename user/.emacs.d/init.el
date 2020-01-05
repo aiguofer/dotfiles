@@ -686,4 +686,7 @@
   :straight t
   :bind ("C-c d" . docker))
 
+(use-package package-lint
+  :straight t)
+
 ;;; init.el ends here
