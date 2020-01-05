@@ -4,11 +4,6 @@ COMPLETIONS_DIR=~/.zsh/completions
 # Generate completion for apps that generate them
 completion_generators=(
     "poetry completions zsh"
-    "oc completion zsh"
-    "kubectl completion zsh"
-    "openshift completion zsh"
-    "s2i completion zsh"
-    "heroku autocomplete:script zsh"
 )
 
 for completion_generator in "${completion_generators[@]}"; do
@@ -24,11 +19,7 @@ done
 download_completions=(
     "jupyter/jupyter_core/master/examples/completions-zsh _jupyter"
     "docker/cli/master/contrib/completion/zsh/_docker _docker"
-    "docker/compose/master/contrib/completion/zsh/_docker-compose _docker-compose"
     "robbyrussell/oh-my-zsh/master/plugins/geeknote/_geeknote _geeknote"
-    # "janernsting/dotfiles/master/zsh/custom/plugins/tlp/_tlp _tlp"
-    # "janernsting/dotfiles/master/zsh/custom/plugins/tlp/_tlp-radio-devices _tlp-radio-devices"
-    # "janernsting/dotfiles/master/zsh/custom/plugins/tlp/_tlp-stat _tlp-stat"
 )
 base_url="https://raw.githubusercontent.com"
 for comp in "${download_completions[@]}"; do

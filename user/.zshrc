@@ -9,7 +9,11 @@ source $HOME/.functions_common
 
 source $HOME/.zsh_custom_pre
 
-fpath=($HOME/.zsh/completions $fpath)
+fpath=(
+    $HOME/.zsh/completions
+    $HOME/.linuxbrew/share/zsh/site-functions
+    $fpath
+)
 
 # load antibody plugins
 source <(antibody init)
