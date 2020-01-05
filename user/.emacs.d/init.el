@@ -121,7 +121,7 @@
    ("runcoms/[a-zA-Z]+$" . sh-mode)))
 
 (use-package vmd-mode
-  :straight t
+  :straight (:host github :repo "aiguofer/vmd-mode")
   :commands (vmd-mode))
 
 (use-package coffee-mode
