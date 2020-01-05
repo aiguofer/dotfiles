@@ -331,6 +331,9 @@
           ("C-?" . jupyter-inspect-at-point)
           )
     )
+
+  (use-package poetry
+    :straight t)
   )
 
 
