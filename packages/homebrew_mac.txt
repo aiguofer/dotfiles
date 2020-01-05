@@ -1,4 +1,6 @@
-yabai
-cask emacs
-cask google-chrome
-cask google-cloud-sdk
+koekeishiya/formulae/yabai
+koekeishiya/formulae/skhd
+zsh
+curl
+wget
+git

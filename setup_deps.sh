@@ -27,11 +27,19 @@ if [[ "$OSTYPE" == linux* ]]; then
     sh -c "$(curl -fsSL https://raw.githubusercontent.com/Linuxbrew/install/master/install.sh)"
     eval $($HOME/.linuxbrew/bin/brew shellenv)
 else
+    softwareupdate --install xcode-select
+
+    xcode-select --install
+
     ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
 
     while read pkg; do
         brew install $pkg
     done < packages/homebrew_mac.txt
+
+    while read pkg; do
+        brew cask install $pkg
+    done < packages/homebrew_cask.txt
 fi
 
 while read pkg; do
@@ -46,9 +54,9 @@ necessary_packages_common=(
     emacs
     git
     curl
+    wget
     zsh
     insync
-    insync-nemo
     google-chrome
 )
 
@@ -56,6 +64,7 @@ necessary_packages_linux=(
     zathura # pdf viewer
     gthumb # image viewer
     nemo # file manager
+    insync-nemo
     google-play-music-desktop-player # music player
     xbacklight # https://gitlab.com/wavexx/acpilight # manage backlight
     feh # image viewere, set background
@@ -86,6 +95,8 @@ wanted_packages=(
     upwork
     rescuetime
     franz
+    tig
+    htop
 )
 
 # deps for building compton

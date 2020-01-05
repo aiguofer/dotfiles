@@ -1,0 +1,9 @@
+emacs
+google-chrome
+google-cloud-sdk
+insync
+rescuetime
+franz
+lastpass
+zoomus
+alacritty
