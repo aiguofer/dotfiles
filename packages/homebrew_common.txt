@@ -1,10 +1,14 @@
 antibody
-pyenv
-rbenv
-nvm
 pipx
 kubectl
 docker-machine
+docker-compose
 kompose
 minikube
 travis
+openshift-cli
+tmux
+ripgrep
+ripgrep-all
+the_silver_searcher
+heroku/brew/heroku

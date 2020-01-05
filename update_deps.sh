@@ -1,5 +1,10 @@
 #!/bin/zsh
 
+if [ $commands[brew] ]; then
+    echo "Updating Homebrew packages"
+    brew upgrade
+fi
+
 if [ $commands[antibody] ]; then
     echo "Updating zsh modules"
     antibody update
@@ -13,6 +18,17 @@ if [ $commands[pyenv] ]; then
         | grep -v "/" \
         | xargs -L 1 -i bash -c "PYENV_VERSION={} pip install -U -r ~/.pyenv/default-packages"
 
+fi
+
+if [ $commands[nvm] ]; then
+    echo "Updating nvm"
+    nvm upgrade
+fi
+
+if [ $commands[rbenv] ]; then
+    echo "Updating rbenv"
+    cd $HOME/.rbenv/
+    git pull
 fi
 
 tpm=$HOME/.tmux/plugins/tpm/bin/update_plugins

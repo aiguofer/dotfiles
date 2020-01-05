@@ -18,3 +18,4 @@ twine
 pip-tools
 --include-deps jupyterlab
 jupyter-console
+powerline-status

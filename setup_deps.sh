@@ -1,18 +1,16 @@
 #!/bin/bash
 
 git_installers=(
-    getantibody/installer/master/install # antibody
-    creationix/nvm/v0.33.11/install.sh   # nvm
+    creationix/nvm/v0.35.2/install.sh   # nvm
     pyenv/pyenv-installer/master/bin/pyenv-installer # pyenv
     rbenv/rbenv-installer/raw/master/bin/rbenv-installer # rbenv
-
 )
 
 for installer in "${git_installers[@]}"; do
     curl -sL https://raw.githubusercontent.com/$installer | bash
 done
 
-# install pyenv plugins
+# install extra pyenv plugins
 pyenv_plugins=(
     aiguofer/pyenv-version-alias
     jawshooah/pyenv-default-packages
@@ -24,59 +22,63 @@ for plugin in "${pyenv_plugins[@]}"; do
     git clone https://github.com/$plugin $(pyenv root)/plugins/$plugin_name
 done
 
-# install pipx and python executables
-PYENV_VERSION=system pip3 install --user pipx
+# Install homebrew
+if [[ "$OSTYPE" == linux* ]]; then
+    sh -c "$(curl -fsSL https://raw.githubusercontent.com/Linuxbrew/install/master/install.sh)"
+    eval $($HOME/.linuxbrew/bin/brew shellenv)
+else
+    ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
+
+    while read pkg; do
+        brew install $pkg
+    done < packages/homebrew_mac.txt
+fi
 
 while read pkg; do
-    $HOME/.local/bin/pipx install $pkg
+    brew install $pkg
+done < packages/homebrew_common.txt
+
+while read pkg; do
+    pipx install $pkg
 done < packages/pipx.txt
 
-# install docker-machine
-base=https://github.com/docker/machine/releases/download/v0.16.0 &&
-    curl -L $base/docker-machine-$(uname -s)-$(uname -m) >/tmp/docker-machine &&
-    sudo mv /tmp/docker-machine /usr/local/bin/docker-machine &&
-    chmod +x /usr/local/bin/docker-machine
-
-
-necessary_packages=(
+necessary_packages_common=(
     emacs
     git
     curl
-    python2
     zsh
-    powerline
-    rofi
-    i3 # gaps or regolith
-    i3lock-color # https://github.com/codejamninja/i3lock-color-ubuntu
-    polybar
-    shutter
-    silver-searcher # ag
-    ripgrep
+    insync
+    insync-nemo
+    google-chrome
+)
+
+necessary_packages_linux=(
+    zathura # pdf viewer
+    gthumb # image viewer
+    nemo # file manager
+    google-play-music-desktop-player # music player
+    xbacklight # https://gitlab.com/wavexx/acpilight # manage backlight
+    feh # image viewere, set background
+    compton # compositor
+    earlyoom # prevent system from locking up due to OOM
+    pasystray # pulse audio tray
+    nm-applet # networkmanager tray
+    qalculate-gtk # calculator
+    lightdm-gtk-greeter # desktop manager
+    lightdm # destkop manager
+    terminator
+    redshift-gtk
     autorandr
     arandr
     automirror # https://github.com/schlomo/automirror/
     playerctl
     dunst
-    tmux
-    terminator
-    redshift-gtk
-    insync
-    insync-nemo
-    nemo
-    google-play-music-desktop-player
-    xbacklight # https://gitlab.com/wavexx/acpilight
-    feh
-    compton
-    earlyoom # prevent system from locking up due to OOM
-    pasystray
-    nm-applet
-    qalculate-gtk
-    lightdm-gtk-greeter
-    lightdm
-    gthumb
-    google-chrome
-    zathura
-    fzy
+    i3 # gaps or regolith
+    i3lock-color # https://github.com/codejamninja/i3lock-color-ubuntu
+    polybar
+    shutter
+    rofi
+    python2
 )
 
 wanted_packages=(
