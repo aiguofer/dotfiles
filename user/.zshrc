@@ -12,6 +12,7 @@ source $HOME/.zsh_custom_pre
 fpath=(
     $HOME/.zsh/completions
     $HOME/.linuxbrew/share/zsh/site-functions
+    /home/linuxbrew/.linuxbrew/share/zsh/site-functions
     $fpath
 )
 
