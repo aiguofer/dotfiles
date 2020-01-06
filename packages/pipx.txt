@@ -10,7 +10,7 @@ tox
 cookiecutter
 pre-commit
 git-up
-bumpversion
+bump2version
 awscli
 argcomplete
 emacs-keys-everywhere
