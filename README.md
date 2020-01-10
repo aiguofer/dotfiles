@@ -8,7 +8,7 @@ These dotfiles are mainly focused around using systemd to manage user processes 
 i3 (gaps)
 polybar
 compton
-terminator
+alacritty (previously terminator)
 rofi
 dunst
 pyenv
@@ -17,6 +17,8 @@ tmux
 Google Play Media Desktop Player
 git
 powerline
+pipx (used to install a variety of Python based cli tools)
+homebrew (and linuxbrew)
 ```
 
 I also use a variety of tools, scripts, etc to make things work the way I want to. Some scripts I have here:
