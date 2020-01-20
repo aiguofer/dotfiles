@@ -1,0 +1,28 @@
+{
+
+  "^c"       = "copy:"; // ctrl-c
+  "^v"       = "paste:"; // ctrl-v
+  "^x"       = "cut:"; // ctrl-x
+  "^z"       = "undo:"; // ctrl-z
+  "^y"       = "redo:"; // ctrl-y
+  "^s"       = "saveDocument:"; // ctrl-s
+  "^$s"      = "saveDocumentAs:"; // ctrl-shift-s
+
+    "~f"        = "moveWordForward:";               /* M-f          Move forward word */
+    "~b"        = "moveWordBackward:";              /* M-b          Move backward word */
+    "~<"        = "moveToBeginningOfDocument:";     /* M-<          Move to beginning of document */
+    "~>"        = "moveToEndOfDocument:";           /* M->          Move to end of document */
+
+    "~c"        = ( "capitalizeWord:",              /* M-c          Capitalize */
+                    "moveForward:",
+                    "moveForward:");
+    "~u"        = ( "uppercaseWord:",               /* M-u          Uppercase */
+                    "moveForward:",
+                    "moveForward:");
+    "~l"        = ( "lowercaseWord:",               /* M-l          Lowercase */
+                    "moveForward:",
+                    "moveForward:");
+    "~d"        = "deleteWordForward:";             /* M-d          Delete word forward */
+    "~\U007F"   = "deleteWordBackward:";            /* M-Bksp       Delete word backward */
+    "~t"        = "transposeWords:";                /* M-t          Transpose words */
+}
