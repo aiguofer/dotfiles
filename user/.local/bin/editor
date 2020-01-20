@@ -1,6 +1,6 @@
 #!/bin/bash
 
-if [ -z "$(pgrep emacs)" ]; then
+if [ -z "$(pgrep "[Ee]macs")" ]; then
     systemctl --user start emacs
     while ! systemctl --user status emacs | grep "Starting Emacs daemon." &>/dev/null
     do
@@ -8,8 +8,12 @@ if [ -z "$(pgrep emacs)" ]; then
     done
 fi
 
-SOCKET=$(lsof -c emacs | grep $USER | grep server | grep STREAM | awk '{print $9}' | sort | uniq)
-PARAMS="--socket-name=$SOCKET"
+if [[ "$OSTYPE" == linux* ]]; then
+    SOCKET=$(lsof -c emacs | grep $USER | grep server | grep STREAM | awk '{print $9}' | sort | uniq)
+    PARAMS="--socket-name=$SOCKET"
+else
+    PARAMS=""
+fi
 
 if [[ $TMUX || $SSH_CLIENT ]]
 then
@@ -23,4 +27,4 @@ if infocmp xterm-24bit &> /dev/null; then
     TERM=xterm-24bit
 fi
 
-exec /usr/bin/emacsclient $PARAMS $@
+exec emacsclient $PARAMS $@
