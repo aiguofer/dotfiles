@@ -11,4 +11,7 @@ tmux
 ripgrep
 ripgrep-all
 the_silver_searcher
-heroku/brew/heroku
+heroku
+fzy
+icdiff
+jq

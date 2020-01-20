@@ -1,5 +1,36 @@
 #!/bin/bash
 
+# Install homebrew
+if [[ "$OSTYPE" == linux* ]]; then
+    sh -c "$(curl -fsSL https://raw.githubusercontent.com/Linuxbrew/install/master/install.sh)"
+    eval $($HOME/.linuxbrew/bin/brew shellenv)
+else
+    softwareupdate --install xcode-select
+
+    xcode-select --install
+
+    ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
+fi
+
+# Install homebrew deps
+while read tap; do
+    brew tap $tap
+done < packages/homebrew_taps.txt
+
+while read pkg; do
+    brew install $pkg
+done < packages/homebrew_common.txt
+
+if [[ "$OSTYPE" == darwin* ]]; then
+    while read pkg; do
+        brew reinstall $pkg
+    done < packages/homebrew_mac.txt
+
+    while read pkg; do
+        brew cask reinstall $pkg
+    done < packages/homebrew_cask.txt
+fi
+
 git_installers=(
     creationix/nvm/v0.35.2/install.sh   # nvm
     pyenv/pyenv-installer/master/bin/pyenv-installer # pyenv
@@ -21,30 +52,6 @@ for plugin in "${pyenv_plugins[@]}"; do
     plugin_name=$(echo $plugin | cut -d '/' -f2)
     git clone https://github.com/$plugin $(pyenv root)/plugins/$plugin_name
 done
-
-# Install homebrew
-if [[ "$OSTYPE" == linux* ]]; then
-    sh -c "$(curl -fsSL https://raw.githubusercontent.com/Linuxbrew/install/master/install.sh)"
-    eval $($HOME/.linuxbrew/bin/brew shellenv)
-else
-    softwareupdate --install xcode-select
-
-    xcode-select --install
-
-    ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
-
-    while read pkg; do
-        brew install $pkg
-    done < packages/homebrew_mac.txt
-
-    while read pkg; do
-        brew cask install $pkg
-    done < packages/homebrew_cask.txt
-fi
-
-while read pkg; do
-    brew install $pkg
-done < packages/homebrew_common.txt
 
 while read pkg; do
     pipx install $pkg

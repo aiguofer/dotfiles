@@ -1,6 +1,11 @@
-koekeishiya/formulae/yabai
-koekeishiya/formulae/skhd
+python@3
+python@2
+yabai
+skhd
+emacs-plus --with-no-titlebar
 zsh
 curl
 wget
 git
+tree
+gpg2

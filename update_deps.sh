@@ -3,6 +3,7 @@
 if [ $commands[brew] ]; then
     echo "Updating Homebrew packages"
     brew upgrade
+    brew cask upgrade
 fi
 
 if [ $commands[antibody] ]; then
