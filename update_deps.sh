@@ -16,7 +16,7 @@ if [ $commands[pyenv] ]; then
 
     pyenv versions --bare \
         | grep -v "/" \
-        | xargs -L 1 -i bash -c "PYENV_VERSION={} pip install -U -r ~/.pyenv/default-packages"
+        | xargs -L 1 -i bash -c "PYENV_VERSION={} pip install -U -r ~/.pyenv/default-packages; pip install -U pip"
 
 fi
 
