@@ -19,9 +19,6 @@ floating_modifier $mod
 bindsym $mod+q kill
 bindsym --release $mod+Shift+q exec xkill
 
-# start dmenu (a program launcher)
-bindsym $mod+d exec rofi -show combi
-
 # jikl key window mgmt
 bindsym $mod+j focus left
 bindsym $mod+k focus down
@@ -176,13 +173,10 @@ mode "resize" {
 
 bindsym $mod+r mode "resize"
 
-# Start i3bar to display a workspace bar (plus the system information i3status
-# finds out, if available)
-# bar {
-#         status_command py3status -b -c ~/.config/i3/i3status.conf
-# }
-
 # exec_always --no-startup-id $HOME/.config/polybar/launch.sh
+
+# start dmenu (a program launcher)
+bindsym $mod+d exec rofi -show combi
 
 # media keys
 # Pulse Audio controls
@@ -224,7 +218,6 @@ bindsym $mod+Ctrl+n exec todoist_task
 bindsym Print exec flameshot full -p ~/Pictures/Screenshots  # full screenshot
 bindsym Shift+Print exec flameshot gui -p ~/Pictures/Screenshots #select screenshot
 bindsym Ctrl+Print exec flameshot screen -p ~/Pictures/Screenshots  #active screenshot
-# bindsym Ctrl+Print exec shutter -w   #select window screenshot
 
 # ------------------------------- looks and behavior -----------------------------
 
