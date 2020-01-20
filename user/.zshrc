@@ -35,5 +35,17 @@ source $HOME/.zshpaths
 # make sure autocompletions are loaded correctly
 autoload -Uz bashcompinit && bashcompinit
 
+# Fix for zsh eating scp globs
+# see https://unix.stackexchange.com/a/106981/154222
+alias scp='noglob scp_wrap'
+function scp_wrap {
+  local -a args
+  local i
+  for i in "$@"; do case $i in
+    (*:*) args+=($i) ;;
+    (*) args+=(${~i}) ;;
+  esac; done
+  command scp "${(@)args}"
+}
 # uncomment below to figure out bottlenecks
 # zprof
