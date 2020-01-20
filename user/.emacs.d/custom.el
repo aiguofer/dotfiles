@@ -25,12 +25,6 @@
     (company-sort-by-backend-importance company-sort-by-occurrence company-sort-by-statistics)))
  '(confirm-kill-processes nil)
  '(create-lockfiles nil)
- '(elpy-modules
-   (quote
-    (elpy-module-company elpy-module-eldoc elpy-module-highlight-indentation elpy-module-yasnippet elpy-module-django elpy-module-autodoc elpy-module-sane-defaults)))
- '(elpy-rpc-backend "jedi")
- '(elpy-rpc-python-command "python3")
- '(elpy-rpc-timeout 4)
  '(flycheck-python-flake8-executable "~/.local/bin/flake8")
  '(helm-ag-use-agignore t)
  '(helm-follow-mode-persistent t)
