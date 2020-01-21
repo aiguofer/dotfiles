@@ -4,7 +4,8 @@ After=compton.service
 PartOf=i3.target
 
 [Service]
-ExecStart=/usr/local/bin/polybar -l error example
+
+ExecStart=/bin/bash -c "polybar -l error example"
 Restart=always
 RestartSec=2
 
