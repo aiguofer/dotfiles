@@ -19,3 +19,34 @@ pip_install_save() {
         echo $package_entry >> $requirements_file
     fi
 }
+
+function yabai_focus_space() {
+    num_displays=$(yabai -m query --displays | jq '. | length')
+    space_display=$(( $num_displays - $1 % $num_displays ))
+
+    yabai -m space "s$1" --display $space_display
+    yabai -m space --focus "s$1"
+}
+
+function yabai_ensure_spaces() {
+    WANTED_SPACES=10
+
+    num_spaces=$(yabai -m query --spaces | jq '. | length')
+
+    echo "There are $num_spaces spaces"
+    if [[ $WANTED_SPACES -lt $num_spaces ]]; then
+        for i in $(seq $num_spaces $(( $WANTED_SPACES + 1 ))); do
+            echo "Delete space $i"
+            yabai -m space $i --destroy
+        done
+    fi
+
+    if [[ $WANTED_SPACES -gt $num_spaces ]]; then
+        for i in $(seq $(( $num_spaces + 1 )) $WANTED_SPACES); do
+            echo "Creating space $i"
+            yabai -m space --create
+        done
+    fi
+
+    for i in $(seq 1 $WANTED_SPACES); do yabai -m space $i --label "s$i"; done
+}

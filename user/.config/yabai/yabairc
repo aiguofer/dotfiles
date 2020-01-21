@@ -1,0 +1,65 @@
+#!/usr/bin/env bash
+source ~/.functions_common
+
+# bar settings
+yabai -m config status_bar                   off
+yabai -m config status_bar_text_font         "Helvetica Neue:Bold:12.0"
+yabai -m config status_bar_icon_font         "FontAwesome:Regular:12.0"
+yabai -m config status_bar_background_color  0xff202020
+yabai -m config status_bar_foreground_color  0xffa8a8a8
+yabai -m config status_bar_space_icon_strip  I II III IV V VI VII VIII IX X
+yabai -m config status_bar_power_icon_strip   
+yabai -m config status_bar_space_icon        
+yabai -m config status_bar_clock_icon        
+
+# global settings
+yabai -m config mouse_follows_focus          off
+yabai -m config focus_follows_mouse          off
+yabai -m config window_placement             second_child
+yabai -m config window_topmost               off
+yabai -m config window_opacity               off
+yabai -m config window_opacity_duration      0.0
+yabai -m config window_shadow                on
+yabai -m config window_border                off
+yabai -m config window_border_placement      inset
+yabai -m config window_border_width          4
+yabai -m config window_border_radius         -1.0
+yabai -m config active_window_border_topmost off
+yabai -m config active_window_border_color   0xff775759
+yabai -m config normal_window_border_color   0xff505050
+yabai -m config insert_window_border_color   0xffd75f5f
+yabai -m config active_window_opacity        1.0
+yabai -m config normal_window_opacity        0.90
+yabai -m config split_ratio                  0.50
+yabai -m config auto_balance                 off
+yabai -m config mouse_modifier               fn
+yabai -m config mouse_action1                move
+yabai -m config mouse_action2                resize
+
+# general space settings
+yabai -m config layout                       bsp
+yabai -m config top_padding                  5
+yabai -m config bottom_padding               5
+yabai -m config left_padding                 5
+yabai -m config right_padding                5
+yabai -m config window_gap                   10
+
+yabai -m rule --add app="Google Play Music Desktop Player" space="s10"
+yabai -m rule --add app="System Preferences" manage=off
+
+yabai -m signal --add event=display_added action='zsh -c "yabai_ensure_spaces"'
+yabai -m signal --add event=display_removed action='zsh -c "yabai_ensure_spaces"'
+
+yabai_ensure_spaces
+
+# echo "There are now $num_displays displays"
+# num_displays=$(yabai -m query --displays | jq '. | length')
+# for i in {1..10}; do
+#     if [[ $(( $num_displays - $i % $num_displays )) == 2 ]]; then
+#         echo "Moving space $i to display $(( $num_displays - $i % $num_displays ))"
+#         yabai -m space $i --display $(( $num_displays - $i % $num_displays ))
+#     fi
+# done
+
+
+echo "yabai configuration loaded.."
