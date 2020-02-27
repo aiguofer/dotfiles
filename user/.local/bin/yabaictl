@@ -1,0 +1,179 @@
+#!/Users/Diego/.pyenv/versions/default3/bin/python
+import json
+import subprocess
+
+import click
+
+# these are used to determine display order
+setups = {
+    "home": [
+        "6735950E-A9E2-080C-4CB2-5BF7E06F3CD8",
+        "61F28B2D-48D0-8C85-71D7-555FA75B14B7",
+        "0D432098-045E-8AC9-D7CB-D084F9E6D61E",
+    ],
+    "home_2_monitor": [
+        "61F28B2D-48D0-8C85-71D7-555FA75B14B7",
+        "0D432098-045E-8AC9-D7CB-D084F9E6D61E",
+    ],
+    "laptop": ["6735950E-A9E2-080C-4CB2-5BF7E06F3CD8",],
+    "work": [
+        "6735950E-A9E2-080C-4CB2-5BF7E06F3CD8",
+        "6F294B5A-1170-5B2F-B888-BFF30F1F0614",
+    ],
+}
+
+ignore_messages = ["acting space is already located on the given display."]
+# TODO: need to handle following errors:
+"acting space is the last user-space on the source display and cannot be destroyed."
+"acting space is the last user-space on the source display and cannot be moved."
+
+
+def yabai_message(*msg):
+    ret = subprocess.run(["yabai", "-m", *msg], capture_output=True)
+
+    if ret.returncode:
+        err_msg = ret.stderr.decode()
+
+        if err_msg.strip() not in ignore_messages:
+            raise Exception(err_msg)
+        else:
+            print(f"While running {msg} we received error: {err_msg}")
+
+    return ret.stdout.decode()
+
+
+def yabai_query(domain):
+    return json.loads(yabai_message("query", "--{}".format(domain)))
+
+
+class WindowManager:
+    spaces = []
+    displays = []
+    display_order = []
+    NUM_SPACES = 10
+
+    def __init__(self):
+        self.refresh_state()
+
+    @property
+    def num_displays(self):
+        return len(self.displays)
+
+    @property
+    def num_spaces(self):
+        return len(self.spaces)
+
+    @property
+    def unlabled_spaces(self):
+        return [space for space in self.spaces if space["label"] == ""]
+
+    @property
+    def visible_spaces(self):
+        return [space for space in self.spaces if space["visible"] > 0]
+
+    def refresh_state(self):
+        self.spaces = yabai_query("spaces")
+        self.displays = yabai_query("displays")
+
+        for setup in setups.values():
+            if set([display["uuid"] for display in self.displays]) == set(setup):
+                self.display_order = setup
+        if self.display_order == []:
+            print("unidentified setup")
+
+    def find_display_index(self, display):
+        uuid = self.display_order[display]
+
+        return next(
+            display["index"] for display in self.displays if display["uuid"] == uuid
+        )
+
+    def find_space_index(self, space):
+        return next(
+            space["index"] for space in self.spaces if space["label"] == f"s{space}"
+        )
+
+    def get_display_for_space(self, space):
+        return space % self.num_displays - 1
+
+    def focus_space(self, space):
+        yabai_message("space", "--focus", f"s{space}")
+
+    def move_space_to_display(self, space, display):
+        display_index = self.find_display_index(display)
+
+        yabai_message(
+            "space", f"s{space}", "--display", f"{display_index}",
+        )
+
+    def remove_unnecessary_spaces(self):
+        if self.num_spaces > self.NUM_SPACES:
+            for unlabled_space in self.unlabled_spaces:
+                yabai_message("space", f"{unlabled_space['index']}", "--destroy")
+
+    def ensure_spaces(self):
+        if self.num_spaces < self.NUM_SPACES:
+            for i in range(self.num_spaces, self.NUM_SPACES):
+                yabai_message("space", "--create")
+
+    def ensure_labels(self):
+        wanted_labels = set(f"s{i}" for i in range(1, self.NUM_SPACES + 1))
+        existing_labels = set(space["label"] for space in self.spaces)
+
+        for ix, missing_label in enumerate(sorted(wanted_labels - existing_labels)):
+            yabai_message(
+                "space",
+                f"{self.unlabled_spaces[ix]['index']}",
+                "--label",
+                missing_label,
+            )
+
+    def reorganize_spaces(self):
+        focused_spaces = self.visible_spaces
+
+        for space_index in range(1, self.NUM_SPACES + 1):
+            self.move_space_to_display(
+                space_index, self.get_display_for_space(space_index),
+            )
+
+        for space in focused_spaces[: min(self.num_displays, len(focused_spaces))]:
+            self.focus_space(space["label"].strip("s"))
+
+    def update_spaces(self):
+        self.ensure_spaces()
+        self.refresh_state()
+
+        self.ensure_labels()
+        self.refresh_state()
+
+        self.reorganize_spaces()
+
+        self.remove_unnecessary_spaces()
+        self.refresh_state()
+
+
+@click.group()
+@click.pass_context
+def cli(ctx):
+    # ensure that ctx.obj exists and is a dict (in case `cli()` is called
+    # by means other than the `if` block below
+    ctx.ensure_object(dict)
+
+    ctx.obj["wm"] = WindowManager()
+
+
+@cli.command()
+@click.pass_context
+def update_spaces(ctx):
+    ctx.obj["wm"].update_spaces()
+
+
+@cli.command()
+@click.argument("space")
+@click.pass_context
+def focus_space(ctx, space):
+    ctx.obj["wm"].focus_space(space)
+
+
+if __name__ == "__main__":
+    cli(obj={})

@@ -14,16 +14,16 @@ shift + cmd - l : yabai -m window --warp east
 
 # fast focus desktop
 # see .zprofile for yabai_focus_space
-cmd - 1 : yabai_focus_space 1
-cmd - 2 : yabai_focus_space 2
-cmd - 3 : yabai_focus_space 3
-cmd - 4 : yabai_focus_space 4
-cmd - 5 : yabai_focus_space 5
-cmd - 6 : yabai_focus_space 6
-cmd - 7 : yabai_focus_space 7
-cmd - 8 : yabai_focus_space 8
-cmd - 9 : yabai_focus_space 9
-cmd - 0 : yabai_focus_space 10
+cmd - 1 : yabaictl focus-space 1
+cmd - 2 : yabaictl focus-space 2
+cmd - 3 : yabaictl focus-space 3
+cmd - 4 : yabaictl focus-space 4
+cmd - 5 : yabaictl focus-space 5
+cmd - 6 : yabaictl focus-space 6
+cmd - 7 : yabaictl focus-space 7
+cmd - 8 : yabaictl focus-space 8
+cmd - 9 : yabaictl focus-space 9
+cmd - 0 : yabaictl focus-space 10
 
 
 # send window to desktop and follow focus

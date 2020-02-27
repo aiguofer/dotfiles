@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
-source ~/.functions_common
+source ~/.env_common
+source ~/.load_language_envs
 
 # bar settings
 yabai -m config status_bar                   off
@@ -44,22 +45,13 @@ yabai -m config left_padding                 5
 yabai -m config right_padding                5
 yabai -m config window_gap                   10
 
-yabai -m rule --add app="Google Play Music Desktop Player" space="s10"
+# creates spaces and labels
+yabaictl update-spaces
+
+yabai -m rule --add app="Google Play Music Desktop Player" space=s10
 yabai -m rule --add app="System Preferences" manage=off
 
-yabai -m signal --add event=display_added action='zsh -c "yabai_ensure_spaces"'
-yabai -m signal --add event=display_removed action='zsh -c "yabai_ensure_spaces"'
-
-yabai_ensure_spaces
-
-# echo "There are now $num_displays displays"
-# num_displays=$(yabai -m query --displays | jq '. | length')
-# for i in {1..10}; do
-#     if [[ $(( $num_displays - $i % $num_displays )) == 2 ]]; then
-#         echo "Moving space $i to display $(( $num_displays - $i % $num_displays ))"
-#         yabai -m space $i --display $(( $num_displays - $i % $num_displays ))
-#     fi
-# done
-
+yabai -m signal --add event=display_added action='zsh -c "yabaictl update-spaces"'
+yabai -m signal --add event=display_removed action='zsh -c "yabaictl update-spaces"'
 
 echo "yabai configuration loaded.."

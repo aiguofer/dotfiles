@@ -24,4 +24,3 @@ if [[ ( "$SHLVL" -eq 1 && ! -o LOGIN ) && -s "${ZDOTDIR:-$HOME}/.zprofile" ]]; t
 fi
 
 source $HOME/.env_common
-source $HOME/.functions_common
