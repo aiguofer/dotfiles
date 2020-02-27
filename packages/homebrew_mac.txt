@@ -9,3 +9,4 @@ wget
 git
 tree
 gpg2
+blueutil

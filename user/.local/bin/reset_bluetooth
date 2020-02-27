@@ -1,13 +1,34 @@
 #!/bin/bash
 
-sudo rfkill unblock bluetooth
-sleep 1
-sudo modprobe -r btusb
-sleep 1
-sudo modprobe btusb
-sleep 3
-sudo hciconfig hci0 reset
-sleep 3
-sudo hciconfig hci0 up
+if [[ "$OSTYPE" == darwin* ]]; then
+    echo "Restarting bluetooth service..."
+    blueutil -p 0 && sleep 1 && blueutil -p 1
 
-sudo systemctl restart bluetooth
+    echo "Waiting bluetooth service to be restored..."
+    until blueutil -p | grep "1" >/dev/null; do sleep 1; done
+
+    echo "Searching for devices not connected..."
+    devices=($(blueutil --paired | grep "not connected" | awk -F '[ ,]' '{print $2}'))
+    echo "Found ${#devices[@]} recently paired devices not connected"
+
+    for device in ${devices[@]}; do
+        for retry in {1..5}; do
+    	    echo "Trying to connect to ${device} ..."
+            if blueutil --connect ${device}; then break; fi
+            echo "Failed to connect to ${device}"
+            sleep 1
+        done
+    done
+else
+    sudo rfkill unblock bluetooth
+    sleep 1
+    sudo modprobe -r btusb
+    sleep 1
+    sudo modprobe btusb
+    sleep 3
+    sudo hciconfig hci0 reset
+    sleep 3
+    sudo hciconfig hci0 up
+
+    sudo systemctl restart bluetooth
+fi
