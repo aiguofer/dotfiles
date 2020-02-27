@@ -9,4 +9,6 @@ wget
 git
 tree
 gpg2
+htop
+tig
 blueutil
