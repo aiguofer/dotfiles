@@ -1,9 +1,10 @@
-#!/bin/bash
+#!/bin/zsh
 COMPLETIONS_DIR=~/.zsh/completions
 
 # Generate completion for apps that generate them
 completion_generators=(
     "poetry completions zsh"
+    "pipenv --completion"
 )
 
 for completion_generator in "${completion_generators[@]}"; do
