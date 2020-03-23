@@ -87,7 +87,7 @@ ctrl + cmd - t : /Applications/Alacritty.app/Contents/MacOS/alacritty -e tmux at
 ctrl + cmd - e : $HOME/.local/bin/editor
 ctrl + cmd - i : /Applications/Google\ Chrome.app/Contents/MacOS/Google\ Chrome
 ctrl + cmd - f : open ~
-ctrl + cmd - u : /bin/bash -c "songliker"
+ctrl + cmd - u : /bin/bash -l -c "songliker"
 
 
 # change layout of desktop
