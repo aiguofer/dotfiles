@@ -22,7 +22,10 @@ setups = {
     ],
 }
 
-ignore_messages = ["acting space is already located on the given display."]
+ignore_messages = [
+    "acting space is already located on the given display.",
+    "cannot focus an already focused space.",
+]
 # TODO: need to handle following errors:
 "acting space is the last user-space on the source display and cannot be destroyed."
 "acting space is the last user-space on the source display and cannot be moved."
