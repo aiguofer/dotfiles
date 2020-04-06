@@ -12,3 +12,4 @@ gpg2
 htop
 tig
 blueutil
+freetds
