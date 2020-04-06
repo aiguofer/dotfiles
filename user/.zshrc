@@ -41,6 +41,9 @@ source $HOME/.zshpaths
 # make sure autocompletions are loaded correctly
 autoload -Uz bashcompinit && bashcompinit
 
+# had to move this out of zsh_plugins because it made zsh crash
+antibody bundle robbyrussell/oh-my-zsh path:plugins/aws
+
 # Fix for zsh eating scp globs
 # see https://unix.stackexchange.com/a/106981/154222
 alias scp='noglob scp_wrap'
