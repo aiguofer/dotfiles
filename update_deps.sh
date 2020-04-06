@@ -1,17 +1,17 @@
 #!/bin/zsh
 
-if [ $commands[brew] ]; then
+if [[ $commands[brew] ]]; then
     echo "Updating Homebrew packages"
     brew upgrade
     brew cask upgrade
 fi
 
-if [ $commands[antibody] ]; then
+if [[ $commands[antibody] ]]; then
     echo "Updating zsh modules"
     antibody update
 fi
 
-if [ $commands[pyenv] ]; then
+if [[ $commands[pyenv] ]]; then
     echo "Updating pyenv"
     pyenv update
 
@@ -21,39 +21,39 @@ if [ $commands[pyenv] ]; then
 
 fi
 
-if [ $commands[nvm] ]; then
+if [[ $commands[nvm] ]]; then
     echo "Updating nvm"
     nvm upgrade
 fi
 
-if [ $commands[rbenv] ]; then
+if [[ $commands[rbenv] ]]; then
     echo "Updating rbenv"
     cd $HOME/.rbenv/
     git pull
 fi
 
 tpm=$HOME/.tmux/plugins/tpm/bin/update_plugins
-if [ -f $tpm ]; then
+if [[ -f $tpm ]]; then
     echo "Updating tmux plugins"
     $tpm all
 fi
 
-if [ $commands[pipx] ]; then
+if [[ $commands[pipx] ]]; then
     echo "Updating packages installed through pipx"
     pipx upgrade-all
 fi
 
-if [ $commands[dnf] ]; then
+if [[ $commands[dnf] ]]; then
     echo "Updating Fedora packages"
     sudo dnf -y upgrade --refresh
 fi
 
-if [ $commands[flatpak] ]; then
+if [[ $commands[flatpak] ]]; then
     echo "Updating flatpacks"
     flatpak -y update
 fi
 
-if [ $commands[apt] ]; then
+if [[ $commands[apt] && ! -L $(which apt) ]]; then
     echo "Updating Ubuntu packages"
     sudo apt update
     sudo apt full-upgrade -y
