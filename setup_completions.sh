@@ -1,4 +1,4 @@
-#!/bin/zsh
+#!/bin/bash
 COMPLETIONS_DIR=~/.zsh/completions
 
 # Generate completion for apps that generate them
@@ -24,8 +24,10 @@ download_completions=(
 )
 base_url="https://raw.githubusercontent.com"
 for comp in "${download_completions[@]}"; do
-    IFS=' ' read -r -a parts <<< "$comp"
-    curl -sL "${base_url}/${parts[0]}" -o "$COMPLETIONS_DIR/${parts[1]}"
+    path=$(echo $comp | cut -d' ' -f1)
+    output_name=$(echo $comp | cut -d' ' -f2)
+
+    curl -sL "${base_url}/${path}" -o "$COMPLETIONS_DIR/${output_name}"
 done
 
 # Generate completions for Click apps
