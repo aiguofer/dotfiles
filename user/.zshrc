@@ -56,6 +56,9 @@ function scp_wrap {
   esac; done
   command scp "${(@)args}"
 }
+
+eval "$(direnv hook zsh)"
+
 # uncomment below to figure out bottlenecks
 # zprof
 

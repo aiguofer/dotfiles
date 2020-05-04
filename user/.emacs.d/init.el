@@ -693,4 +693,9 @@
 (use-package package-lint
   :straight t)
 
+(use-package direnv
+  :straight t
+  :config
+  (direnv-mode))
+
 ;;; init.el ends here

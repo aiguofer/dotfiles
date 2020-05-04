@@ -7,3 +7,4 @@ fi
 
 source $HOME/.alias_common
 source $HOME/.functions_common
+eval "$(direnv hook bash)"
