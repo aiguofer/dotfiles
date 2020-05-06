@@ -54,6 +54,7 @@ yabai -m rule --add app="Pritunl" manage=off
 yabai -m rule --add app="DBeaver.*" title=".*([Cc]onnect|Preferences|Search|Driver|[Pp]roperties).*)" manage=off
 yabai -m rule --add app="Calculator" manage=off
 yabai -m rule --add app="Installer" manage=off
+yabai -m rule --add app="PluginLauncher" manage=off
 
 yabai -m signal --add event=display_added action='zsh -c "yabaictl update-spaces"'
 yabai -m signal --add event=display_removed action='zsh -c "yabaictl update-spaces"'
