@@ -21,7 +21,6 @@ scrolling:
   # Specifying '0' will disable scrolling.
   history: 0
 
-tabspaces: 4
 
 # Font configuration (changes require restart)
 font:
