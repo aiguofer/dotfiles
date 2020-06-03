@@ -94,6 +94,8 @@ class WindowManager:
             print("unidentified setup")
 
     def find_display_index(self, display):
+        if display < 0:
+            raise Exception("Negative index not allowed")
         uuid = self.display_order[display]
 
         return next(
