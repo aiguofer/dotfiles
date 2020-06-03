@@ -35,12 +35,12 @@ def yabai_message(*msg):
     ret = subprocess.run(["yabai", "-m", *msg], capture_output=True)
 
     if ret.returncode:
-        err_msg = ret.stderr.decode()
+        err_msg = ret.stderr.decode().strip()
 
-        if err_msg.strip() not in ignore_messages:
+        if err_msg not in ignore_messages:
             raise Exception(err_msg)
         else:
-            print(f"While running {msg} we received error: {err_msg}")
+            print(f"While running {msg} we received error: {err_msg}\n")
 
     return ret.stdout.decode()
 
@@ -78,13 +78,18 @@ class WindowManager:
     def focused_space(self):
         return next(space for space in self.spaces if space["focused"] > 0)
 
+    @property
+    def display_uuids(self):
+        return [display["uuid"] for display in self.displays]
+
     def refresh_state(self):
         self.spaces = yabai_query("spaces")
         self.displays = yabai_query("displays")
 
         for setup in setups.values():
-            if set([display["uuid"] for display in self.displays]) == set(setup):
+            if set(self.display_uuids) == set(setup):
                 self.display_order = setup
+
         if self.display_order == []:
             print("unidentified setup")
 
@@ -104,6 +109,8 @@ class WindowManager:
         return space % self.num_displays - 1
 
     def focus_space(self, space):
+        if "s" in str(space):
+            space = space.strip("s")
         yabai_message("space", "--focus", f"s{space}")
 
     def focus_window(self, direction):
@@ -179,15 +186,17 @@ class WindowManager:
             )
 
     def reorganize_spaces(self):
-        focused_spaces = self.visible_spaces
+        starting_visible_spaces = self.visible_spaces
 
         for space_index in range(1, self.NUM_SPACES + 1):
             self.move_space_to_display(
                 space_index, self.get_display_for_space(space_index),
             )
 
-        for space in focused_spaces[: min(self.num_displays, len(focused_spaces))]:
-            self.focus_space(space["label"].strip("s"))
+        for space in starting_visible_spaces[
+            : min(self.num_displays, len(starting_visible_spaces))
+        ]:
+            self.focus_space(space["label"])
 
     def update_spaces(self):
         self.ensure_spaces()
