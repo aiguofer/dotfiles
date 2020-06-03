@@ -57,8 +57,9 @@ function scp_wrap {
   command scp "${(@)args}"
 }
 
-eval "$(direnv hook zsh)"
-
+if [[ $commands[nvm] ]]; then
+    eval "$(direnv hook zsh)"
+fi
 # uncomment below to figure out bottlenecks
 # zprof
 
