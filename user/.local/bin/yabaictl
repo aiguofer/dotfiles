@@ -49,10 +49,21 @@ def yabai_query(domain):
     return json.loads(yabai_message("query", "--{}".format(domain)))
 
 
+def find_all(objects, key, value):
+    return (obj for obj in objects if obj[key] == value)
+
+
+def find_one(objects, key, value):
+    try:
+        return next(find_all(objects, key, value))
+    except StopIteration:
+        return
+
+
 class WindowManager:
     spaces = []
     displays = []
-    display_order = []
+
     NUM_SPACES = 10
 
     def __init__(self):
@@ -68,15 +79,15 @@ class WindowManager:
 
     @property
     def unlabled_spaces(self):
-        return [space for space in self.spaces if space["label"] == ""]
+        return list(find_all(self.spaces, "label", ""))
 
     @property
     def visible_spaces(self):
-        return [space for space in self.spaces if space["visible"] > 0]
+        return list(find_all(self.spaces, "visible", 1))
 
     @property
     def focused_space(self):
-        return next(space for space in self.spaces if space["focused"] > 0)
+        return find_one(self.spaces, "focused", 1)
 
     @property
     def display_uuids(self):
@@ -85,27 +96,52 @@ class WindowManager:
     def refresh_state(self):
         self.spaces = yabai_query("spaces")
         self.displays = yabai_query("displays")
+        found_setup = False
 
         for setup in setups.values():
             if set(self.display_uuids) == set(setup):
-                self.display_order = setup
+                found_setup = True
+                for ix, uuid in enumerate(setup):
+                    self.find_display(uuid=uuid)["location"] = ix
 
-        if self.display_order == []:
-            print("unidentified setup")
+        if not found_setup:
+            print("unidentified monitor setup")
 
-    def find_display_index(self, display):
-        if display < 0:
-            raise Exception("Negative index not allowed")
-        uuid = self.display_order[display]
+    def find_display(self, display=None, index=None, uuid=None):
+        """
 
-        return next(
-            display["index"] for display in self.displays if display["uuid"] == uuid
-        )
+        Parameters
+        ----------
+        display :
+             Human identifiable display index (based on display order)
+        index :
+             System managed display index (based on returned value from yabai)
+        uuid :
+             System managed display UUID
 
-    def find_space_index(self, space):
-        return next(
-            space["index"] for space in self.spaces if space["label"] == f"s{space}"
-        )
+        Returns
+        -------
+
+        """
+        if display is not None:
+            if display < 0:
+                raise Exception("Negative index not allowed")
+            val = display
+            key = "location"
+        elif uuid is not None:
+            val = uuid
+            key = "uuid"
+        elif index is not None:
+            val = index
+            key = "index"
+
+        return find_one(self.displays, key, val)
+
+    def find_space(self, space):
+        if "s" in str(space):
+            space = space.strip("s")
+
+        return find_one(self.spaces, "label", f"s{space}")
 
     def get_display_for_space(self, space):
         return space % self.num_displays - 1
@@ -116,6 +152,8 @@ class WindowManager:
         yabai_message("space", "--focus", f"s{space}")
 
     def focus_window(self, direction):
+        """Move focus using `yabai -m window --focus` but allow moving across displays
+        when using east or west."""
         try:
             yabai_message("window", "--focus", str(direction))
         except Exception as e:
@@ -135,31 +173,23 @@ class WindowManager:
                 self.focus_window(next_space.get(key))
 
     def _next_space(self, direction):
-        curr_display_uuid = next(
-            display["uuid"]
-            for display in self.displays
-            if display["index"] == self.focused_space["display"]
-        )
-        curr_display_index = self.display_order.index(curr_display_uuid)
+        curr_display_loc = self.find_display(index=self.focused_space["display"])[
+            "location"
+        ]
+
         if direction == "east":
-            next_display = curr_display_index + 1
+            next_display = curr_display_loc + 1
         elif direction == "west":
-            next_display = curr_display_index - 1
+            next_display = curr_display_loc - 1
         else:
             return
-        try:
-            next_display_index = self.find_display_index(next_display)
-        except:
-            return
 
-        return next(
-            space
-            for space in self.visible_spaces
-            if space["display"] == next_display_index
-        )
+        next_display = self.find_display(display=next_display)
+
+        return find_one(self.visible_spaces, "display", next_display["index"])
 
     def move_space_to_display(self, space, display):
-        display_index = self.find_display_index(display)
+        display_index = self.find_display(display=display)["index"]
 
         yabai_message(
             "space", f"s{space}", "--display", f"{display_index}",
