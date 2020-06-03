@@ -13,3 +13,5 @@ htop
 tig
 blueutil
 freetds
+ripgrep
+ripgrep-all

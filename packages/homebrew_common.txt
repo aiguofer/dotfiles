@@ -8,8 +8,6 @@ minikube
 travis
 openshift-cli
 tmux
-ripgrep
-ripgrep-all
 the_silver_searcher
 heroku
 fzy
