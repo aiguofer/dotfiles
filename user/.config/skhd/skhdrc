@@ -1,10 +1,10 @@
 cmd + ctrl - q : yabai -m window --close
 
 # focus window
-cmd - j : yabai -m window --focus west
-cmd - k : yabai -m window --focus south
-cmd - i : yabai -m window --focus north
-cmd - l : yabai -m window --focus east
+cmd - j : yabaictl focus-window west
+cmd - k : yabaictl focus-window south
+cmd - i : yabaictl focus-window north
+cmd - l : yabaictl focus-window east
 
 # move window
 shift + cmd - j : yabai -m window --warp west

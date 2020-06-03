@@ -74,6 +74,10 @@ class WindowManager:
     def visible_spaces(self):
         return [space for space in self.spaces if space["visible"] > 0]
 
+    @property
+    def focused_space(self):
+        return next(space for space in self.spaces if space["focused"] > 0)
+
     def refresh_state(self):
         self.spaces = yabai_query("spaces")
         self.displays = yabai_query("displays")
@@ -101,6 +105,49 @@ class WindowManager:
 
     def focus_space(self, space):
         yabai_message("space", "--focus", f"s{space}")
+
+    def focus_window(self, direction):
+        try:
+            yabai_message("window", "--focus", str(direction))
+        except Exception as e:
+            if f"could not locate a {direction}ward managed window." in str(e):
+                """find next display in {direction}, then find active space in that
+                display, then focus first(east)/last(west) window in that space."""
+                next_space = self._next_space(direction)
+                if not next_space:
+                    raise
+                key = (
+                    "last-window"
+                    if direction == "west"
+                    else "first-window"
+                    if direction == "east"
+                    else ""
+                )
+                self.focus_window(next_space.get(key))
+
+    def _next_space(self, direction):
+        curr_display_uuid = next(
+            display["uuid"]
+            for display in self.displays
+            if display["index"] == self.focused_space["display"]
+        )
+        curr_display_index = self.display_order.index(curr_display_uuid)
+        if direction == "east":
+            next_display = curr_display_index + 1
+        elif direction == "west":
+            next_display = curr_display_index - 1
+        else:
+            return
+        try:
+            next_display_index = self.find_display_index(next_display)
+        except:
+            return
+
+        return next(
+            space
+            for space in self.visible_spaces
+            if space["display"] == next_display_index
+        )
 
     def move_space_to_display(self, space, display):
         display_index = self.find_display_index(display)
@@ -176,6 +223,13 @@ def update_spaces(ctx):
 @click.pass_context
 def focus_space(ctx, space):
     ctx.obj["wm"].focus_space(space)
+
+
+@cli.command()
+@click.argument("direction")
+@click.pass_context
+def focus_window(ctx, direction):
+    ctx.obj["wm"].focus_window(direction)
 
 
 if __name__ == "__main__":
