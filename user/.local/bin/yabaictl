@@ -1,6 +1,8 @@
 #!/Users/Diego/.pyenv/versions/default3/bin/python
 import json
+import pickle
 import subprocess
+from os.path import expanduser
 
 import click
 
@@ -61,13 +63,26 @@ def find_one(objects, key, value):
 
 
 class WindowManager:
-    spaces = []
-    displays = []
+    state = {"spaces": [], "displays": [], "windows": []}
+    cache_path = expanduser("~/.cache/yabaictl")
 
     NUM_SPACES = 10
 
     def __init__(self):
+        self.found_setup = False
         self.refresh_state()
+
+    @property
+    def spaces(self):
+        return self.state["spaces"]
+
+    @property
+    def displays(self):
+        return self.state["displays"]
+
+    @property
+    def windows(self):
+        return self.state["windows"]
 
     @property
     def num_displays(self):
@@ -76,6 +91,10 @@ class WindowManager:
     @property
     def num_spaces(self):
         return len(self.spaces)
+
+    @property
+    def num_windows(self):
+        return len(self.windows)
 
     @property
     def unlabled_spaces(self):
@@ -93,19 +112,34 @@ class WindowManager:
     def display_uuids(self):
         return [display["uuid"] for display in self.displays]
 
-    def refresh_state(self):
-        self.spaces = yabai_query("spaces")
-        self.displays = yabai_query("displays")
-        found_setup = False
+    @property
+    def window_ids(self):
+        return [window["id"] for window in self.windows]
 
+    def find_monitor_setup(self):
+        found_setup = False
         for setup in setups.values():
             if set(self.display_uuids) == set(setup):
                 found_setup = True
                 for ix, uuid in enumerate(setup):
                     self.find_display(uuid=uuid)["location"] = ix
+        return found_setup
 
-        if not found_setup:
-            print("unidentified monitor setup")
+    def refresh_state(self):
+        self.state["spaces"] = yabai_query("spaces")
+        self.state["displays"] = yabai_query("displays")
+        self.state["windows"] = yabai_query("windows")
+
+        if not self.find_monitor_setup():
+            raise Exception("unidentified monitor setup")
+
+    def save_state(self):
+        with open(self.cache_path, "wb") as f:
+            pickle.dump(self.state, f)
+
+    def load_state(self):
+        with open(self.cache_path, "rb") as f:
+            return pickle.load(f)
 
     def find_display(self, display=None, index=None, uuid=None):
         """
@@ -124,8 +158,6 @@ class WindowManager:
 
         """
         if display is not None:
-            if display < 0:
-                raise Exception("Negative index not allowed")
             val = display
             key = "location"
         elif uuid is not None:
@@ -137,19 +169,40 @@ class WindowManager:
 
         return find_one(self.displays, key, val)
 
-    def find_space(self, space):
+    def find_space(self, space=None, index=None):
+        """
+
+        Parameters
+        ----------
+        space :
+             Human identifiable space index. Can be just number or label (s<number>)
+        index :
+             System managed space index (based on returned value from yabai)
+
+        Returns
+        -------
+
+        """
+        if space is not None:
+            # ensure we do the right thing whether a label or just number is provided
+            val = self._space_label(space)
+            key = "label"
+        elif index is not None:
+            val = index
+            key = "index"
+
+        return find_one(self.spaces, key, val)
+
+    def _space_label(self, space):
         if "s" in str(space):
-            space = space.strip("s")
+            return space
+        return f"s{space}"
 
-        return find_one(self.spaces, "label", f"s{space}")
-
-    def get_display_for_space(self, space):
-        return space % self.num_displays - 1
+    def display_for_space(self, space):
+        return (space - 1) % self.num_displays
 
     def focus_space(self, space):
-        if "s" in str(space):
-            space = space.strip("s")
-        yabai_message("space", "--focus", f"s{space}")
+        yabai_message("space", "--focus", self._space_label(space))
 
     def focus_window(self, direction):
         """Move focus using `yabai -m window --focus` but allow moving across displays
@@ -184,16 +237,26 @@ class WindowManager:
         else:
             return
 
+        if next_display < 0:
+            raise Exception("Negative index not allowed")
+
         next_display = self.find_display(display=next_display)
 
         return find_one(self.visible_spaces, "display", next_display["index"])
 
     def move_space_to_display(self, space, display):
+        if self.find_display(display=display) is None:
+            import ipdb
+
+            ipdb.set_trace()
         display_index = self.find_display(display=display)["index"]
 
         yabai_message(
-            "space", f"s{space}", "--display", f"{display_index}",
+            "space", self._space_label(space), "--display", f"{display_index}",
         )
+
+    def move_window_to_space(self, window, space):
+        yabai_message("window", str(window), "--space", self._space_label(space))
 
     def remove_unnecessary_spaces(self):
         if self.num_spaces > self.NUM_SPACES:
@@ -206,7 +269,7 @@ class WindowManager:
                 yabai_message("space", "--create")
 
     def ensure_labels(self):
-        wanted_labels = set(f"s{i}" for i in range(1, self.NUM_SPACES + 1))
+        wanted_labels = set(self._space_label(i) for i in range(1, self.NUM_SPACES + 1))
         existing_labels = set(space["label"] for space in self.spaces)
 
         for ix, missing_label in enumerate(sorted(wanted_labels - existing_labels)):
@@ -218,17 +281,21 @@ class WindowManager:
             )
 
     def reorganize_spaces(self):
-        starting_visible_spaces = self.visible_spaces
+        old_state = self.load_state()
 
         for space_index in range(1, self.NUM_SPACES + 1):
             self.move_space_to_display(
-                space_index, self.get_display_for_space(space_index),
+                space_index, self.display_for_space(space_index),
             )
 
-        for space in starting_visible_spaces[
-            : min(self.num_displays, len(starting_visible_spaces))
-        ]:
-            self.focus_space(space["label"])
+        for space in old_state["spaces"]:
+            for window in space["windows"]:
+                if window in self.window_ids:
+                    self.move_window_to_space(window, space["label"])
+
+        # after re-shuffling, focus the "default" spaces
+        for i in range(1, self.num_displays + 1):
+            self.focus_space(i)
 
     def update_spaces(self):
         self.ensure_spaces()
@@ -252,11 +319,14 @@ def cli(ctx):
 
     ctx.obj["wm"] = WindowManager()
 
+    return ctx
+
 
 @cli.command()
 @click.pass_context
 def update_spaces(ctx):
     ctx.obj["wm"].update_spaces()
+    return ctx
 
 
 @cli.command()
@@ -264,6 +334,7 @@ def update_spaces(ctx):
 @click.pass_context
 def focus_space(ctx, space):
     ctx.obj["wm"].focus_space(space)
+    return ctx
 
 
 @cli.command()
@@ -271,6 +342,12 @@ def focus_space(ctx, space):
 @click.pass_context
 def focus_window(ctx, direction):
     ctx.obj["wm"].focus_window(direction)
+    return ctx
+
+
+@cli.resultcallback()
+def end(ctx):
+    ctx.obj["wm"].save_state()
 
 
 if __name__ == "__main__":
