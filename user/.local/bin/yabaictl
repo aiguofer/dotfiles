@@ -353,6 +353,13 @@ def focus_window(ctx, direction):
     return ctx
 
 
+@cli.command()
+@click.pass_context
+def swap_context(ctx):
+    ctx.obj["wm"].swap_context()
+    return ctx
+
+
 @cli.resultcallback()
 def end(ctx):
     ctx.obj["wm"].save_state()

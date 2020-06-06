@@ -25,6 +25,7 @@ cmd - 8 : yabaictl focus-space 8
 cmd - 9 : yabaictl focus-space 9
 cmd - 0 : yabaictl focus-space 10
 
+cmd + ctrl - s : yabaictl swap-context
 
 # send window to desktop and follow focus
 shift + cmd - 1 : yabai -m window --space  s1; yabai -m space --focus s1
@@ -88,7 +89,6 @@ ctrl + cmd - e : $HOME/.local/bin/editor
 ctrl + cmd - i : /Applications/Google\ Chrome.app/Contents/MacOS/Google\ Chrome
 ctrl + cmd - f : open ~
 ctrl + cmd - u : /bin/bash -l -c "songliker"
-
 
 # change layout of desktop
 # ctrl + alt - a : yabai -m space --layout bsp
