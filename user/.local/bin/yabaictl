@@ -133,6 +133,20 @@ class WindowManager:
         if not self.find_monitor_setup():
             raise Exception("unidentified monitor setup")
 
+    def label_space(self, space_index, label):
+        yabai_message(
+            "space", f"{space_index}", "--label", self._space_label(label),
+        )
+
+    def swap_context(self):
+        """Swap spaces between the first and second spaces for each display."""
+        for i in range(1, self.num_displays + 1):
+            first = self.find_space(i)
+            second = self.find_space(i + self.num_displays)
+            self.label_space(first["index"], i + self.num_displays)
+            self.label_space(second["index"], i)
+        self.refocus_first_spaces()
+
     def save_state(self):
         with open(self.cache_path, "wb") as f:
             pickle.dump(self.state, f)
@@ -245,10 +259,6 @@ class WindowManager:
         return find_one(self.visible_spaces, "display", next_display["index"])
 
     def move_space_to_display(self, space, display):
-        if self.find_display(display=display) is None:
-            import ipdb
-
-            ipdb.set_trace()
         display_index = self.find_display(display=display)["index"]
 
         yabai_message(
@@ -273,12 +283,11 @@ class WindowManager:
         existing_labels = set(space["label"] for space in self.spaces)
 
         for ix, missing_label in enumerate(sorted(wanted_labels - existing_labels)):
-            yabai_message(
-                "space",
-                f"{self.unlabled_spaces[ix]['index']}",
-                "--label",
-                missing_label,
-            )
+            self.label_space(self.unlabled_spaces[ix]["index"], missing_label)
+
+    def refocus_first_spaces(self):
+        for i in range(1, self.num_displays + 1):
+            self.focus_space(i)
 
     def reorganize_spaces(self):
         old_state = self.load_state()
@@ -294,8 +303,7 @@ class WindowManager:
                     self.move_window_to_space(window, space["label"])
 
         # after re-shuffling, focus the "default" spaces
-        for i in range(1, self.num_displays + 1):
-            self.focus_space(i)
+        self.refocus_first_spaces()
 
     def update_spaces(self):
         self.ensure_spaces()
