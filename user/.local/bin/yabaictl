@@ -1,10 +1,9 @@
 #!/Users/Diego/.pyenv/versions/default3/bin/python
+import argparse
 import json
 import pickle
 import subprocess
 from os.path import expanduser
-
-import click
 
 # these are used to determine display order
 setups = {
@@ -318,52 +317,28 @@ class WindowManager:
         self.refresh_state()
 
 
-@click.group()
-@click.pass_context
-def cli(ctx):
-    # ensure that ctx.obj exists and is a dict (in case `cli()` is called
-    # by means other than the `if` block below
-    ctx.ensure_object(dict)
-
-    ctx.obj["wm"] = WindowManager()
-
-    return ctx
+def add_subcommand(sub, func, subcommand_name, subcommand_args=[]):
+    parser = sub.add_parser(subcommand_name)
+    parser.set_defaults(func=func)
+    for arg in subcommand_args:
+        parser.add_argument(arg)
 
 
-@cli.command()
-@click.pass_context
-def update_spaces(ctx):
-    ctx.obj["wm"].update_spaces()
-    return ctx
+def parse_args(wm):
+    parser = argparse.ArgumentParser()
+    sub = parser.add_subparsers()
 
+    add_subcommand(sub, wm.focus_space, "focus-space", ["space"])
+    add_subcommand(sub, wm.focus_window, "focus-window", ["direction"])
+    add_subcommand(sub, wm.swap_context, "swap-contest")
 
-@cli.command()
-@click.argument("space")
-@click.pass_context
-def focus_space(ctx, space):
-    ctx.obj["wm"].focus_space(space)
-    return ctx
-
-
-@cli.command()
-@click.argument("direction")
-@click.pass_context
-def focus_window(ctx, direction):
-    ctx.obj["wm"].focus_window(direction)
-    return ctx
-
-
-@cli.command()
-@click.pass_context
-def swap_context(ctx):
-    ctx.obj["wm"].swap_context()
-    return ctx
-
-
-@cli.resultcallback()
-def end(ctx):
-    ctx.obj["wm"].save_state()
+    args = vars(parser.parse_args())
+    return args.pop("func"), args
 
 
 if __name__ == "__main__":
-    cli(obj={})
+    wm = WindowManager()
+    func, args = parse_args(wm)
+    func(**args)
+
+    wm.save_state()
