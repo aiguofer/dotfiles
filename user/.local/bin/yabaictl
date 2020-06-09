@@ -328,9 +328,10 @@ def parse_args(wm):
     parser = argparse.ArgumentParser()
     sub = parser.add_subparsers()
 
+    add_subcommand(sub, wm.update_spaces, "update-spaces")
+    add_subcommand(sub, wm.swap_context, "swap-context")
     add_subcommand(sub, wm.focus_space, "focus-space", ["space"])
     add_subcommand(sub, wm.focus_window, "focus-window", ["direction"])
-    add_subcommand(sub, wm.swap_context, "swap-contest")
 
     args = vars(parser.parse_args())
     return args.pop("func"), args
