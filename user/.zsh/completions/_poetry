@@ -62,7 +62,7 @@ _poetry_complete()
             ;;
 
             (export)
-            opts+=("--dev:Include development dependencies." "--extras:Extra sets of dependencies to include." "--format:Format to export to." "--output:The name of the output file." "--with-credentials:Include credentials for extra indices." "--without-hashes:Exclude hashes from the exported file.")
+            opts+=("--dev:Include development dependencies." "--extras:Extra sets of dependencies to include." "--format:Format to export to. Currently, only requirements.txt is supported." "--output:The name of the output file." "--with-credentials:Include credentials for extra indices." "--without-hashes:Exclude hashes from the exported file.")
             ;;
 
             (help)
