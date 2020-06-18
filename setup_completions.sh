@@ -50,7 +50,9 @@ for f in $(find $COMPLETIONS_DIR -type f); do
     header="#compdef $cname"
 
     if [ -z "$(grep "$header" $f)" ] && [ "$cname" != "tlp-radio-devices" ]; then
-        sed -i "1i$header" $f
+        sed -i '' "1 i\\
+$header
+" $f
     fi
 done
 
