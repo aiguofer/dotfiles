@@ -5,19 +5,31 @@ I've organized my dotfiles into 2 directores `user` and `system`. Under each, I 
 These dotfiles are mainly focused around using systemd to manage user processes and using the following tools:
 
 ```
-i3 (gaps)
-polybar
-compton
-alacritty (previously terminator)
-rofi
-dunst
-pyenv
-zsh
-tmux
-Google Play Media Desktop Player
-git
-powerline
-pipx (used to install a variety of Python based cli tools)
+Linux:
+
+i3 (gaps) - Tiling window manager
+polybar - Status bar for i3
+compton - Compositor for i3
+rofi - Application opener for i3
+dunst - Notifications daemon for i3
+
+MacOS
+
+yabai - Tiling window manager
+skhd - Keybinding manager for yabai (and other WM stuff)
+
+
+Both
+
+emacs - Editor/IDE
+alacritty - Terminal (previously terminator)
+pyenv - Python version/virtualenv/project manager
+zsh - Shell
+tmux - Shell multiplexer (and shell session manager)
+Google Play Media Desktop Player - Media player
+git - Source control
+powerline - Shell font
+pipx - Python cli tool installer/manager
 homebrew (and linuxbrew)
 ```
 
@@ -60,4 +72,8 @@ focuswindow      # script to focus a specific window given a name. was used to s
 flip_text        # flip a string of text upside down... because, why not?
 todoist_task     # raise a little GTK window with a text prompt to add a new task to my Todoist inbox, used with key shortcut
 battery-combined-udev.sh # script to combine battery percentage for polybar when multiple batteries are present (no longer used)
+
+# MacOS
+yabaictl         # a wrapper around yabai to implement complex workflows with multiple steps and dependency on state
+
 ```
