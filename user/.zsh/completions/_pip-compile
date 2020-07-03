@@ -1,11 +1,8 @@
 #compdef pip-compile
-
 _pip_compile_completion() {
     local -a completions
     local -a completions_with_descriptions
     local -a response
-    (( ! $+commands[pip-compile] )) && return 1
-
     response=("${(@f)$( env COMP_WORDS="${words[*]}" \
                         COMP_CWORD=$((CURRENT-1)) \
                         _PIP_COMPILE_COMPLETE="complete_zsh" \
@@ -20,11 +17,11 @@ _pip_compile_completion() {
     done
 
     if [ -n "$completions_with_descriptions" ]; then
-        _describe -V unsorted completions_with_descriptions -U
+        _describe -V unsorted completions_with_descriptions -U -Q
     fi
 
     if [ -n "$completions" ]; then
-        compadd -U -V unsorted -a completions
+        compadd -U -V unsorted -Q -a completions
     fi
     compstate[insert]="automenu"
 }
