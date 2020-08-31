@@ -52,3 +52,4 @@ alias sl='ls'            # I often screw this up.
 alias df='df -kh'
 alias du='du -kh'
 alias free='free -lth'
+alias ipy='jupyter console --kernel=$(pyenv version)'
