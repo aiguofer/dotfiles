@@ -21,3 +21,4 @@ pyment
 python-language-server
 tox
 twine
+httpie
