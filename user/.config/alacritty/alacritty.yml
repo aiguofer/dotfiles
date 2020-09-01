@@ -16,6 +16,8 @@ window:
   # Spread additional padding evenly around the terminal content.
   dynamic_padding: false
   decorations: none
+  # Allow terminal applications to change Alacritty's window title.
+  dynamic_title: true
 
 scrolling:
   # Specifying '0' will disable scrolling.
@@ -72,7 +74,7 @@ colors:
      white:   '0xECEFF4'
 
 # Specifying a `duration` of `0` will disable the visual bell.
-visual_bell:
+bell:
   duration: 0
 
 mouse_bindings:
@@ -91,9 +93,6 @@ selection:
 
   # When set to `true`, selected text will be copied to the primary clipboard.
   save_to_clipboard: false
-
-# Allow terminal applications to change Alacritty's window title.
-dynamic_title: true
 
 cursor:
   style: Block
