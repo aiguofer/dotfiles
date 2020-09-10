@@ -51,15 +51,14 @@ for f in $(find $COMPLETIONS_DIR -type f); do
 
     if [ -z "$(grep "$header" $f)" ] && [ "$cname" != "tlp-radio-devices" ]; then
         if [[ "$OSTYPE" == linux* ]]; then
-            params=-i
             sed_cmd="1i$header"
+            sed -i "$sed_cmd" $f
         else
-            params="-i ''"
             sed_cmd="1 i\\
 $header
 "
+            sed -i '' "$sed_cmd" $f
         fi
-        sed $params "$sed_cmd" $f
     fi
 done
 
