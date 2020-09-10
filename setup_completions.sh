@@ -54,7 +54,7 @@ for f in $(find $COMPLETIONS_DIR -type f); do
             params=-i
             sed_cmd="1i$header"
         else
-            params=-i ''
+            params="-i ''"
             sed_cmd="1 i\\
 $header
 "
