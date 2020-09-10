@@ -25,6 +25,7 @@
  '(create-lockfiles nil)
  '(flycheck-python-flake8-executable "~/.local/bin/flake8")
  '(helm-ag-use-agignore t)
+ '(history-delete-duplicates t)
  '(indent-tabs-mode nil)
  '(inhibit-startup-screen t)
  '(jedi:complete-on-dot 1)
