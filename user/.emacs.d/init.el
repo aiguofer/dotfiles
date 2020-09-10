@@ -38,6 +38,10 @@
 
 (add-hook 'after-save-hook 'executable-make-buffer-file-executable-if-script-p)
 
+;; enable up/down case region key shortcuts
+(put 'downcase-region 'disabled nil)
+(put 'upcase-region 'disabled nil)
+
 ;; Bootstrap `straight.el'
 (defvar bootstrap-version)
 (let ((bootstrap-file
