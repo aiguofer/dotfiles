@@ -18,7 +18,8 @@ yabai -m config mouse_follows_focus          off
 yabai -m config focus_follows_mouse          off
 yabai -m config window_placement             second_child
 yabai -m config window_topmost               off
-yabai -m config window_opacity               on
+# having issues with window_opacity
+yabai -m config window_opacity               off
 yabai -m config window_shadow                on
 yabai -m config window_border                on
 yabai -m config window_border_placement      inset
