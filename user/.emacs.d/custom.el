@@ -8,10 +8,9 @@
  ;; If there is more than one, they won't work right.
  '(c-basic-offset 3)
  '(c-default-style
-   (quote
-    ((java-mode . "java")
+   '((java-mode . "java")
      (awk-mode . "awk")
-     (other . "linux"))))
+     (other . "linux")))
  '(clean-buffer-list-delay-general 1)
  '(company-dabbrev-downcase nil)
  '(company-dabbrev-ignore-case nil)
@@ -21,8 +20,7 @@
  '(company-tooltip-align-annotations t)
  '(company-tooltip-limit 30)
  '(company-transformers
-   (quote
-    (company-sort-by-backend-importance company-sort-by-occurrence company-sort-by-statistics)))
+   '(company-sort-by-backend-importance company-sort-by-occurrence company-sort-by-statistics))
  '(confirm-kill-processes nil)
  '(create-lockfiles nil)
  '(flycheck-python-flake8-executable "~/.local/bin/flake8")
@@ -31,28 +29,26 @@
  '(inhibit-startup-screen t)
  '(jedi:complete-on-dot 1)
  '(js-indent-level 2)
- '(js2-global-externs (quote ("angular")))
+ '(js2-global-externs '("angular"))
  '(js2-include-node-externs t)
  '(js2-mode-show-parse-errors nil)
  '(js2-mode-show-strict-warnings nil)
  '(line-number-mode t)
  '(magit-diff-arguments
-   (quote
-    ("--ignore-space-change" "--ignore-all-space" "--no-ext-diff")))
- '(magit-pull-arguments (quote ("--rebase")))
+   '("--ignore-space-change" "--ignore-all-space" "--no-ext-diff"))
+ '(magit-pull-arguments '("--rebase"))
  '(markdown-command "/usr/bin/pandoc")
- '(mode-require-final-newline (quote visit-save))
+ '(mode-require-final-newline 'visit-save)
  '(powerline-gui-use-vcs-glyph t)
- '(projectile-completion-system (quote helm))
+ '(projectile-completion-system 'helm)
  '(projectile-mode-line nil)
  '(python-indent-offset 4)
- '(python-shell-completion-native-disabled-interpreters (quote ("pypy" "ipython" "jupyter")))
+ '(python-shell-completion-native-disabled-interpreters '("pypy" "ipython" "jupyter"))
  '(python-shell-prompt-detect-failure-warning nil)
- '(require-final-newline (quote visit-save))
+ '(require-final-newline 'visit-save)
  '(semantic-default-submodes
-   (quote
-    (global-semantic-idle-scheduler-mode global-semanticdb-minor-mode global-semantic-idle-local-symbol-highlight-mode)))
- '(send-mail-function (quote mailclient-send-it))
+   '(global-semantic-idle-scheduler-mode global-semanticdb-minor-mode global-semantic-idle-local-symbol-highlight-mode))
+ '(send-mail-function 'mailclient-send-it)
  '(tool-bar-mode nil)
  '(vc-follow-symlinks t)
  '(web-mode-auto-close-style 2)
