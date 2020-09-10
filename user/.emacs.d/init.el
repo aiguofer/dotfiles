@@ -346,7 +346,6 @@
   :config
 
   ;; make sure we have lsp-imenu everywhere we have LSP
-  (require 'lsp-clients)
   (add-hook 'lsp-after-open-hook 'lsp-enable-imenu)
 
   ;; lsp extras
