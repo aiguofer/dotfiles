@@ -8,7 +8,7 @@ from os.path import expanduser
 # these are used to determine display order
 setups = {
     "home": [
-        "6735950E-A9E2-080C-4CB2-5BF7E06F3CD8",
+        "C80C2C26-53FE-EF76-5F57-62659E82650E",
         "61F28B2D-48D0-8C85-71D7-555FA75B14B7",
         "0D432098-045E-8AC9-D7CB-D084F9E6D61E",
     ],
@@ -16,9 +16,11 @@ setups = {
         "61F28B2D-48D0-8C85-71D7-555FA75B14B7",
         "0D432098-045E-8AC9-D7CB-D084F9E6D61E",
     ],
-    "laptop": ["6735950E-A9E2-080C-4CB2-5BF7E06F3CD8",],
+    "laptop": [
+        "C80C2C26-53FE-EF76-5F57-62659E82650E",
+    ],
     "work": [
-        "6735950E-A9E2-080C-4CB2-5BF7E06F3CD8",
+        "C80C2C26-53FE-EF76-5F57-62659E82650E",
         "C4D1617A-16EE-8559-4D12-66E174479603",
     ],
 }
@@ -39,6 +41,8 @@ def yabai_message(*msg):
         err_msg = ret.stderr.decode().strip()
 
         if err_msg not in ignore_messages:
+            if "value 's' is not" in err_msg:
+                print(msg)
             raise Exception(err_msg)
         else:
             print(f"While running {msg} we received error: {err_msg}\n")
@@ -134,7 +138,10 @@ class WindowManager:
 
     def label_space(self, space_index, label):
         yabai_message(
-            "space", f"{space_index}", "--label", self._space_label(label),
+            "space",
+            f"{space_index}",
+            "--label",
+            self._space_label(label),
         )
 
     def swap_context(self):
@@ -208,7 +215,12 @@ class WindowManager:
 
     def _space_label(self, space):
         if "s" in str(space):
-            return space
+            if "s" == space:
+                return "s1"
+            return str(space)
+
+        if not space:
+            space = 1
         return f"s{space}"
 
     def display_for_space(self, space):
@@ -226,42 +238,16 @@ class WindowManager:
             if f"could not locate a {direction}ward managed window." in str(e):
                 """find next display in {direction}, then find active space in that
                 display, then focus first(east)/last(west) window in that space."""
-                next_space = self._next_space(direction)
-                if not next_space:
-                    raise
-                key = (
-                    "last-window"
-                    if direction == "west"
-                    else "first-window"
-                    if direction == "east"
-                    else ""
-                )
-                self.focus_window(next_space.get(key))
-
-    def _next_space(self, direction):
-        curr_display_loc = self.find_display(index=self.focused_space["display"])[
-            "location"
-        ]
-
-        if direction == "east":
-            next_display = curr_display_loc + 1
-        elif direction == "west":
-            next_display = curr_display_loc - 1
-        else:
-            return
-
-        if next_display < 0:
-            raise Exception("Negative index not allowed")
-
-        next_display = self.find_display(display=next_display)
-
-        return find_one(self.visible_spaces, "display", next_display["index"])
+                yabai_message("display", "--focus", str(direction))
 
     def move_space_to_display(self, space, display):
         display_index = self.find_display(display=display)["index"]
 
         yabai_message(
-            "space", self._space_label(space), "--display", f"{display_index}",
+            "space",
+            self._space_label(space),
+            "--display",
+            f"{display_index}",
         )
 
     def move_window_to_space(self, window, space):
@@ -293,10 +279,13 @@ class WindowManager:
 
         for space_index in range(1, self.NUM_SPACES + 1):
             self.move_space_to_display(
-                space_index, self.display_for_space(space_index),
+                space_index,
+                self.display_for_space(space_index),
             )
 
         for space in old_state["spaces"]:
+            if space == "s":
+                space = "s1"
             for window in space["windows"]:
                 if window in self.window_ids:
                     self.move_window_to_space(window, space["label"])
