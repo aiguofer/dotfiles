@@ -319,12 +319,12 @@
     (setq elpy-rpc-python-command "python3")
     (setq elpy-rpc-timeout 2))
 
-  (use-package djangonaut
-    :straight t
-    :config
-    (setq pythonic-interpreter "python")
+  ;; (use-package djangonaut
+  ;;   :straight t
+  ;;   :config
+  ;;   (setq pythonic-interpreter "python")
 
-    (global-djangonaut-mode))
+  ;;   (global-djangonaut-mode))
 
   (use-package jupyter
     :straight t
