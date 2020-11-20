@@ -306,7 +306,10 @@
     (:map elpy-mode-map
           ("C-M-n" . elpy-nav-forward-block)
           ("C-M-p" . elpy-nav-backward-block))
-    :hook ((elpy-mode . flycheck-mode))
+    :hook ((elpy-mode . flycheck-mode)
+           (elpy-mode . (lambda ()
+                          (set (make-local-variable 'company-backends)
+                               '((elpy-company-backend :with company-yasnippet))))))
     :init
     (elpy-enable)
     :config
