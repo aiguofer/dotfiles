@@ -704,4 +704,7 @@
   :config
   (direnv-mode))
 
+(use-package highlight-symbol
+  :straight t)
+
 ;;; init.el ends here
