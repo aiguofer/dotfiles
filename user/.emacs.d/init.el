@@ -276,7 +276,7 @@
     :straight (:host github :repo "humitos/py-cmd-buffer.el")
     :hook (python-mode . py-isort-enable-on-save)
     :config
-    (setq py-isort-options '("--lines=88" "-m=3" "-tc" "-fgw=0" "-ca")))
+    (setq py-isort-options '("-l=88" "-m=3" "--tc" "--fgw=0" "--ca")))
 
   (use-package py-autoflake
     :straight (:host github :repo "humitos/py-cmd-buffer.el")
