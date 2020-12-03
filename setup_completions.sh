@@ -5,6 +5,7 @@ COMPLETIONS_DIR=~/.zsh/completions
 completion_generators=(
     "poetry completions zsh"
     "pipenv --completion"
+    "bw completion --shell zsh"
 )
 
 for completion_generator in "${completion_generators[@]}"; do
