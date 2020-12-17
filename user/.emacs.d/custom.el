@@ -23,6 +23,7 @@
    '(company-sort-by-backend-importance company-sort-by-occurrence company-sort-by-statistics))
  '(confirm-kill-processes nil)
  '(create-lockfiles nil)
+ '(flycheck-disabled-checkers (quote (python-mypy python-pylint)))
  '(flycheck-python-flake8-executable "~/.local/bin/flake8")
  '(helm-ag-use-agignore t)
  '(history-delete-duplicates t)
