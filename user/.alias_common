@@ -53,3 +53,5 @@ alias df='df -kh'
 alias du='du -kh'
 alias free='free -lth'
 alias ipy='jupyter console --kernel=$(pyenv version)'
+
+alias aws2='${HOMEBREW_PREFIX}/bin/aws'
