@@ -84,18 +84,33 @@ set $ws9 "9"
 set $ws10 "10"
 
 # bind workspaces to specific monitors
+
+#home
 workspace $ws1 output "eDP-1"
 workspace $ws4 output "eDP-1"
 workspace $ws7 output "eDP-1"
 workspace $ws10 output "eDP-1"
 
-workspace $ws2 output "DP-1-8"
-workspace $ws5 output "DP-1-8"
-workspace $ws8 output "DP-1-8"
+workspace $ws2 output "DP-2-8"
+workspace $ws5 output "DP-2-8"
+workspace $ws8 output "DP-2-8"
 
-workspace $ws3 output "DP-2"
-workspace $ws6 output "DP-2"
-workspace $ws9 output "DP-2"
+workspace $ws3 output "DP-1"
+workspace $ws6 output "DP-1"
+workspace $ws9 output "DP-1"
+
+#van
+# workspace $ws1 output "eDP-1"
+# workspace $ws3 output "eDP-1"
+# workspace $ws5 output "eDP-1"
+# workspace $ws7 output "eDP-1"
+# workspace $ws9 output "eDP-1"
+
+# workspace $ws2 output "DP-1"
+# workspace $ws4 output "DP-1"
+# workspace $ws6 output "DP-1"
+# workspace $ws8 output "DP-1"
+# workspace $ws0 output "DP-1"
 
 # set rules for windows
 for_window [title="Eddie - .*"] floating enable
@@ -130,7 +145,12 @@ bindsym $mod+Shift+9 move container to workspace $ws9
 bindsym $mod+Shift+0 move container to workspace $ws10
 
 # Context swap; swap the "active" workspaces for each monitor
+
+#home
 bindsym $mod+Ctrl+s "rename workspace 1 to temporary; rename workspace 4 to 1; rename workspace temporary to 4; rename workspace 2 to temporary; rename workspace 5 to 2; rename workspace temporary to 5; rename workspace 3 to temporary; rename workspace 6 to 3; rename workspace temporary to 6; workspace 1; workspace 3; workspace 2;"
+
+#van
+# bindsym $mod+Ctrl+s "rename workspace 1 to temporary; rename workspace 3 to 1; rename workspace temporary to 3; rename workspace 2 to temporary; rename workspace 4 to 2; rename workspace temporary to 4; workspace 1; workspace 2;"
 
 # reload the configuration file
 bindsym $mod+Shift+c reload
