@@ -1,0 +1,5 @@
+#!/bin/bash
+
+zoom=$(xdotool search --name "as_toolbar" || xdotool search --name "Zoom Meeting")
+
+if [[ -z "$zoom" ]]; then playerctl play-pause; else zoom_toggle_mute; fi
