@@ -23,3 +23,4 @@ transient
 user/.emacs.d/elpy
 straight/
 !straight/versions
+user/.emacs.d/emojis
