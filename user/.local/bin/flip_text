@@ -3,9 +3,12 @@
 
 import sys
 
+
 def flip(source):
-    normal = unicode("123456789abcdefghijklmnopqrstuvwxyz)([]{}!.?,&$'\"ɐqɔpǝɟƃɥıɾʞʃɯuodbɹsʇnʌʍxʎz()][}{¡˙¿'⅋$,„", "utf-8")
-    upside = unicode("TƧƐհS9ŁȢ6ɐqɔpǝɟƃɥıɾʞʃɯuodbɹsʇnʌʍxʎz()][}{¡˙¿'⅋$,„abcdefghijklmnopqrstuvwxyz)([]{}!.?,&$'\"", "utf-8")
+    normal = "123456789abcdefghijklmnopqrstuvwxyz)([]{}!.?,&$'\"ɐqɔpǝɟƃɥıɾʞʃɯuodbɹsʇnʌʍxʎz()][}{¡˙¿'⅋$,„"
+
+    upside = "TƧƐհS9ŁȢ6ɐqɔpǝɟƃɥıɾʞʃɯuodbɹsʇnʌʍxʎz()][}{¡˙¿'⅋$,„abcdefghijklmnopqrstuvwxyz)([]{}!.?,&$'\""
+
     dest = []
 
     for char in source:
@@ -16,5 +19,6 @@ def flip(source):
 
     return "".join(dest)
 
+
 if __name__ == "__main__":
-    print flip(unicode(sys.argv[1].lower(), "utf-8"))
+    print(flip(sys.argv[1].lower()))
