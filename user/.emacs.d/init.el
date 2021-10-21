@@ -155,8 +155,7 @@
 (use-package magit
   :straight t
   :commands (magit-status magit-log)
-  :init
-  (global-magit-file-mode))
+)
 
 (use-package magit-filenotify
   :straight t
@@ -260,9 +259,14 @@
 
     (global-pyenv-mode)
     (defun pyenv-update-on-buffer-switch (prev curr)
-      (if (string-equal "Python" (format-mode-line mode-name nil nil curr))
-          (pyenv-use-corresponding)))
-    (add-hook 'switch-buffer-functions 'pyenv-update-on-buffer-switch))
+      (if (and (string-equal "Python" (format-mode-line mode-name nil nil curr))
+               (not (cl-search ".pyenv/versions" (buffer-file-name))))
+          (progn
+            (pyenv-use-corresponding)
+            (pyvenv-activate (concat (pyenv--prefix) "/"))
+            )))
+    (add-hook 'switch-buffer-functions 'pyenv-update-on-buffer-switch)
+    )
 
   (use-package buftra
     :straight (:host github :repo "humitos/buftra.el"))
@@ -275,26 +279,22 @@
   (use-package py-isort
     :straight (:host github :repo "humitos/py-cmd-buffer.el")
     :hook (python-mode . py-isort-enable-on-save)
-    :config
-    (setq py-isort-options '("-l=88" "-m=3" "--tc" "--fgw=0" "--ca")))
+    ;; :config
+    ;; (setq py-isort-options '("-l=88" "--profile=black"))
+    )
 
-  (use-package py-autoflake
-    :straight (:host github :repo "humitos/py-cmd-buffer.el")
-    :hook (python-mode . py-autoflake-enable-on-save)
-    :config
-    (setq py-autoflake-options '("--expand-star-imports")))
+  ;; (use-package py-autoflake
+  ;;   :straight (:host github :repo "humitos/py-cmd-buffer.el")
+  ;;   :hook (python-mode . py-autoflake-enable-on-save)
+  ;;   :config
+  ;;   (setq py-autoflake-options '("--expand-star-imports")))
 
-  (use-package py-docformatter
-    :straight (:host github :repo "humitos/py-cmd-buffer.el")
-    :hook (python-mode . py-docformatter-enable-on-save)
-    :config
-    (setq py-docformatter-options '("--wrap-summaries=88" "--pre-summary-newline")))
+  ;; (use-package py-docformatter
+  ;;   :straight (:host github :repo "humitos/py-cmd-buffer.el")
+  ;;   :hook (python-mode . py-docformatter-enable-on-save)
+  ;;   :config
+  ;;   (setq py-docformatter-options '("--wrap-summaries=88" "--pre-summary-newline")))
 
-  (use-package blacken
-    :straight t
-    :hook (python-mode . blacken-mode)
-    :config
-    (setq blacken-line-length '88))
 
   (use-package python-docstring
     :straight t
@@ -306,7 +306,10 @@
     (:map elpy-mode-map
           ("C-M-n" . elpy-nav-forward-block)
           ("C-M-p" . elpy-nav-backward-block))
-    :hook ((elpy-mode . flycheck-mode)
+    :hook ((elpy-mode . (lambda ()
+                            (add-hook 'before-save-hook
+                                      'elpy-format-code nil t)))
+           (elpy-mode . flycheck-mode)
            (elpy-mode . (lambda ()
                           (set (make-local-variable 'company-backends)
                                '((elpy-company-backend :with company-yasnippet))))))
