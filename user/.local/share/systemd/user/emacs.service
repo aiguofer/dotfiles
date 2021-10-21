@@ -7,7 +7,7 @@ PartOf=graphical-session.target
 [Service]
 Type=simple
 ExecStart=/usr/bin/emacs --fg-daemon
-ExecStop=/usr/bin/emacsclient --eval "(kill-emacs)"
+ExecStop=/usr/bin/emacsclient --eval "(save-buffer-kill-emacs)"
 Restart=on-failure
 
 [Install]
