@@ -1,0 +1,6 @@
+#!/bin/bash
+
+adb shell << EOF
+cmd role add-role-holder android.app.role.SYSTEM_GALLERY com.google.android.apps.photos
+exit
+EOF
