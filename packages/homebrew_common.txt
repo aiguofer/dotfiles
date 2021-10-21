@@ -15,3 +15,4 @@ icdiff
 jq
 direnv
 awscli
+glab
