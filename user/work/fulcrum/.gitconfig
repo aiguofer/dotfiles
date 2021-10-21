@@ -1,0 +1,5 @@
+[user]
+    email = diego@fulcrumlabs.ai
+
+[commit]
+  gpgSign = false

@@ -72,8 +72,12 @@
 [difftool "icdiff"]
   cmd = /usr/local/bin/icdiff --line-numbers $LOCAL $REMOTE
 
+
 [includeIf "gitdir:~/work/"]
     path = ~/work/.gitconfig
+
+[includeIf "gitdir:~/work/fulcrum/"]
+    path = ~/work/fulcrum/.gitconfig
 
 [includeIf "gitdir:~/personal/"]
     path = ~/personal/.gitconfig
