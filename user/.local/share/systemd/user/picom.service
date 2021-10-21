@@ -1,0 +1,9 @@
+[Unit]
+Description=Launch picom (formerly compton)
+PartOf=i3.target
+
+[Service]
+ExecStart=/bin/bash -c picom -f
+
+[Install]
+WantedBy=i3.target

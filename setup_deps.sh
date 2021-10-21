@@ -72,29 +72,28 @@ necessary_packages_linux=(
     gthumb # image viewer
     nemo # file manager
     insync-nemo
-    google-play-music-desktop-player # music player
+    spotify # music player
     xbacklight # https://gitlab.com/wavexx/acpilight # manage backlight
     feh # image viewere, set background
-    compton # compositor
+    picom # compositor, previously compton
     earlyoom # prevent system from locking up due to OOM
     pasystray # pulse audio tray
     nm-applet # networkmanager tray
     qalculate-gtk # calculator
     lightdm-gtk-greeter # desktop manager
     lightdm # destkop manager
-    terminator
+    alacritty
     redshift-gtk
     autorandr
     arandr
     automirror # https://github.com/schlomo/automirror/
     playerctl
     dunst
-    i3 # gaps or regolith
+    i3-gaps # gaps or regolith
     i3lock-color # https://github.com/codejamninja/i3lock-color-ubuntu
     polybar
     shutter
     rofi
-    python2
 )
 
 wanted_packages=(

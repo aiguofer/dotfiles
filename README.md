@@ -9,7 +9,7 @@ Linux:
 
 i3 (gaps) - Tiling window manager
 polybar - Status bar for i3
-compton - Compositor for i3
+picom - Compositor for i3
 rofi - Application opener for i3
 dunst - Notifications daemon for i3
 

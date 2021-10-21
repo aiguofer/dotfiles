@@ -1,6 +1,6 @@
 [Unit]
 Description=Launch polybar
-After=compton.service
+After=picom.service
 PartOf=i3.target
 
 [Service]
