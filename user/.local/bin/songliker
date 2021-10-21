@@ -11,7 +11,11 @@ config_location = Path("~/.config/gpmdp_api").expanduser()
 
 
 def like_song(ws):
-    thumbs_up = {"namespace": "rating", "method": "setRating", "arguments": [5]}
+    thumbs_up = {
+        "namespace": "rating",
+        "method": "setRating",
+        "arguments": {"liked": True},
+    }
 
     ws.send(json.dumps(thumbs_up))
     try:
