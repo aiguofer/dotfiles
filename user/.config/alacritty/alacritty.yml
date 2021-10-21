@@ -39,7 +39,7 @@ font:
     style: Italic
 
   # Point size
-  size: 12.0
+  size: 8.0
 
 # If `true`, bold text is drawn using the bright color variants.
 draw_bold_text_with_bright_colors: true
@@ -85,8 +85,6 @@ mouse:
   triple_click: { threshold: 300 }
   hide_when_typing: false
 
-  url:
-    modifiers: None
 
 selection:
   semantic_escape_chars: ",│`|:\"' ()[]{}<>"
