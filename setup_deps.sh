@@ -2,8 +2,8 @@
 
 # Install homebrew
 if [[ "$OSTYPE" == linux* ]]; then
-    sh -c "$(curl -fsSL https://raw.githubusercontent.com/Linuxbrew/install/master/install.sh)"
-    eval $($HOME/.linuxbrew/bin/brew shellenv)
+    /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+    # eval $($HOME/.linuxbrew/bin/brew shellenv)
 else
     softwareupdate --install xcode-select
 
