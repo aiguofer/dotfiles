@@ -22,3 +22,5 @@ python-language-server
 tox
 twine
 httpie
+docutils
+awslogs
