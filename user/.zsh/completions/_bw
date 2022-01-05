@@ -8,6 +8,7 @@ function _bw {
     '--pretty[Format output. JSON is tabbed with two spaces.]' \
     '--raw[Return raw output instead of a descriptive message.]' \
     '--response[Return a JSON formatted version of response output.]' \
+    '--cleanexit[Exit with a success exit code (0) unless an error is thrown.]' \
     '--quiet[Don'"'"'t return anything to stdout.]' \
     '--nointeraction[Do not prompt for interactive user input.]' \
     '--session[Pass session key instead of reading from env.]' \
@@ -36,10 +37,11 @@ function _bw {
         "edit:Edit an object from the vault."
         "delete:Delete an object from the vault."
         "restore:Restores an object from the trash."
-        "share:Share an item to an organization."
+        "move:Move an item to an organization."
         "confirm:Confirm an object to the organization."
         "import:Import vault data from a file."
         "export:Export vault data to a CSV or JSON file."
+        "share:--DEPRECATED-- Move an item to an organization."
         "send:Work with Bitwarden sends. A Send can be quickly created using this command or subcommands can be used to fine-tune the Send"
         "receive:Access a Bitwarden Send from a url"
       )
@@ -99,8 +101,8 @@ function _bw {
     restore)
       _bw_restore
       ;;
-    share)
-      _bw_share
+    move)
+      _bw_move
       ;;
     confirm)
       _bw_confirm
@@ -110,6 +112,9 @@ function _bw {
       ;;
     export)
       _bw_export
+      ;;
+    share)
+      _bw_share
       ;;
     send)
       _bw_send
@@ -144,6 +149,8 @@ function _bw_lock {
 function _bw_unlock {
   _arguments -C \
     '--check[Check lock status.]' \
+    '--passwordenv[Environment variable storing your password]' \
+    '--passwordfile[Path to a file containing your password as its first line]' \
     '(-h --help)'{-h,--help}'[output usage information]' \
     "*::arg:->args"
 }
@@ -166,6 +173,8 @@ function _bw_generate {
     '--length[Length of the password.]' \
     '--words[Number of words.]' \
     '--separator[Word separator.]' \
+    '(-c --capitalize)'{-c,--capitalize}'[Title case passphrase.]' \
+    '--includeNumber[Passphrase includes number.]' \
     '(-h --help)'{-h,--help}'[output usage information]' \
     "*::arg:->args"
 }
@@ -182,6 +191,7 @@ function _bw_config {
     '--icons[Provides a custom icons service URL that differs from the base URL.]' \
     '--notifications[Provides a custom notifications URL that differs from the base URL.]' \
     '--events[Provides a custom events URL that differs from the base URL.]' \
+    '--key-connector[Provides the URL for your Key Connector server.]' \
     '(-h --help)'{-h,--help}'[output usage information]' \
     "*::arg:->args"
 }
@@ -251,7 +261,7 @@ function _bw_restore {
   
 }
 
-function _bw_share {
+function _bw_move {
   
 }
 
@@ -265,6 +275,7 @@ function _bw_confirm {
 function _bw_import {
   _arguments -C \
     '--formats[List formats]' \
+    '--organizationid[ID of the organization to import to.]' \
     '(-h --help)'{-h,--help}'[output usage information]' \
     "*::arg:->args"
 }
@@ -278,12 +289,17 @@ function _bw_export {
     "*::arg:->args"
 }
 
+function _bw_share {
+  
+}
+
 function _bw_send {
   local -a commands
 
   _arguments -C \
     '(-f --file)'{-f,--file}'[Specifies that <data> is a filepath]' \
     '(-d --deleteInDays)'{-d,--deleteInDays}'[The number of days in the future to set deletion date, defaults to 7]' \
+    '(-a --maxAccessCount)'{-a,--maxAccessCount}'[The amount of max possible accesses.]' \
     '--hidden[Hide <data> in web by default. Valid only if --file is not set.]' \
     '(-n --name)'{-n,--name}'[The name of the Send. Defaults to a guid for text Sends and the filename for files.]' \
     '--notes[Notes to add to the Send.]' \
@@ -369,7 +385,6 @@ function _bw_send_create {
     '--text[text to Send. Can also be specified in parent'"'"'s JSON.]' \
     '--hidden[text hidden flag. Valid only with the --text option.]' \
     '--password[optional password to access this Send. Can also be specified in JSON]' \
-    '--fullObject[Specifies that the full Send object should be returned rather than just the access url.]' \
     '(-h --help)'{-h,--help}'[output usage information]' \
     "*::arg:->args"
 }
