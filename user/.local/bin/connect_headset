@@ -1,5 +1,6 @@
 #!/bin/bash
 
-echo "connect 10:4F:A8:D3:C7:A4" | bluetoothctl
+# old 10:4F:A8:D3:C7:A4
+echo "connect 14:3F:A6:2D:39:11" | bluetoothctl
 sleep 10
 echo "exit" | bluetoothctl
