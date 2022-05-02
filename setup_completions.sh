@@ -6,6 +6,7 @@ completion_generators=(
     "poetry completions zsh"
     "pipenv --completion"
     "bw completion --shell zsh"
+    "pritunl-client completion zsh"
 )
 
 for completion_generator in "${completion_generators[@]}"; do
