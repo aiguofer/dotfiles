@@ -4,6 +4,8 @@ from builtins import super
 from os import path
 
 import todoist
+import gi
+gi.require_version('Gtk', '3.0')
 from gi.repository import Gtk
 
 CONFIG = path.expanduser("~/.config/todoist")
