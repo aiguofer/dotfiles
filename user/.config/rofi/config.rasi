@@ -1,0 +1,9 @@
+configuration {
+ modi: "combi";
+ font: "hack 12";
+ combi-modi: "window,run,drun";
+ sidebar-mode: true;
+ show-icons: true;
+ }
+//@theme "Arc-Dark"
+@theme "/usr/share/rofi/themes/Arc-Dark.rasi"
