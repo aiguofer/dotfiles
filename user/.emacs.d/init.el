@@ -2,7 +2,7 @@
 ;;; Commentary:
 ;;; Code:
 (add-to-list 'default-frame-alist
-             '(font . "Hack Nerd Font 12"))
+             '(font . "Hack Nerd Font 14"))
 (set-face-attribute 'mode-line nil :font "Hack Nerd Font 10")
 
 ;; Move to top to fix package-selected-package
@@ -249,6 +249,19 @@
   (advice-add 'python-shell-get-process-name :around #'my-setup-python)
   (advice-add 'python-shell-calculate-command :around #'my-setup-python)
 
+  (use-package org
+    :straight t
+    :config
+    ;; set maximum indentation for description lists
+    (setq org-list-description-max-indent 5)
+
+    ;; prevent demoting heading also shifting text inside sections
+    (setq org-adapt-indentation nil)
+
+    (use-package ox-pandoc
+      :straight t)
+    )
+
   (use-package pyenv
     :straight (:host github :repo "aiguofer/pyenv.el")
     :config
@@ -427,21 +440,6 @@
                 projectile-globally-ignored-files))
   )
 
-(use-package helm-projectile
-  :straight t
-  :bind
-  (("C-x C-f" . proj-open-file))
-  :init
-  (defun proj-open-file ()
-    "Open file using projectile if in project"
-    (interactive)
-    (if (projectile-project-p)
-        (helm-projectile)
-      (helm-for-files)))
-  :config
-  (setq projectile-completion-system 'helm)
-  (helm-projectile-on))
-
 (use-package keyfreq
   :straight t
   :init
@@ -474,6 +472,9 @@
   :straight t
   :mode "\\.yml\\'")
 
+(use-package sudo-edit
+  :straight t)
+
 (use-package helm-ag
   :straight t)
 
@@ -481,9 +482,6 @@
   :straight t)
 
 (use-package ripgrep
-  :straight t)
-
-(use-package sudo-edit
   :straight t)
 
 (use-package helm
@@ -496,7 +494,24 @@
    ("C-c h o" . helm-occur))
   :config
   (helm-mode)
-  (helm-adaptive-mode))
+  (helm-adaptive-mode)
+
+
+  (use-package helm-projectile
+    :straight t
+    :bind
+    (("C-x C-f" . proj-open-file))
+    :init
+    (defun proj-open-file ()
+      "Open file using projectile if in project"
+      (interactive)
+      (if (projectile-project-p)
+          (helm-projectile)
+        (helm-for-files)))
+    :config
+    (setq projectile-completion-system 'helm)
+    (helm-projectile-on))
+  )
 
 (use-package helm-pydoc
   :straight t

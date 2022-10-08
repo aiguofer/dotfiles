@@ -23,6 +23,9 @@
    '(company-sort-by-backend-importance company-sort-by-occurrence company-sort-by-statistics))
  '(confirm-kill-processes nil)
  '(create-lockfiles nil)
+ '(custom-safe-themes
+   '("5e62fe2e73f4d646f37a1d04e92e61bc3d808bbf5032718aba06c44b0638878c" default))
+ '(debug-on-error nil)
  '(elpy-formatter 'black)
  '(flycheck-disabled-checkers '(python-mypy python-pylint))
  '(flycheck-python-flake8-executable "~/.local/bin/flake8")
@@ -42,6 +45,7 @@
  '(magit-pull-arguments '("--rebase"))
  '(markdown-command "/usr/bin/pandoc")
  '(mode-require-final-newline 'visit-save)
+ '(org-export-backends '(ascii html icalendar latex md odt))
  '(powerline-gui-use-vcs-glyph t)
  '(projectile-completion-system 'helm)
  '(projectile-mode-line nil)
