@@ -1,0 +1,53 @@
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+
+from csv import DictWriter
+from glob import glob
+
+from ofxparse import OfxParser
+
+DATE_FORMAT = "%m/%d/%Y"
+
+
+def write_csv(statement, out_file):
+    print("Writing: " + out_file)
+    fields = ["date", "payee", "memo", "debit", "credit", "balance"]
+    with open(out_file, "w") as f:
+        writer = DictWriter(f, fieldnames=fields)
+        for line in statement:
+            writer.writerow(line)
+
+
+def get_statement_from_qfx(qfx):
+    balance = qfx.account.statement.balance
+    statement = []
+    credit_transactions = ["credit", "dep", "int", "directdep", "div"]
+    debit_transactions = ["debit", "atm", "pos", "xfer", "check"]
+    for transaction in qfx.account.statement.transactions:
+        credit = ""
+        debit = ""
+        balance = balance + transaction.amount
+        if transaction.type in credit_transactions:
+            credit = transaction.amount
+        elif transaction.type in debit_transactions:
+            debit = -transaction.amount
+        else:
+            raise ValueError("Unknown transaction type:" + transaction.type)
+        line = {
+            "date": transaction.date.strftime(DATE_FORMAT),
+            "payee": transaction.payee,
+            "memo": transaction.memo,
+            "debit": debit,
+            "credit": credit,
+            "balance": balance,
+        }
+        statement.append(line)
+    return statement
+
+
+files = glob("*.qfx")
+for qfx_file in files:
+    qfx = OfxParser.parse(open(qfx_file, encoding="latin-1"))
+    statement = get_statement_from_qfx(qfx)
+    out_file = "converted_" + qfx_file.replace(".qfx", ".csv")
+    write_csv(statement, out_file)

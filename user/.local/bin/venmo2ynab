@@ -1,0 +1,65 @@
+#!/usr/bin/env python
+# encoding: utf-8
+import csv
+import sys
+from datetime import datetime
+from decimal import Decimal
+from re import sub
+
+YNAB_DATE_FORMAT = "%m/%d/%Y"
+OUTPUT_ORDER = ["Date", "Payee", "Memo", "Outflow", "Inflow"]
+
+
+def convert_row(row):
+    date = row["Datetime"]
+    if not date:
+        return
+    memo = row["Note"]
+    date = datetime.fromisoformat(date).strftime(YNAB_DATE_FORMAT)
+    amount = Decimal(sub(r"[^\d\-.]", "", row["Amount (total)"]))
+    if amount < 0:
+        inflow = None
+        outflow = abs(amount)
+        payee = row["To"]
+    else:
+        inflow = amount
+        outflow = None
+        payee = row["From"]
+
+    return {
+        "Inflow": inflow,
+        "Outflow": outflow,
+        "Date": date,
+        "Payee": payee,
+        "Memo": memo,
+    }
+
+
+def find_headers(input_reader):
+    line = input_reader.readline()
+    while "Account Statement" in line or "Account Activity" in line:
+        line = input_reader.readline()
+    return line
+
+
+def main():
+    input_location = sys.argv[1]
+    output_location = sys.argv[2]
+
+    with open(input_location, "r") as input_file, open(
+        output_location, "w"
+    ) as output_file:
+        headers = find_headers(input_file)
+
+        input_reader = csv.DictReader(input_file, fieldnames=headers.split(","))
+        output_writer = csv.DictWriter(output_file, OUTPUT_ORDER)
+
+        output_writer.writeheader()
+        for row in input_reader:
+            converted = convert_row(row)
+            if converted:
+                output_writer.writerow(converted)
+
+
+if __name__ == "__main__":
+    main()
