@@ -1,25 +1,22 @@
 #!/bin/bash
 
 set_a2dp() {
-    pacmd set-card-profile bluez_card.$BT_DEVICE_ADDR a2dp_sink
-    pacmd set-default-sink bluez_sink.$BT_DEVICE_ADDR.a2dp_sink
+    pactl set-card-profile bluez_card.$BT_DEVICE_ADDR a2dp-sink-ldac
+    pactl set-default-sink bluez_output.$BT_DEVICE_ADDR.a2dp-sink
 }
 
 set_headset() {
-    pacmd set-card-profile bluez_card.$BT_DEVICE_ADDR headset_head_unit
-    pacmd set-default-sink bluez_sink.$BT_DEVICE_ADDR.headset_head_unit
-    pacmd set-default-source bluez_source.$BT_DEVICE_ADDR.headset_head_unit
+    pactl set-card-profile bluez_card.$BT_DEVICE_ADDR headset-head-unit-msbc
+    pactl set-default-sink bluez_output.$BT_DEVICE_ADDR.headset-head-unit
+    pactl set-default-source bluez_input.$BT_DEVICE_ADDR.headset-head-unit
 }
 
-BT_SINK=$(pacmd list-sinks | grep 'name:.*bluez_sink' | sed -E 's/.*<(.*)>/\1/')
-regex='bluez_sink\.([A-Z0-9_]+)\.([a-z0-9_-]+)'
+BT_DEVICE_ADDR=$(pactl list cards | grep -i 'name:.*bluez_card' | sed -E 's/.*<?bluez_card\.([A-Z0-9_]+)>?/\1/')
+BT_PROFILE=$(pactl info | grep "Default Sink" | cut -d . -f 3)
 
-if [[ $BT_SINK =~ $regex ]]
+if [[ "$BT_DEVICE_ADDR" != "" ]]
 then
-    BT_DEVICE_ADDR="${BASH_REMATCH[1]}"
-    BT_PROFILE="${BASH_REMATCH[2]}"
-
-    if [[ $BT_PROFILE == "headset_head_unit" ]]
+    if [[ $BT_PROFILE == "headset-head-unit" ]]
     then set_a2dp
     else set_headset
     fi
