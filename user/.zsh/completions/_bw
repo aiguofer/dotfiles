@@ -31,6 +31,7 @@ function _bw {
         "update:Check for updates."
         "completion:Generate shell completions."
         "status:Show server, last sync, user information, and vault status."
+        "serve:Start a RESTful API webserver."
         "list:List an array of objects from the vault."
         "get:Get an object from the vault."
         "create:Create an object in the vault."
@@ -82,6 +83,9 @@ function _bw {
       ;;
     status)
       _bw_status
+      ;;
+    serve)
+      _bw_serve
       ;;
     list)
       _bw_list
@@ -211,6 +215,14 @@ function _bw_status {
   
 }
 
+function _bw_serve {
+  _arguments -C \
+    '--hostname[The hostname to bind your API webserver to.]' \
+    '--port[The port to run your API webserver on.]' \
+    '(-h --help)'{-h,--help}'[output usage information]' \
+    "*::arg:->args"
+}
+
 function _bw_list {
   _arguments -C \
     '--search[Perform a search on the listed objects.]' \
@@ -284,6 +296,7 @@ function _bw_export {
   _arguments -C \
     '--output[Output directory or filename.]' \
     '--format[Export file format.]' \
+    '--password[Use password to encrypt instead of your Bitwarden account encryption key. Only applies to the encrypted_json format.]' \
     '--organizationid[Organization id for an organization.]' \
     '(-h --help)'{-h,--help}'[output usage information]' \
     "*::arg:->args"
