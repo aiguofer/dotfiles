@@ -5,7 +5,7 @@ After=started.target geoclue_agent.service polybar.service
 PartOf=graphical-session.target
 
 [Service]
-ExecStart=/usr/bin/redshift-gtk
+ExecStart=/usr/bin/redshift-gtk -t 5500K:3200K
 Restart=always
 RestartSec=2
 
