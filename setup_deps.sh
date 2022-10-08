@@ -12,6 +12,9 @@ else
     /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install.sh)"
 fi
 
+# install nix installer, needed for xidlehooks ()
+sh <(curl -L https://nixos.org/nix/install) --daemon
+
 # Install homebrew deps
 while read tap; do
     brew tap $tap
@@ -56,6 +59,10 @@ done
 while read pkg; do
     pipx install $pkg
 done < packages/pipx.txt
+
+while read pkg; do
+    nix-env -iA $pkg
+done < packages/nix.txt
 
 necessary_packages_common=(
     emacs

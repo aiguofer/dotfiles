@@ -30,7 +30,8 @@ Google Play Media Desktop Player - Media player
 git - Source control
 powerline - Shell font
 pipx - Python cli tool installer/manager
-homebrew (and linuxbrew)
+homebrew (and linuxbrew) - package manager
+nix - package manager/system config
 ```
 
 I also use a variety of tools, scripts, etc to make things work the way I want to. Some scripts I have here:

@@ -45,6 +45,11 @@ if [[ $commands[pipx] ]]; then
     pipx upgrade-all
 fi
 
+if [[ $commands[nix-env] ]]; then
+    echo "Updating packages installed through nix-env"
+    nix-env -u
+fi
+
 if [[ $commands[dnf] ]]; then
     echo "Updating Fedora packages"
     sudo dnf -y upgrade --refresh
