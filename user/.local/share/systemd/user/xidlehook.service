@@ -1,0 +1,14 @@
+[Unit]
+Description=Automatic Screen Locker, replaces xautolock
+After=i3.target
+PartOf=i3.target
+
+[Service]
+Type=simple
+Environment=DISPLAY=:0
+Environment=XIDLEHOOK_SOCK=%t/xidlehook.socket
+ExecStart=bash -c "xidlehook --not-when-audio --socket $XIDLEHOOK_SOCK --timer 600 'systemctl --user restart lock_screen.service' ''"
+# can add monitor dim using something like  --timer 120 'xbacklight -get > ~/.current_backlight && xbacklight -set 10' 'cat ~/.current_backlight | xargs -I{} xbacklight -set {} '
+
+[Install]
+WantedBy=i3.target

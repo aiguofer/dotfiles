@@ -1,5 +1,5 @@
 [Unit]
-Description=lock screen after a few minutes of inactivity
+Description=lock screen after a few minutes of inactivity (DEPRECATED see xidlehook.service)
 Conflicts=fullscreen.target
 After=i3.target
 PartOf=i3.target
