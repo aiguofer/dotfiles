@@ -239,7 +239,7 @@ RESTORE_DEVICE_STATE_ON_STARTUP=0
 
 # Radio devices to disable on battery when not in use (not connected):
 # bluetooth, wifi, wwan
-DEVICES_TO_DISABLE_ON_BAT_NOT_IN_USE="bluetooth"
+#DEVICES_TO_DISABLE_ON_BAT_NOT_IN_USE="bluetooth"
 
 # Battery charge thresholds (ThinkPad only, tp-smapi or acpi-call kernel module
 # required). Charging starts when the remaining capacity falls below the
