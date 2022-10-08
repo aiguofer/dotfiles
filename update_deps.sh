@@ -3,7 +3,9 @@
 if [[ $commands[brew] ]]; then
     echo "Updating Homebrew packages"
     brew upgrade
-    brew cask upgrade
+    if [[ "$OSTYPE" == darwin* ]]; then
+        brew cask upgrade
+    fi
 fi
 
 if [[ $commands[antibody] ]]; then
