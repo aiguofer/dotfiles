@@ -11,6 +11,7 @@ fi
 # uncomment below to figure out bottlenecks
 # zmodload zsh/zprof
 source $HOME/.env_common
+source $HOME/.env_private
 source $HOME/.alias_common
 source $HOME/.functions_common
 
