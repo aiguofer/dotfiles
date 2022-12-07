@@ -1,4 +1,4 @@
-#!/Users/Diego/.pyenv/versions/default3/bin/python
+#!/Users/Diego/.pyenv/versions/default/bin/python
 import argparse
 import json
 import pickle
