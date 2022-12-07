@@ -84,3 +84,5 @@
 
 [fetch.fsck]
     zeroPaddedFilemode = warn
+[credential]
+	helper = cache

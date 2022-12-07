@@ -74,8 +74,8 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(company-scrollbar-bg ((t (:background "#454e51"))))
- '(company-scrollbar-fg ((t (:background "#394143"))))
+ '(company-scrollbar-bg ((t (:background "#454e51"))) t)
+ '(company-scrollbar-fg ((t (:background "#394143"))) t)
  '(company-tooltip ((t (:inherit default :background "#32393b"))))
  '(company-tooltip-annotation ((t (:inherit company-tooltip :foreground "firebrick"))))
  '(company-tooltip-common ((t (:inherit font-lock-constant-face))))

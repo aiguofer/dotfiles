@@ -25,3 +25,4 @@ straight/
 !straight/versions
 user/.emacs.d/emojis
 user/.env_private
+user/.emacs.d/forge-database.sqlite
