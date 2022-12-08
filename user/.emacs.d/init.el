@@ -157,10 +157,14 @@
   :commands (magit-status magit-log)
 )
 
-(use-package magit-filenotify
+;; (use-package magit-filenotify
+;;   :straight t
+;;   :commands (magit-filenotify-mode)
+;;   :hook (magit-status-mode . magit-filenotify-mode))
+
+(use-package forge
   :straight t
-  :commands (magit-filenotify-mode)
-  :hook (magit-status-mode . magit-filenotify-mode))
+  :after magit)
 
 (use-package sudo-edit
   :straight t)
@@ -240,7 +244,7 @@
            (python-shell-buffer-name (concat "Python-" curr-python))
            (python-shell-interpreter-args (if (bound-and-true-p djangonaut-mode)
                                               "shell_plus -- --simple-prompt"
-                                            (concat "--simple-prompt --kernel=" curr-python)))
+                                            (concat "--simple-prompt --kernel=pyenv_" curr-python)))
            (python-shell-interpreter (if (bound-and-true-p djangonaut-mode)
                                          "django-admin"
                                        python-shell-interpreter)))
@@ -285,7 +289,7 @@
     :straight (:host github :repo "humitos/buftra.el"))
 
   (use-package py-pyment
-    :straight (:host github :repo "humitos/py-cmd-buffer.el")
+    :straight (:host github :repo "aiguofer/py-cmd-buffer.el")
     :config
     (setq py-pyment-options '("--output=numpydoc")))
 
