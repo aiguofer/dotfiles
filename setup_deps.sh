@@ -12,9 +12,6 @@ else
     /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install.sh)"
 fi
 
-# install nix installer, needed for xidlehooks ()
-sh <(curl -L https://nixos.org/nix/install) --daemon
-
 # Install homebrew deps
 while read tap; do
     brew tap $tap
@@ -34,8 +31,9 @@ if [[ "$OSTYPE" == darwin* ]]; then
     done < packages/homebrew_cask.txt
 fi
 
+# Install version managers
 git_installers=(
-    creationix/nvm/v0.35.2/install.sh   # nvm
+    creationix/nvm/v0.39.2/install.sh   # nvm
     pyenv/pyenv-installer/master/bin/pyenv-installer # pyenv
     rbenv/rbenv-installer/raw/master/bin/rbenv-installer # rbenv
 )
@@ -60,9 +58,15 @@ while read pkg; do
     pipx install $pkg
 done < packages/pipx.txt
 
-while read pkg; do
-    nix-env -iA $pkg
-done < packages/nix.txt
+# install nix installer, needed for xidlehooks on linux
+if [[ "$OSTYPE" == darwin* ]]; then
+    sh <(curl -L https://nixos.org/nix/install) --daemon
+
+    while read pkg; do
+        nix-env -iA $pkg
+    done < packages/nix.txt
+fi
+
 
 necessary_packages_common=(
     emacs
@@ -72,6 +76,7 @@ necessary_packages_common=(
     zsh
     insync
     google-chrome
+    1password
 )
 
 necessary_packages_linux=(

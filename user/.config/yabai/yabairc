@@ -1,4 +1,6 @@
 #!/usr/bin/env bash
+launchctl unload -F /System/Library/LaunchAgents/com.apple.WindowManager.plist
+
 source ~/.env_common
 source ~/.load_language_envs
 
