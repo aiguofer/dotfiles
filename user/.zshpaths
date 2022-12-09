@@ -23,3 +23,11 @@ path=(
     $HOME{,/.local}/bin
     $path
 )
+
+if [[ "$OSTYPE" == darwin* ]]; then
+    path=(
+        $(brew --prefix)/opt/python/libexec/bin
+        $path
+    )
+
+fi
