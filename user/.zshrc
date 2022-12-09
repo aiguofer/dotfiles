@@ -7,7 +7,7 @@ fi
 
 if [[ "$OSTYPE" == darwin* ]]; then
     # load up homebrew stuff in MacOS since antibody is installed by homebrew
-    eval $($/opt/homebrew/bin/brew shellenv)
+    eval $(/opt/homebrew/bin/brew shellenv)
 fi
 
 #
