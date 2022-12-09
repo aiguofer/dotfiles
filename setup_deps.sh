@@ -24,11 +24,11 @@ done < packages/homebrew_common.txt
 
 if [[ "$OSTYPE" == darwin* ]]; then
     while read pkg; do
-        brew reinstall $pkg
+        brew install $pkg
     done < packages/homebrew_mac.txt
 
     while read pkg; do
-        brew reinstall --cask $pkg
+        brew install --cask $pkg
     done < packages/homebrew_cask.txt
 fi
 
