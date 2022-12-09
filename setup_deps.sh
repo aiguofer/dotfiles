@@ -35,8 +35,8 @@ fi
 # Install version managers
 git_installers=(
     creationix/nvm/v0.39.2/install.sh   # nvm
-    pyenv/pyenv-installer/raw/master/bin/pyenv-installer # pyenv
-    rbenv/rbenv-installer/raw/master/bin/rbenv-installer # rbenv
+    pyenv/pyenv-installer/master/bin/pyenv-installer # pyenv
+    rbenv/rbenv-installer/master/bin/rbenv-installer # rbenv
 )
 
 for installer in "${git_installers[@]}"; do
