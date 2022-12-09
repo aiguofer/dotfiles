@@ -50,8 +50,6 @@ pyenv_plugins=(
     aiguofer/pyenv-jupyter-kernel
 )
 
-exec $SHELL
-
 for plugin in "${pyenv_plugins[@]}"; do
     plugin_name=$(echo $plugin | cut -d '/' -f2)
     git clone https://github.com/$plugin $(pyenv root)/plugins/$plugin_name
