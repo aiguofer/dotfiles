@@ -3,13 +3,14 @@
 # Install homebrew
 if [[ "$OSTYPE" == linux* ]]; then
     /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
-    # eval $($HOME/.linuxbrew/bin/brew shellenv)
+    eval $($HOME/.linuxbrew/bin/brew shellenv)
 else
     softwareupdate --install xcode-select
 
     xcode-select --install
 
     /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install.sh)"
+    eval $($/opt/homebrew/bin/brew shellenv)
 fi
 
 # Install homebrew deps
@@ -27,14 +28,14 @@ if [[ "$OSTYPE" == darwin* ]]; then
     done < packages/homebrew_mac.txt
 
     while read pkg; do
-        brew cask reinstall $pkg
+        brew reinstall --cask $pkg
     done < packages/homebrew_cask.txt
 fi
 
 # Install version managers
 git_installers=(
     creationix/nvm/v0.39.2/install.sh   # nvm
-    pyenv/pyenv-installer/master/bin/pyenv-installer # pyenv
+    pyenv/pyenv-installer/raw/master/bin/pyenv-installer # pyenv
     rbenv/rbenv-installer/raw/master/bin/rbenv-installer # rbenv
 )
 
@@ -49,6 +50,8 @@ pyenv_plugins=(
     aiguofer/pyenv-jupyter-kernel
 )
 
+exec $SHELL
+
 for plugin in "${pyenv_plugins[@]}"; do
     plugin_name=$(echo $plugin | cut -d '/' -f2)
     git clone https://github.com/$plugin $(pyenv root)/plugins/$plugin_name
@@ -59,7 +62,7 @@ while read pkg; do
 done < packages/pipx.txt
 
 # install nix installer, needed for xidlehooks on linux
-if [[ "$OSTYPE" == darwin* ]]; then
+if [[ "$OSTYPE" == linux* ]]; then
     sh <(curl -L https://nixos.org/nix/install) --daemon
 
     while read pkg; do

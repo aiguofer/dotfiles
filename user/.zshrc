@@ -5,6 +5,11 @@ if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]
   source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
 fi
 
+if [[ "$OSTYPE" == darwin* ]]; then
+    # load up homebrew stuff in MacOS since antibody is installed by homebrew
+    eval $($/opt/homebrew/bin/brew shellenv)
+fi
+
 #
 # Executes commands at the start of an interactive session.
 #
