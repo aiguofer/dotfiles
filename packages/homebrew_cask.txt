@@ -5,6 +5,5 @@ franz
 zoomus
 alacritty
 google-chrome
-java
 dbeaver-community
 alfred
