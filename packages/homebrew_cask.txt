@@ -7,3 +7,4 @@ alacritty
 google-chrome
 dbeaver-community
 alfred
+gpg-suite-no-mail
