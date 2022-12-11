@@ -567,7 +567,7 @@ __docker_container_commands() {
         "cp:Copy files/folders between a container and the local filesystem"
         "create:Create a new container"
         "diff:Inspect changes on a container's filesystem"
-        "exec:Run a command in a running container"
+        "exec:Execute a command in a running container"
         "export:Export a container's filesystem as a tar archive"
         "inspect:Display detailed information on one or more containers"
         "kill:Kill one or more running containers"
@@ -579,7 +579,7 @@ __docker_container_commands() {
         "rename:Rename a container"
         "restart:Restart one or more containers"
         "rm:Remove one or more containers"
-        "run:Run a command in a new container"
+        "run:Create and run a new container from an image"
         "start:Start one or more stopped containers"
         "stats:Display a live stream of container(s) resource usage statistics"
         "stop:Stop one or more running containers"
@@ -2765,8 +2765,8 @@ __docker_subcommand() {
                 "($help)--live-restore[Enable live restore of docker when containers are still running]" \
                 "($help)--log-driver=[Default driver for container logs]:logging driver:__docker_complete_log_drivers" \
                 "($help)*--log-opt=[Default log driver options for containers]:log driver options:__docker_complete_log_options" \
-                "($help)--max-concurrent-downloads[Set the max concurrent downloads for each pull]" \
-                "($help)--max-concurrent-uploads[Set the max concurrent uploads for each push]" \
+                "($help)--max-concurrent-downloads[Set the max concurrent downloads]" \
+                "($help)--max-concurrent-uploads[Set the max concurrent uploads]" \
                 "($help)--max-download-attempts[Set the max download attempts for each pull]" \
                 "($help)--mtu=[Network MTU]:mtu:(0 576 1420 1500 9000)" \
                 "($help)--oom-score-adjust=[Set the oom_score_adj for the daemon]:oom-score:(-500)" \
@@ -3073,6 +3073,7 @@ _docker() {
     _arguments $(__docker_arguments) -C \
         "(: -)"{-h,--help}"[Print usage]" \
         "($help)--config[Location of client config files]:path:_directories" \
+        "($help -c --context)"{-c=,--context=}"[Execute the command in a docker context]:context:__docker_complete_contexts" \
         "($help -D --debug)"{-D,--debug}"[Enable debug mode]" \
         "($help -H --host)"{-H=,--host=}"[tcp://host:port to bind/connect to]:host: " \
         "($help -l --log-level)"{-l=,--log-level=}"[Logging level]:level:(debug info warn error fatal)" \
@@ -3088,7 +3089,8 @@ _docker() {
 
     local host=${opt_args[-H]}${opt_args[--host]}
     local config=${opt_args[--config]}
-    local docker_options="${host:+--host $host} ${config:+--config $config}"
+    local context=${opt_args[-c]}${opt_args[--context]}
+    local docker_options="${host:+--host $host} ${config:+--config $config} ${context:+--context $context} "
 
     case $state in
         (command)
