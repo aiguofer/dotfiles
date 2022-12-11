@@ -11,4 +11,4 @@ else
     PARAMS+=" -c"
 fi
 
-exec  /usr/bin/emacsclient $PARAMS "/sudo:root@localhost:$@"
+exec $(which emacsclient) $PARAMS "/sudo:root@localhost:$@"

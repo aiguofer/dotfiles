@@ -1,11 +1,15 @@
 #!/bin/bash
 
 if [ -z "$(pgrep "[Ee]macs")" ]; then
-    systemctl --user start emacs
-    while ! systemctl --user status emacs | grep "Starting Emacs daemon." &>/dev/null
-    do
-        sleep 0.5
-    done
+    if [[ "$OSTYPE" == linux* ]]; then
+        systemctl --user start emacs
+        while ! systemctl --user status emacs | grep "Starting Emacs daemon." &>/dev/null
+        do
+            sleep 0.5
+        done
+    else
+        brew services start emacs-plus
+    fi
 fi
 
 if [[ "$OSTYPE" == linux* ]]; then

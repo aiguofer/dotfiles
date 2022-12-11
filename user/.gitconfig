@@ -58,8 +58,8 @@
   # https://git-scm.com/docs/git-config#git-config-transferfsckObjects
   # via https://groups.google.com/forum/#!topic/binary-transparency/f-BI4o8HZW0
 
-[gpg]
-  program = /usr/bin/gpg2
+# [gpg]
+#   program = /usr/bin/gpg2
 
 # A nice little github-like colorful, split diff right in the console.
 # via http://owen.cymru/github-style-diff-in-terminal-with-icdiff/

@@ -294,7 +294,7 @@
     (setq py-pyment-options '("--output=numpydoc")))
 
   (use-package py-isort
-    :straight (:host github :repo "humitos/py-cmd-buffer.el")
+    :straight (:host github :repo "aiguofer/py-cmd-buffer.el")
     :hook (python-mode . py-isort-enable-on-save)
     ;; :config
     ;; (setq py-isort-options '("-l=88" "--profile=black"))
