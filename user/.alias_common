@@ -9,11 +9,12 @@ alias mv='mv -i'
 alias cp='cp -i'
 alias ln='ln -i'
 
-# Parenting changing perms on / #
-alias chown='chown --preserve-root'
-alias chmod='chmod --preserve-root'
-alias chgrp='chgrp --preserve-root'
-
+if [[ "$OSTYPE" == linux* ]]; then
+    # Parenting changing perms on / #
+    alias chown='chown --preserve-root'
+    alias chmod='chmod --preserve-root'
+    alias chgrp='chgrp --preserve-root'
+fi
 
 ## get top process eating memory
 alias psmem='ps auxf | sort -nr -k 4'
@@ -52,6 +53,6 @@ alias sl='ls'            # I often screw this up.
 alias df='df -kh'
 alias du='du -kh'
 alias free='free -lth'
-alias ipy='jupyter console --kernel=$(pyenv version)'
+alias ipy='jupyter console --kernel=pyenv_$(pyenv version-name)'
 
 alias aws2='${HOMEBREW_PREFIX}/bin/aws'
