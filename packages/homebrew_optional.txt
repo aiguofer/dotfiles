@@ -1,0 +1,10 @@
+google-cloud-sdk
+kubectl
+docker-machine
+kompose
+minikube
+travis
+openshift-cli
+heroku
+awscli
+glab

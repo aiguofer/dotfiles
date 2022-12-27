@@ -8,9 +8,14 @@ if [[ $commands[brew] ]]; then
     fi
 fi
 
-if [[ $commands[antibody] ]]; then
+if [[ $commands[antidote] ]]; then
     echo "Updating zsh modules"
-    antibody update
+    antidote update
+fi
+
+if [[ $commands[update_zsh_direnv] ]]; then
+    echo "Updating direnv"
+    update_zsh_direnv
 fi
 
 if [[ $commands[pyenv] ]]; then
@@ -45,36 +50,38 @@ if [[ $commands[pipx] ]]; then
     pipx upgrade-all
 fi
 
-if [[ $commands[nix-env] ]]; then
-    echo "Updating packages installed through nix-env"
-    nix-env -u
-fi
+if [[ "$OSTYPE" == linux* ]]; then
+    if [[ $commands[nix-env] ]]; then
+        echo "Updating packages installed through nix-env"
+        nix-env -u
+    fi
 
-if [[ $commands[dnf] ]]; then
-    echo "Updating Fedora packages"
-    sudo dnf -y upgrade --refresh
-fi
+    if [[ $commands[dnf] ]]; then
+        echo "Updating Fedora packages"
+        sudo dnf -y upgrade --refresh
+    fi
 
-if [[ $commands[apt] && ! -L $(which apt) ]]; then
-    echo "Updating Ubuntu packages"
-    sudo apt update
-    sudo apt full-upgrade -y
-fi
+    if [[ $commands[apt] && ! -L $(which apt) ]]; then
+        echo "Updating Ubuntu packages"
+        sudo apt update
+        sudo apt full-upgrade -y
+    fi
 
-if [[ $commands[flatpak] ]]; then
-    echo "Updating flatpack packages"
-    flatpak -y update
-fi
+    if [[ $commands[flatpak] ]]; then
+        echo "Updating flatpack packages"
+        flatpak -y update
+    fi
 
-if [[ $commands[snap] ]]; then
-    echo "Updating snap packages"
-    sudo snap refresh
-fi
+    if [[ $commands[snap] ]]; then
+        echo "Updating snap packages"
+        sudo snap refresh
+    fi
 
-if [[ $commands[fwupdmgr] ]]; then
-    echo "Updating firmware"
-    sudo fwupdmgr refresh
-    sudo fwupdmgr update
+    if [[ $commands[fwupdmgr] ]]; then
+        echo "Updating firmware"
+        sudo fwupdmgr refresh
+        sudo fwupdmgr update
+    fi
 fi
 
 echo "Updating completion scripts"

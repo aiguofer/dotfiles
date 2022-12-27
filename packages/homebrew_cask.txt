@@ -1,4 +1,3 @@
-google-cloud-sdk
 insync
 rescuetime
 franz
@@ -8,3 +7,5 @@ google-chrome
 dbeaver-community
 alfred
 gpg-suite-no-mail
+spotify
+muzzle
