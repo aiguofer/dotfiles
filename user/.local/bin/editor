@@ -7,12 +7,6 @@ if [ -z "$(pgrep "[Ee]macs")" ]; then
         do
             sleep 0.5
         done
-    else
-        brew services start emacs-plus
-        while ! tail /tmp/homebrew.mxcl.emacs-plus.stderr.log | grep "Starting Emacs daemon." &>/dev/null
-        do
-            sleep 0.5
-        done
     fi
 fi
 
