@@ -76,13 +76,14 @@
 [includeIf "gitdir:~/work/"]
     path = ~/work/.gitconfig
 
-[includeIf "gitdir:~/work/fulcrum/"]
-    path = ~/work/fulcrum/.gitconfig
+[includeIf "gitdir:~/work/dbtlabs"]
+    path = ~/work/dbtlabs/.gitconfig
 
 [includeIf "gitdir:~/personal/"]
     path = ~/personal/.gitconfig
 
 [fetch.fsck]
     zeroPaddedFilemode = warn
-[credential]
-	helper = cache
+
+# [credential]
+#     helper = cache
