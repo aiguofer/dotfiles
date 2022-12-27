@@ -7,16 +7,7 @@ source ~/.load_language_envs
 yabai -m signal --add event=dock_did_restart 'action=sudo yabai --load-sa'
 sudo yabai --load-sa
 
-# bar settings
-yabai -m config status_bar                   off
-yabai -m config status_bar_text_font         "Helvetica Neue:Bold:12.0"
-yabai -m config status_bar_icon_font         "FontAwesome:Regular:12.0"
-yabai -m config status_bar_background_color  0xff202020
-yabai -m config status_bar_foreground_color  0xffa8a8a8
-yabai -m config status_bar_space_icon_strip  I II III IV V VI VII VIII IX X
-yabai -m config status_bar_power_icon_strip   
-yabai -m config status_bar_space_icon        
-yabai -m config status_bar_clock_icon        
+yabai -m config external_bar                 all:28:0
 
 # global settings
 yabai -m config mouse_follows_focus          off
@@ -60,7 +51,7 @@ yabai -m rule --add app="Calculator" manage=off
 yabai -m rule --add app="Installer" manage=off
 yabai -m rule --add app="PluginLauncher" manage=off
 
-yabai -m signal --add event=display_added action='zsh -c "yabaictl update-spaces"'
-yabai -m signal --add event=display_removed action='zsh -c "yabaictl update-spaces"'
+yabai -m signal --add event=display_added action='zsh -c "sleep 5; yabaictl update-spaces"'
+yabai -m signal --add event=display_removed action='zsh -c "sleep 5; yabaictl update-spaces"'
 
 echo "yabai configuration loaded.."

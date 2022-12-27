@@ -13,7 +13,6 @@ shift + cmd - i : yabai -m window --warp north
 shift + cmd - l : yabai -m window --warp east
 
 # fast focus desktop
-# see .zprofile for yabai_focus_space
 cmd - 1 : yabaictl focus-space 1
 cmd - 2 : yabaictl focus-space 2
 cmd - 3 : yabaictl focus-space 3
@@ -64,12 +63,12 @@ ctrl + alt - k : yabai -m window --insert south
 ctrl + alt - i : yabai -m window --insert north
 ctrl + alt - l : yabai -m window --insert east
 
-
 # toggle window fullscreen zoom
-cmd - f : yabai -m window --toggle zoom-fullscreen
+cmd - f : yabai -m window --toggle zoom-fullscreen; yabai -m window --toggle border
 
 # toggle window native fullscreen
-# shift + alt - f : yabai -m window --toggle native-fullscreen
+# native fullscreen creates a new space for the window which mesesses up a few things
+# cmd - f : yabai -m window --toggle native-fullscreen
 
 # toggle window border
 # shift + alt - b : yabai -m window --toggle border
@@ -86,7 +85,7 @@ shift + cmd - s : yabai -m window --toggle sticky
 # open applications
 ctrl + cmd - t : /Applications/Alacritty.app/Contents/MacOS/alacritty -e tmux attach -t base || tmux new -s base
 ctrl + cmd - e : $HOME/.local/bin/editor
-ctrl + cmd - i : /Applications/Google\ Chrome.app/Contents/MacOS/Google\ Chrome
+ctrl + cmd - i : /Applications/Vivaldi.app/Contents/MacOS/Vivaldi
 ctrl + cmd - f : open ~
 ctrl + cmd - u : /bin/bash -l -c "songliker"
 
