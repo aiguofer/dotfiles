@@ -19,4 +19,4 @@ fi
 source $HOME/.bash_profile
 
 # this needs to be here so that it runs on Gnome login
-start_systemd &!
+[[ "$OSTYPE" == "linux*" ]] && start_systemd &!

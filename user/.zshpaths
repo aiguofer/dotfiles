@@ -4,6 +4,7 @@
 # Ensure path arrays do not contain duplicates.
 typeset -gU cdpath fpath mailpath path
 
+
 # Set the list of directories that cd searches.
 cdpath=(
     $HOME
@@ -15,19 +16,7 @@ cdpath=(
 # Set the list of directories that Zsh searches for functions.
 fpath=(
     $HOME/.zsh/completions
+    $(brew --prefix)/share/zsh/site-functions
+    $(brew --prefix)/completions/zsh
     $fpath
 )
-
-# Set the list of directories that Zsh searches for executables.
-path=(
-    $HOME{,/.local}/bin
-    $path
-)
-
-if [[ "$OSTYPE" == darwin* ]]; then
-    path=(
-        $(brew --prefix)/opt/python/libexec/bin
-        $path
-    )
-
-fi

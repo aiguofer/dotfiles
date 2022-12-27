@@ -43,7 +43,7 @@ click_apps=(
 
 for app in "${click_apps[@]}";do
     env_magic=$(echo $app | tr '[:lower:]' '[:upper:]' | tr '-' '_')
-    eval "_${env_magic}_COMPLETE=source_zsh $app > $COMPLETIONS_DIR/_$app"
+    eval "_${env_magic}_COMPLETE=zsh_source $app > $COMPLETIONS_DIR/_$app"
 done
 
 # make sure #compdef is always at the top of completions

@@ -1,0 +1,12 @@
+#
+# Paths
+#
+# Ensure path arrays do not contain duplicates.
+typeset -gU path
+
+# NOTE: this ensures local bin folders (pipx) have precedence over pyenv
+path=(
+    $HOME{,/.local}/bin
+    $path
+    $(brew --prefix)/opt/python/libexec/bin
+)
