@@ -258,6 +258,14 @@ class WindowManager:
                 display, then focus first(east)/last(west) window in that space."""
                 yabai_message("display", "--focus", str(direction))
 
+    def focus_fullscreen(self, display):
+        """Focus the fullscreened space in the given display (starting at 1) if it exists"""
+        display_index = self.find_display(display=int(display) - 1)["index"]
+
+        for space in self.spaces:
+            if space["display"] == display_index and space["is-native-fullscreen"]:
+                yabai_message("space", "--focus", f"{space['index']}")
+
     def move_space_to_display(self, space, display):
         display_index = self.find_display(display=display)["index"]
 
@@ -338,6 +346,7 @@ def parse_args(wm):
     add_subcommand(sub, wm.update_spaces, "update-spaces")
     add_subcommand(sub, wm.swap_context, "swap-context")
     add_subcommand(sub, wm.focus_space, "focus-space", ["space"])
+    add_subcommand(sub, wm.focus_fullscreen, "focus-fullscreen", ["display"])
     add_subcommand(sub, wm.focus_window, "focus-window", ["direction"])
 
     args = vars(parser.parse_args())

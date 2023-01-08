@@ -24,6 +24,12 @@ cmd - 8 : yabaictl focus-space 8
 cmd - 9 : yabaictl focus-space 9
 cmd - 0 : yabaictl focus-space 10
 
+# focus fullscreen space on display
+cmd + ctrl - 1 : yabaictl focus-fullscreen 1
+cmd + ctrl - 2 : yabaictl focus-fullscreen 2
+cmd + ctrl - 3 : yabaictl focus-fullscreen 3
+
+# swap the windows in the first space in each display with the ones in the second space
 cmd + ctrl - s : yabaictl swap-context
 
 # send window to desktop and follow focus
