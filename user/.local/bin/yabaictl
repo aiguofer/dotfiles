@@ -1,4 +1,25 @@
 #!/Users/aiguofer/.pyenv/versions/default/bin/python
+"""
+Yabaictl is a wrapper around yabai to accomplish:
+
+ - Use 'static' workspaces by using labels s1, s2,...,s10
+ - Reference displays numeriaclly starting at 1 on the far left
+   regardless of which is the main display (order is customizable
+   in setups var)
+ - Distribute static workspaces evenly across displays, for example
+   with 3 displays:
+   |------------|--------|--------|
+   |     D1     |   D2   |   D3   |
+   |s1,s4,s7,s10|s2,s5,s8|s3,s6,s9|
+   |------------|--------|--------|
+ - Ensure above state persists even when MacOS decides to delete some
+   of my spaces
+ - Move focus to the next display when focusing 'east' or 'west' and
+   already focused on the easter/westernmost window in the current
+   display
+ - Focus the fullscreened window in a given display
+"""
+
 import argparse
 import json
 import pickle
@@ -24,13 +45,12 @@ def singleton_lock():
 
 
 # these are used to determine display order
-# you can find these using `yabai -m query --displays`
-# TODO: could I auto-generate from ^?
+# you can find the uuids using `yabai -m query --displays`
 setups = {
     "home": [
-        "37D8832A-2D66-02CA-B9F7-8F30A301B230",
-        "5B6404CB-95BB-42D7-A6D1-DEEDEC2BA289",
-        "11CD8A27-C285-4FE5-9785-0DA168BEC45D",
+        "37D8832A-2D66-02CA-B9F7-8F30A301B230",  # left
+        "5B6404CB-95BB-42D7-A6D1-DEEDEC2BA289",  # center
+        "11CD8A27-C285-4FE5-9785-0DA168BEC45D",  # right
     ],
     "laptop": [
         "37D8832A-2D66-02CA-B9F7-8F30A301B230",
