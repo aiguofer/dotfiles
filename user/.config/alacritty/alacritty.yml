@@ -18,6 +18,7 @@ window:
   decorations: none
   # Allow terminal applications to change Alacritty's window title.
   dynamic_title: true
+  option_as_alt: Both
 
 scrolling:
   # Specifying '0' will disable scrolling.
@@ -100,8 +101,6 @@ cursor:
 live_config_reload: true
 
 working_directory: None
-
-alt_send_esc: true
 
 debug:
   render_timer: false
