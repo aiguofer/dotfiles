@@ -1,7 +1,7 @@
 sorin-ionescu/prezto
 ptavares/zsh-direnv
-lukechilds/zsh-nvm
 lukechilds/zsh-better-npm-completion
 robbyrussell/oh-my-zsh path:plugins/gcloud
 robbyrussell/oh-my-zsh path:plugins/aws
 b4b4r07/enhancd
+https://gitlab.com/riverglide/zsh-goenv

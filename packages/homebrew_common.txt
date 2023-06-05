@@ -7,4 +7,8 @@ fzy
 icdiff
 jq
 direnv
+nodenv
+jenv
+rbenv
+goenv
 1password-cli

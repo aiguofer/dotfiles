@@ -2,7 +2,7 @@
 # zmodload zsh/zprof
 
 # this is needed for gpg sign to work
-export GPG_TTY=$(tty)
+export GPG_TTY=$TTY
 
 # Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
 # Initialization code that may require console input (password prompts, [y/n]
@@ -23,6 +23,7 @@ source $HOME/.alias_common
 source $HOME/.functions_common
 source $HOME/.zshpaths
 source $HOME/.zsh_custom_pre
+source $HOME/.load_language_envs
 
 # load zsh plugins
 antidote_dir=~/.antidote

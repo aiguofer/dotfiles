@@ -2,17 +2,30 @@ export PYENV_ROOT="$HOME/.pyenv"
 export PATH="$PYENV_ROOT/bin:$PATH"
 eval "$(pyenv init --path)"
 if command -v pyenv 1>/dev/null 2>&1; then
-    eval "$(pyenv init -)"
-    eval "$(pyenv virtualenv-init -)"
-fi
-
-export NVM_DIR="$HOME/.nvm"
-if [ -s "$NVM_DIR/nvm.sh" ]; then
-    source $NVM_DIR/nvm.sh
+    eval "$(pyenv init - zsh)"
+    eval "$(pyenv virtualenv-init - zsh)"
 fi
 
 export RBENV_ROOT="$HOME/.rbenv"
 export PATH="$RBENV_ROOT/bin:$PATH"
 if command -v rbenv 1>/dev/null 2>&1; then
-    eval "$(rbenv init -)"
+    eval "$(rbenv init - zsh)"
 fi
+
+if command -v jenv 1>/dev/null 2>&1; then
+    eval "$(jenv init - zsh)"
+fi
+
+if command -v nodenv 1>/dev/null 2>&1; then
+    eval "$(nodenv init - zsh)"
+fi
+
+# export GOENV_ROOT="$HOME/.goenv"
+# export PATH="$GOENV_ROOT/bin:$PATH"
+# if command -v nodenv 1>/dev/null 2>&1; then
+#    eval "$(goenv init - zsh)"
+# fi
+# export PATH="$GOROOT/bin:$PATH"
+# export PATH="$PATH:$GOPATH/bin"
+
+# . /opt/homebrew/opt/asdf/libexec/asdf.sh
