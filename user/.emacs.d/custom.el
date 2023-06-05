@@ -40,6 +40,9 @@
  '(js2-mode-show-parse-errors nil)
  '(js2-mode-show-strict-warnings nil)
  '(line-number-mode t)
+ '(lsp-kotlin-external-sources-auto-convert-to-kotlin nil)
+ '(lsp-kotlin-external-sources-use-kls-scheme t)
+ '(lsp-pylsp-plugins-jedi-use-pyenv-environment t)
  '(magit-diff-arguments
    '("--ignore-space-change" "--ignore-all-space" "--no-ext-diff"))
  '(magit-pull-arguments '("--rebase"))
