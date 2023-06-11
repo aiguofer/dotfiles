@@ -33,6 +33,13 @@
       (list (format "%s %%S: %%j " (system-name))
             '(buffer-file-name "%f" (dired-directory dired-directory "%b"))))
 
+(setq warning-minimum-level :error)
+
+;; Recommended settings for lsp
+(setq gc-cons-threshold 100000000)
+(setq read-process-output-max (* 1024 1024)) ;; 1mb
+(setenv "LSP_USE_PLISTS" "1")
+
 ;; allow typing y/n instead of yes/no
 (defalias 'yes-or-no-p 'y-or-n-p)
 
@@ -42,6 +49,9 @@
 ;; enable up/down case region key shortcuts
 (put 'downcase-region 'disabled nil)
 (put 'upcase-region 'disabled nil)
+
+;; TreeSitter mode remamps
+;; (add-to-list 'major-mode-remap-alist '(python-mode . python-ts-mode))
 
 ;; Bootstrap `straight.el'
 (defvar bootstrap-version)
@@ -213,6 +223,10 @@
 
 (use-package magit
   :straight t
+  :custom
+  (magit-diff-arguments
+   '("--ignore-space-change" "--ignore-all-space" "--no-ext-diff"))
+  (magit-pull-arguments '("--rebase"))
   :commands (magit-status magit-log))
 
 ;; (use-package emacsql-sqlite3
@@ -270,6 +284,16 @@
    ("\\.template?" . web-mode))
   :hook (web-mode . setup-web-mode)
   :custom
+  (web-mode-auto-close-style 2)
+  (web-mode-code-indent-offset 3)
+  (web-mode-css-indent-offset 3)
+  (web-mode-enable-auto-expanding t)
+  (web-mode-enable-auto-indentation t)
+  (web-mode-enable-sql-detection t)
+  (web-mode-markup-indent-offset 3)
+  (web-mode-script-padding 0)
+  (web-mode-sql-indent-offset 3)
+  (web-mode-style-padding 0)
   (web-mode-engines-alist '(("django"    . "textmyjournal.*\\.html")
                             ("ctemplate"  . "\\.template")
                             ("angular"  . "tunecakes.*\\.ejs")))
@@ -278,8 +302,7 @@
     (make-local-variable 'company-backends)
     (add-to-list 'company-backends
                  '(company-yasnippet))
-    (add-hook 'before-save-hook 'web-beautify-html-buffer t t)
-    ))
+    (add-hook 'before-save-hook 'web-beautify-html-buffer t t)))
 
 (use-package web-beautify
   :straight t
@@ -308,12 +331,10 @@
   (python-shell-interpreter "jupyter-console")
   (python-shell-interpreter-args "--simple-prompt")
   (python-shell-prompt-detect-failure-warning nil)
+  (python-shell-completion-native-disabled-interpreters
+   '("pypy" "ipython" "jupyter" "jupyter-console"))
+  (python-indent-offset 4)
   :config
-  (add-to-list 'python-shell-completion-native-disabled-interpreters
-               "jupyter-console")
-  (add-to-list 'python-shell-completion-native-disabled-interpreters
-               "jupyter")
-
   (defun fix-python-password-entry ()
     (push
      'comint-watch-for-password-prompt comint-output-filter-functions))
@@ -396,82 +417,100 @@
 ;;                              '((elpy-company-backend :with company-yasnippet))))))
 ;;   :init
 ;;   (elpy-enable)
+;;   :custom
+;;   (elpy-formatter 'black)
 ;;   :config
 ;;   (setq elpy-modules (delq 'elpy-module-flymake elpy-modules))
 ;;   (setq elpy-shell-echo-output nil) ; fix for MacOS, see https://github.com/jorgenschaefer/elpy/issues/1550
 ;;   (setq elpy-rpc-python-command "python3")
 ;;   (setq elpy-rpc-timeout 2))
 
-(use-package eglot
-  ;; :straight t
+;; (use-package eglot
+;;   ;; :straight t
+;;   :hook
+;;   ((go-mode
+;;      python-mode) . eglot-ensure)
+;;   :config
+;;   (setq-default eglot-workspace-configuration
+;;     (lambda (&rest args)
+;;       (let ((venv-directory (string-trim (shell-command-to-string "pyenv prefix"))))
+;;         ;; pylsp otpions https://gist.github.com/doolio/8c1768ebf33c483e6d26e5205896217f
+;;         `((:pylsp .
+;;                   (:plugins
+;;                    (:jedi_completion (:include_params t
+;;                                       :fuzzy t)
+;;                     :jedi (:environment ,venv-directory)
+;;                     ;; :flake8 (:enabled t)
+;;                     :black (:enabled t)
+;;                     :rope_autoimport (:enabled t
+;;                                       :python_path ,venv-directory)))))))))
+
+(use-package lsp-mode
+  :straight t
+  :custom
+  (lsp-keymap-prefix "C-c l")
+  (lsp-enable-symbol-highlighting nil)
+
+  ;; kotlin
+  (lsp-kotlin-external-sources-auto-convert-to-kotlin nil)
+  (lsp-kotlin-external-sources-use-kls-scheme t)
+
+  ;; python
+  (lsp-pylsp-plugins-jedi-use-pyenv-environment t)
+
   :hook
   ((kotlin-mode
-     go-mode
-     python-mode) . eglot-ensure)
+    python-mode
+    shell-mode
+    java-mode
+    ruby-mode
+    go-mode) . lsp)
+  :commands lsp
   :config
-  (setq-default eglot-workspace-configuration
-    (lambda (&rest args)
-      (let ((venv-directory (string-trim (shell-command-to-string "pyenv prefix"))))
-        ;; pylsp otpions https://gist.github.com/doolio/8c1768ebf33c483e6d26e5205896217f
-        `((:pylsp .
-                  (:plugins
-                   (:jedi_completion (:include_params t
-                                      :fuzzy t)
-                    :jedi (:environment ,venv-directory)
-                    ;; :flake8 (:enabled t)
-                    :black (:enabled t)
-                    :rope_autoimport (:enabled t
-                                      :python_path ,venv-directory)))))))))
+  (setq lsp-use-plists t)
+  ;; make sure we have lsp-imenu everywhere we have LSP
+  (add-hook 'lsp-after-open-hook 'lsp-enable-imenu)
 
-;; (use-package lsp-mode
-;;   :straight t
-;;   :config
-;;   (setq lsp-pylsp-plugins-jedi-use-pyenv-environment t)
-;;   ;; make sure we have lsp-imenu everywhere we have LSP
-;;   (add-hook 'lsp-after-open-hook 'lsp-enable-imenu)
+  (lsp-register-custom-settings '(("pyls.plugins.pyls_mypy.enabled" nil t)
+                                  ("pyls.plugins.pyls_mypy.live_mode" nil t)
+                                  ("pylsp.plugins.pylsp_mypy.enabled" nil t)
+                                  ("pylsp.plugins.pylsp_mypy.live_mode" nil t))))
 
-;; ;; completion backends
-;; (use-package company-lsp
-;;   :straight t
-;;   :config
-;;   (add-hook 'web-mode-hook
-;;             (lambda ()
-;;               (add-to-list (make-local-variable 'company-backends)
-;;                            '(company-lsp))))
-;;   )
-;; )
+(use-package helm-lsp
+  :straight t
+  :commands helm-lsp-workspace-symbol)
 
-;; (use-package lsp-java
-;;   :straight t
-;;   :hook (java-mode . lsp))
+(use-package lsp-ui
+  :straight t
+  ;; :after lsp-mode
+  ;; :hook lsp-mode
+  :config
+  (setq lsp-ui-sideline-ignore-duplicate t)
+  (define-key lsp-ui-mode-map (kbd (concat lsp-keymap-prefix " d")) #'lsp-ui-doc-toggle)
+  (define-key lsp-ui-mode-map [remap xref-find-definitions]
+    #'lsp-ui-peek-find-definitions)
+  (define-key lsp-ui-mode-map [remap xref-find-references]
+    #'lsp-ui-peek-find-references))
 
-;; (use-package lsp-ui
-;;   :straight t
-;;   :after lsp-mode
-;;   :hook lsp-mode
-;;   :config
-;;   (setq lsp-ui-sideline-ignore-duplicate t)
+(use-package dap-mode
+  :straight t
+  :after lsp-mode
+  :hook ((python-mode . dap-ui-mode) (python-mode . dap-mode))
+  :init
+  (dap-auto-configure-mode)
+  :config
 
-;;   (define-key lsp-ui-mode-map [remap xref-find-definitions]
-;;     #'lsp-ui-peek-find-definitions)
-;;   (define-key lsp-ui-mode-map [remap xref-find-references]
-;;     #'lsp-ui-peek-find-references))
+  (require 'dap-python)
+  (setq dap-python-debugger 'debugpy)
+  (defun dap-python--pyenv-executable-find (command)
+    (with-venv (executable-find "python")))
 
-;; (use-package dap-mode
-;;   :straight t
-;;   :after lsp-mode
-;;   :hook ((python-mode . dap-ui-mode) (python-mode . dap-mode))
-;;   :init
-;;   (dap-auto-configure-mode)
-;;   :config
+  (add-hook 'dap-stopped-hook
+            (lambda (arg) (call-interactively #'dap-hydra))))
 
-;;   (require 'dap-python)
-;;   (setq dap-python-debugger 'debugpy)
-;;   (defun dap-python--pyenv-executable-find (command)
-;;     (with-venv (executable-find "python")))
-
-;;   (add-hook 'dap-stopped-hook
-;;             (lambda (arg) (call-interactively #'dap-hydra))))
+(use-package lsp-java
+  :straight t
+  :hook (java-mode . lsp))
 
 (use-package exec-path-from-shell
   :straight t
@@ -561,7 +600,9 @@
 
 (use-package helm-ag
   :after helm
-  :straight t)
+  :straight t
+  :custom
+  (helm-ag-use-agignore t))
 
 (use-package helm-rg
   :after helm
@@ -624,6 +665,7 @@
   :custom
   (sml/mule-info nil)
   (sml/no-confirm-load-theme t)
+  (powerline-gui-use-vcs-glyph t)
 
   :config
   (sml/setup)
@@ -677,19 +719,6 @@
     (c-toggle-auto-hungry-state 1))
   )
 
-(use-package minibuffer
-  :hook   ((minibuffer-setup-hook . my-minibuffer-setup-hook)
-           (minibuffer-exit-hook . my-minibuffer-exit-hook))
-  :config
-  ;; lower garbage collect thresholds in minibuffer
-  ;; see http://bling.github.io/blog/2016/01/18/why-are-you-changing-gc-cons-threshold/
-  (defun my-minibuffer-setup-hook ()
-    (setq gc-cons-threshold most-positive-fixnum))
-
-  (defun my-minibuffer-exit-hook ()
-    (setq gc-cons-threshold 800000))
-  )
-
 (use-package ibuffer
   :bind (([remap list-buffers] . ibuffer))
   :init
@@ -706,15 +735,22 @@
   :diminish company-mode
   :init
   (global-company-mode)
-  :config
-  ;; set default `company-backends'
-  (setq company-backends
-        '((company-files          ; files & directory
-           company-keywords       ; keywords
-           company-capf)		; completion-at-point-functions
-          (company-abbrev company-dabbrev)
-          ))
-  )
+  :custom
+  (company-dabbrev-downcase nil)
+  (company-dabbrev-ignore-case nil)
+  (company-idle-delay nil)              ;don't auto-popup
+  (company-minimum-prefix-length 2)
+  (company-quickhelp-delay nil)         ;don't auto-popup
+  (company-tooltip-align-annotations t)
+  (company-tooltip-limit 30)
+  (company-tooltip-flip-when-above t)   ;closest to cursor is most likely choice
+  (company-transformers
+   '(company-sort-by-backend-importance company-sort-by-occurrence company-sort-by-statistics))
+  (company-backends
+   '((company-files          ; files & directory
+      company-keywords       ; keywords
+      company-capf)		; completion-at-point-functions
+     (company-abbrev company-dabbrev))))
 
 ;; Keep commonly used completions near the top
 (use-package company-statistics
@@ -823,10 +859,10 @@
   )
 
 ;; Replace kotlin-mode with kotlin-ts-mode when treesit support
-;; (use-package kotlin-ts-mode
-;;   :straight (:host gitlab :repo "bricka/emacs-kotlin-ts-mode")
-;;   ;; :mode "\\.kt\\'" ; if you want this mode to be auto-enabled
-;;   )
+(use-package kotlin-ts-mode
+  :straight (:host gitlab :repo "bricka/emacs-kotlin-ts-mode")
+  ;; :mode "\\.kt\\'" ; if you want this mode to be auto-enabled
+  )
 
 (use-package groovy-mode
   :straight t)
@@ -869,6 +905,11 @@
 (use-package terraform-mode
   :straight t
   :hook (terraform-mode . outline-minor-mode))
+
+(use-package hl-todo
+  :straight t
+  :config
+  (global-hl-todo-mode))
 
 ;;; init.el ends here
 
@@ -914,6 +955,8 @@
 ;; DISABLED: seems flymake has caught up to flycheck
 ;; (use-package flycheck
 ;;   :straight t
+;;   :custom
+;;   (flycheck-disabled-checkers '(python-mypy python-pylint))
 ;;   :init
 ;;   (global-flycheck-mode))
 
