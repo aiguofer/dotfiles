@@ -1,2 +1,6 @@
 [user]
     email = diego.fernandez@dbtlabs.com
+    signingkey = ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIHU3rU+AHcjZs6IoqdjKtZR2q3FCD6Mpohizcq2JL2rI diego.fernandez@dbtlabs.com
+
+[gpg]
+    format = ssh

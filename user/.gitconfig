@@ -59,7 +59,7 @@
   # via https://groups.google.com/forum/#!topic/binary-transparency/f-BI4o8HZW0
 
 # [gpg]
-#   program = /usr/bin/gpg2
+#   program = gpg2
 
 # A nice little github-like colorful, split diff right in the console.
 # via http://owen.cymru/github-style-diff-in-terminal-with-icdiff/
@@ -76,7 +76,7 @@
 [includeIf "gitdir:~/work/"]
     path = ~/work/.gitconfig
 
-[includeIf "gitdir:~/work/dbtlabs"]
+[includeIf "gitdir:~/work/dbtlabs/"]
     path = ~/work/dbtlabs/.gitconfig
 
 [includeIf "gitdir:~/personal/"]
@@ -87,3 +87,8 @@
 
 # [credential]
 #     helper = cache
+
+[url "ssh://git@github.com/"]
+	insteadOf = https://github.com/
+[init]
+	defaultBranch = main
