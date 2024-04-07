@@ -229,31 +229,26 @@
   (magit-pull-arguments '("--rebase"))
   :commands (magit-status magit-log))
 
-;; (use-package emacsql-sqlite3
-;;   :straight t
-;;   :config
-;;   (setq org-roam-database-connector 'sqlite3))
+(use-package forge
+  :straight t
+  :after magit)
 
-;; (use-package forge
-;;   :straight t
-;;   :after magit)
-
-;; (use-package code-review
-;;   :straight t
-;;   :after forge
-;;   :bind (:map forge-topic-mode-map
-;;               ("C-c r" . 'code-review-forge-pr-at-point)
-;;               :map code-review-feedback-section-map
-;;               ("C-k" . 'code-review-section-delete-comment)
-;;               :map code-review-local-comment-section-map
-;;               ("C-k" . 'code-review-section-delete-comment)
-;;               :map code-review-reply-comment-section-map
-;;               ("C-k" . 'code-review-section-delete-comment)
-;;               :map code-review-mode-map
-;;               ("C-c C-n" . 'code-review-comment-jump-next)
-;;               ("C-c C-p" . 'code-review-comment-jump-previous))
-;;   :custom
-;;   (code-review-auth-login-marker 'forge))
+(use-package code-review
+  :straight t
+  :after forge
+  :bind (:map forge-topic-mode-map
+              ("C-c r" . 'code-review-forge-pr-at-point)
+              :map code-review-feedback-section-map
+              ("C-k" . 'code-review-section-delete-comment)
+              :map code-review-local-comment-section-map
+              ("C-k" . 'code-review-section-delete-comment)
+              :map code-review-reply-comment-section-map
+              ("C-k" . 'code-review-section-delete-comment)
+              :map code-review-mode-map
+              ("C-c C-n" . 'code-review-comment-jump-next)
+              ("C-c C-p" . 'code-review-comment-jump-previous))
+  :custom
+  (code-review-auth-login-marker 'forge))
 
 (use-package sudo-edit
   :straight t)
