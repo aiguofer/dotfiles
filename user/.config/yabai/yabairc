@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-launchctl unload -F /System/Library/LaunchAgents/com.apple.WindowManager.plist
+launchctl unload -F /System/Library/LaunchAgents/com.apple.WindowManager.plist > /dev/null 2>&1 &
 
 source ~/.env_common
 source ~/.load_language_envs
@@ -7,51 +7,52 @@ source ~/.load_language_envs
 yabai -m signal --add event=dock_did_restart 'action=sudo yabai --load-sa'
 sudo yabai --load-sa
 
-yabai -m config external_bar                 all:28:0
-
 # global settings
-yabai -m config mouse_follows_focus          off
-yabai -m config focus_follows_mouse          off
-yabai -m config window_placement             second_child
-yabai -m config window_topmost               on
-# having issues with window_opacity
-yabai -m config window_opacity               on
-yabai -m config active_window_opacity        1
-yabai -m config normal_window_opacity        0.95
-yabai -m config window_shadow                on
-yabai -m config window_border                on
-yabai -m config window_border_placement      inset
-yabai -m config window_border_width          1
-yabai -m config active_window_border_topmost off
-yabai -m config active_window_border_color   0xffffffff
-yabai -m config normal_window_border_color   0x00000000
-yabai -m config insert_window_border_color   0xffd75f5f
-yabai -m config split_ratio                  0.50
-yabai -m config auto_balance                 off
-yabai -m config mouse_modifier               fn
-yabai -m config mouse_action1                move
-yabai -m config mouse_action2                resize
-
-# general space settings
-yabai -m config layout                       bsp
-yabai -m config top_padding                  5
-yabai -m config bottom_padding               5
-yabai -m config left_padding                 5
-yabai -m config right_padding                5
-yabai -m config window_gap                   5
+yabai -m config external_bar                 all:30:0 \
+                window_zoom_persist          off \
+                mouse_follows_focus          off \
+                focus_follows_mouse          off \
+                window_placement             second_child \
+                window_opacity               on \
+                window_shadow                on \
+                insert_feedback_color        0xffd75f5f \
+                split_ratio                  0.50 \
+                auto_balance                 off \
+                mouse_modifier               fn \
+                mouse_action1                move \
+                mouse_action2                resize \
+                layout                       bsp \
+                top_padding                  5 \
+                bottom_padding               5 \
+                left_padding                 5 \
+                right_padding                5 \
+                active_window_opacity        1.0 \
+                normal_window_opacity        0.9 \
+                window_gap                   8 \
+                display_arrangement_order    horizontal
 
 # creates spaces and labels
 yabaictl update-spaces
 
 yabai -m rule --add app="Google Play Music Desktop Player" space=s10
-yabai -m rule --add app="System Preferences" manage=off
+yabai -m rule --add app="^(LuLu|Calculator|Software Update|Dictionary|VLC|System Preferences|System Settings|zoom.us|Photo Booth|Archive Utility|Python|LibreOffice|App Store|Steam|Alfred|Activity Monitor)$" manage=off
+yabai -m rule --add label="Finder" app="^Finder$" title="(Co(py|nnect)|Move|Info|Pref)" manage=off
+yabai -m rule --add label="Safari" app="^Safari$" title="^(General|(Tab|Password|Website|Extension)s|AutoFill|Se(arch|curity)|Privacy|Advance)$" manage=off
+yabai -m rule --add label="About This Mac" app="System Information" title="About This Mac" manage=off
+yabai -m rule --add label="Select file to save to" app="^Inkscape$" title="Select file to save to" manage=off
 yabai -m rule --add app="Pritunl" manage=off
 yabai -m rule --add app="DBeaver.*" title=".*([Cc]onnect|Preferences|Search|Driver|[Pp]roperties).*)" manage=off
-yabai -m rule --add app="Calculator" manage=off
 yabai -m rule --add app="Installer" manage=off
 yabai -m rule --add app="PluginLauncher" manage=off
 
-yabai -m signal --add event=display_added action='zsh -c "sleep 5; yabaictl update-spaces"'
-yabai -m signal --add event=display_removed action='zsh -c "sleep 5; yabaictl update-spaces"'
+yabai -m signal --add event=display_added action='zsh -c "sleep 2; yabaictl update-spaces"'
+yabai -m signal --add event=display_removed action='zsh -c "sleep 2; yabaictl update-spaces"'
+yabai -m signal --add event=window_focused action="sketchybar --trigger window_focus"
+yabai -m signal --add event=window_created action="sketchybar --trigger windows_on_spaces"
+yabai -m signal --add event=window_destroyed action="sketchybar --trigger windows_on_spaces"
+
+yabai -m signal --add event=application_front_switched action="yabai -m window recent --opacity 0.9; yabai -m window --opacity 1.0;"
+
+borders active_color=0xffe1e3e4 inactive_color=0xff494d64 width=5.0 2>/dev/null 1>&2 &
 
 echo "yabai configuration loaded.."

@@ -70,11 +70,12 @@ ctrl + alt - i : yabai -m window --insert north
 ctrl + alt - l : yabai -m window --insert east
 
 # toggle window fullscreen zoom
-cmd - f : yabai -m window --toggle zoom-fullscreen; yabai -m window --toggle border
+cmd - f : yabai -m window --toggle zoom-fullscreen && yabai -m window --toggle border && yabai -m space --toggle padding && yabai -m space --toggle gap && sketchybar --trigger window_focus
+cmd - t : yabai -m window --toggle topmost
 
 # toggle window native fullscreen
 # native fullscreen creates a new space for the window which mesesses up a few things
-# cmd - f : yabai -m window --toggle native-fullscreen
+# cmd - f : yabai -m window --toggle native-fullscreen && yabai -m space --toggle padding && yabai -m space --toggle gap
 
 # toggle window border
 # shift + alt - b : yabai -m window --toggle border
