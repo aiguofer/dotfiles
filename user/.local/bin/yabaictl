@@ -51,6 +51,8 @@ ignore_messages = [
 "acting space is the last user-space on the source display and cannot be destroyed."
 "acting space is the last user-space on the source display and cannot be moved."
 
+def refresh_sketchybar():
+    subprocess.run(["sketchybar", "--trigger", "windows_on_spaces"])
 
 def yabai_message(*msg):
     ret = subprocess.run(["yabai", "-m", *msg], capture_output=True)
@@ -298,6 +300,7 @@ class WindowManager:
 
         self.remove_unnecessary_spaces()
         self.refresh_state()
+        refresh_sketchybar()
 
 
 def add_subcommand(sub, func, subcommand_name, subcommand_args=[]):
