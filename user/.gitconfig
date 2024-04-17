@@ -72,7 +72,6 @@
 [difftool "icdiff"]
   cmd = /usr/local/bin/icdiff --line-numbers $LOCAL $REMOTE
 
-
 [includeIf "gitdir:~/work/"]
     path = ~/work/.gitconfig
 
@@ -89,6 +88,9 @@
 #     helper = cache
 
 [url "ssh://git@github.com/"]
-	insteadOf = https://github.com/
+    insteadOf = https://github.com/
 [init]
-	defaultBranch = main
+    defaultBranch = main
+
+[github]
+    user = aiguofer
