@@ -222,7 +222,7 @@ __docker_get_log_options() {
 
     integer ret=1
     local log_driver=${opt_args[--log-driver]:-"all"}
-    local -a common_options common_options2 awslogs_options fluentd_options gelf_options journald_options json_file_options logentries_options syslog_options splunk_options
+    local -a common_options common_options2 awslogs_options fluentd_options gelf_options journald_options json_file_options syslog_options splunk_options
 
     common_options=("max-buffer-size" "mode")
     common_options2=("env" "env-regex" "labels")
@@ -232,7 +232,6 @@ __docker_get_log_options() {
     gelf_options=($common_options $common_options2 "gelf-address" "gelf-compression-level" "gelf-compression-type" "tag")
     journald_options=($common_options $common_options2 "tag")
     json_file_options=($common_options $common_options2 "max-file" "max-size")
-    logentries_options=($common_options $common_options2 "logentries-token" "tag")
     syslog_options=($common_options $common_options2 "syslog-address" "syslog-facility" "syslog-format" "syslog-tls-ca-cert" "syslog-tls-cert" "syslog-tls-key" "syslog-tls-skip-verify" "tag")
     splunk_options=($common_options $common_options2 "splunk-caname" "splunk-capath" "splunk-format" "splunk-gzip" "splunk-gzip-level" "splunk-index" "splunk-insecureskipverify" "splunk-source" "splunk-sourcetype" "splunk-token" "splunk-url" "splunk-verify-connection" "tag")
 
@@ -242,7 +241,6 @@ __docker_get_log_options() {
     [[ $log_driver = (gelf|all) ]] && _describe -t gelf-options "gelf options" gelf_options "$@" && ret=0
     [[ $log_driver = (journald|all) ]] && _describe -t journald-options "journald options" journald_options "$@" && ret=0
     [[ $log_driver = (json-file|all) ]] && _describe -t json-file-options "json-file options" json_file_options "$@" && ret=0
-    [[ $log_driver = (logentries|all) ]] && _describe -t logentries-options "logentries options" logentries_options "$@" && ret=0
     [[ $log_driver = (syslog|all) ]] && _describe -t syslog-options "syslog options" syslog_options "$@" && ret=0
     [[ $log_driver = (splunk|all) ]] && _describe -t splunk-options "splunk options" splunk_options "$@" && ret=0
 
@@ -602,6 +600,7 @@ __docker_container_subcommand() {
     opts_create_run=(
         "($help -a --attach)"{-a=,--attach=}"[Attach to stdin, stdout or stderr]:device:(STDIN STDOUT STDERR)"
         "($help)*--add-host=[Add a custom host-to-IP mapping]:host\:ip mapping: "
+        "($help)*--annotation=[Add an annotation to the container (passed through to the OCI runtime)]:annotations: "
         "($help)*--blkio-weight-device=[Block IO (relative device weight)]:device:Block IO weight: "
         "($help)*--cap-add=[Add Linux capabilities]:capability: "
         "($help)*--cap-drop=[Drop Linux capabilities]:capability: "
@@ -2527,6 +2526,8 @@ __docker_volume_subcommand() {
         (prune)
             _arguments $(__docker_arguments) \
                 $opts_help \
+                "($help -a --all)"{-a,--all}"[Remove all unused local volumes, not just anonymous ones]" \
+                "($help)*--filter=[Filter values]:filter:__docker_complete_prune_filters" \
                 "($help -f --force)"{-f,--force}"[Do not prompt for confirmation]" && ret=0
             ;;
         (rm)
@@ -2774,7 +2775,7 @@ __docker_subcommand() {
                 "($help)--raw-logs[Full timestamps without ANSI coloring]" \
                 "($help)*--registry-mirror=[Preferred registry mirror]:registry mirror: " \
                 "($help)--seccomp-profile=[Path to seccomp profile]:path:_files -g \"*.json\"" \
-                "($help -s --storage-driver)"{-s=,--storage-driver=}"[Storage driver to use]:driver:(aufs btrfs devicemapper overlay overlay2 vfs zfs)" \
+                "($help -s --storage-driver)"{-s=,--storage-driver=}"[Storage driver to use]:driver:(btrfs devicemapper overlay2 vfs zfs)" \
                 "($help)--selinux-enabled[Enable selinux support]" \
                 "($help)--shutdown-timeout=[Set the shutdown timeout value in seconds]:time: " \
                 "($help)*--storage-opt=[Storage driver options]:storage driver options: " \
