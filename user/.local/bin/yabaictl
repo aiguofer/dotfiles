@@ -51,8 +51,9 @@ ignore_messages = [
 "acting space is the last user-space on the source display and cannot be destroyed."
 "acting space is the last user-space on the source display and cannot be moved."
 
-def refresh_sketchybar():
-    subprocess.run(["sketchybar", "--trigger", "windows_on_spaces"])
+def restart_services():
+    subprocess.run(["brew", "services", "restart", "sketchybar"])
+    subprocess.run(["brew", "services", "restart", "borders"])
 
 def yabai_message(*msg):
     ret = subprocess.run(["yabai", "-m", *msg], capture_output=True)
@@ -70,8 +71,8 @@ def yabai_message(*msg):
     return ret.stdout.decode()
 
 
-def yabai_query(domain):
-    return json.loads(yabai_message("query", "--{}".format(domain)))
+def yabai_query(*domain):
+    return json.loads(yabai_message("query", *(f"--{d}" for d in domain)))
 
 
 def find_all(objects, key, value):
@@ -88,6 +89,7 @@ def find_one(objects, key, value):
 class WindowManager:
     state = {"spaces": [], "displays": [], "windows": []}
     cache_path = Path("~/.cache/yabaictl").expanduser()
+    main_focus_path = Path("~/.cache/yabaictl-main-focus").expanduser()
 
     NUM_SPACES = 10
 
@@ -112,6 +114,15 @@ class WindowManager:
         return len(self.displays)
 
     @property
+    def center_display(self):
+        """1-based index of the center display, biased right for even counts."""
+        return (self.num_displays // 2) + 1
+
+    @property
+    def focused_window(self):
+        return yabai_query("windows", "window")
+
+    @property
     def num_spaces(self):
         return len(self.spaces)
 
@@ -125,11 +136,11 @@ class WindowManager:
 
     @property
     def visible_spaces(self):
-        return list(find_all(self.spaces, "visible", 1))
+        return list(find_all(self.spaces, "is-visible", True))
 
     @property
     def focused_space(self):
-        return find_one(self.spaces, "focused", 1)
+        return find_one(self.spaces, "has-focus", True)
 
     @property
     def window_ids(self):
@@ -219,6 +230,9 @@ class WindowManager:
     def focus_next_space(self, direction):
         """Find next display in direction, then find active space in that
         display, then focus first(east)/last(west) window in that space."""
+        if direction not in ("east", "west"):
+            return
+
         yabai_message("display", "--focus", str(direction))
 
         direction = "west" if direction == "east" else "east"
@@ -228,9 +242,77 @@ class WindowManager:
         except Exception:
             pass
 
+    def move_window(self, direction):
+        """Move the focused window with `yabai -m window --warp`, moving it to
+        the adjacent display when warping past the current display's edge
+        (east/west only)."""
+        try:
+            yabai_message("window", "--warp", str(direction))
+        except Exception as e:
+            edge_miss = f"could not locate a {direction}ward managed window." in str(e)
+            if edge_miss and direction in ("east", "west"):
+                yabai_message("window", "--display", str(direction))
+                yabai_message("display", "--focus", str(direction))
+
+    def toggle_main_focus(self):
+        """Send the focused window to the center display in fullscreen, or restore
+        a previously sent window back to its original location."""
+        saved = self._load_main_focus()
+
+        if saved is not None:
+            self._restore_main_focus(saved)
+            return
+
+        win = self.focused_window
+        space = find_one(self.spaces, "index", win["space"])
+        self._save_main_focus(
+            {
+                "id": win["id"],
+                "space_label": space["label"],
+                "was_floating": bool(win["is-floating"]),
+                "was_zoomed": bool(win["has-fullscreen-zoom"]),
+            }
+        )
+
+        if win["is-floating"]:
+            yabai_message("window", str(win["id"]), "--toggle", "float")
+
+        target = find_one(
+            [s for s in self.spaces if s["display"] == self.center_display and s["is-visible"]],
+            "display",
+            self.center_display,
+        )
+        yabai_message("window", str(win["id"]), "--space", target["label"])
+        yabai_message("window", str(win["id"]), "--focus")
+
+        if not win["has-fullscreen-zoom"]:
+            yabai_message("window", str(win["id"]), "--toggle", "zoom-fullscreen")
+
+    def _restore_main_focus(self, saved):
+        win = find_one(self.windows, "id", saved["id"])
+        if win is not None:
+            if win["has-fullscreen-zoom"] and not saved["was_zoomed"]:
+                yabai_message("window", str(saved["id"]), "--toggle", "zoom-fullscreen")
+            yabai_message("window", str(saved["id"]), "--space", saved["space_label"])
+            if saved["was_floating"] and not win["is-floating"]:
+                yabai_message("window", str(saved["id"]), "--toggle", "float")
+            yabai_message("window", str(saved["id"]), "--focus")
+
+        self.main_focus_path.unlink(missing_ok=True)
+
+    def _save_main_focus(self, data):
+        with open(self.main_focus_path, "wb") as f:
+            pickle.dump(data, f)
+
+    def _load_main_focus(self):
+        if not self.main_focus_path.exists():
+            return None
+        with open(self.main_focus_path, "rb") as f:
+            return pickle.load(f)
+
     def focus_fullscreen(self, display):
         """Focus the fullscreened space in the given display (starting at 1) if it exists"""
-        display_index = display + 1
+        display_index = int(display) + 1
 
         for space in self.spaces:
             if space["display"] == display_index and space["is-native-fullscreen"]:
@@ -280,8 +362,6 @@ class WindowManager:
             )
 
         for space in old_state["spaces"]:
-            if space == "s":
-                space = "s1"
             for window in space["windows"]:
                 if window in self.window_ids:
                     self.move_window_to_space(window, space["label"])
@@ -300,7 +380,7 @@ class WindowManager:
 
         self.remove_unnecessary_spaces()
         self.refresh_state()
-        refresh_sketchybar()
+        restart_services()
 
 
 def add_subcommand(sub, func, subcommand_name, subcommand_args=[]):
@@ -319,6 +399,8 @@ def parse_args(wm):
     add_subcommand(sub, wm.focus_space, "focus-space", ["space"])
     add_subcommand(sub, wm.focus_fullscreen, "focus-fullscreen", ["display"])
     add_subcommand(sub, wm.focus_window, "focus-window", ["direction"])
+    add_subcommand(sub, wm.move_window, "move-window", ["direction"])
+    add_subcommand(sub, wm.toggle_main_focus, "toggle-main-focus")
 
     args = vars(parser.parse_args())
     return args.pop("func"), args

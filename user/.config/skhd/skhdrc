@@ -7,10 +7,13 @@ cmd - i : yabaictl focus-window north
 cmd - l : yabaictl focus-window east
 
 # move window
-shift + cmd - j : yabai -m window --warp west
-shift + cmd - k : yabai -m window --warp south
-shift + cmd - i : yabai -m window --warp north
-shift + cmd - l : yabai -m window --warp east
+shift + cmd - j : yabaictl move-window west
+shift + cmd - k : yabaictl move-window south
+shift + cmd - i : yabaictl move-window north
+shift + cmd - l : yabaictl move-window east
+
+# toggle focused window to center display fullscreen (run again to restore)
+cmd + ctrl - m : yabaictl toggle-main-focus
 
 # fast focus desktop
 cmd - 1 : yabaictl focus-space 1
