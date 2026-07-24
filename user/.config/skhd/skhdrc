@@ -73,7 +73,7 @@ ctrl + alt - i : yabai -m window --insert north
 ctrl + alt - l : yabai -m window --insert east
 
 # toggle window fullscreen zoom
-cmd - f : yabai -m window --toggle zoom-fullscreen && yabai -m window --toggle border && yabai -m space --toggle padding && yabai -m space --toggle gap && sketchybar --trigger window_focus
+cmd - f : yabai -m window --toggle zoom-fullscreen && yabai -m space --toggle padding && yabai -m space --toggle gap && sketchybar --trigger window_focus
 cmd - t : yabai -m window --toggle topmost
 
 # toggle window native fullscreen
