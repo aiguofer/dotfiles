@@ -1,0 +1,80 @@
+# herdr configuration, translated from ~/.tmux.conf.
+# Only this file is symlinked into ~/.config/herdr/ -- that directory also holds
+# the running server's sockets, logs, and session.json.
+
+[keys]
+# tmux used C-g so the prefix would not collide with emacs editing keys.
+# No equivalent of `bind C-g send-key C-g` is needed: herdr hardcodes
+# prefix-pressed-twice as "send a literal prefix" and rejects binding over it.
+prefix = "ctrl+g"
+
+# tmux navigated panes prefix-less on alt+ijkl (ijkl, not hjkl). Keep those,
+# keep herdr's own prefix+hjkl, and add ctrl+alt+ chords because macOS terminals
+# frequently swallow bare alt.
+# tmux also bound prefix+<arrow> to select-pane, so those are kept too.
+focus_pane_left  = ["prefix+h", "prefix+left",  "alt+j", "ctrl+alt+h"]
+focus_pane_up    = ["prefix+k", "prefix+up",    "alt+i", "ctrl+alt+k"]
+focus_pane_down  = ["prefix+j", "prefix+down",  "alt+k", "ctrl+alt+j"]
+focus_pane_right = ["prefix+l", "prefix+right", "alt+l", "ctrl+alt+l"]
+
+# tmux splits, kept alongside herdr's own. tmux named splits after the splitter
+# bar, herdr after the direction panes stack, so the words are swapped:
+# tmux `"` (split-window) puts the new pane below   -> herdr split_horizontal
+# tmux `%` (split-window -h) puts it to the right   -> herdr split_vertical
+split_horizontal = ["prefix+shift+quote", "prefix+minus"]
+split_vertical   = ["prefix+percent", "prefix+v"]
+
+# tmux's prefix+x (kill-pane) and prefix+z (resize-pane -Z) are already herdr's
+# defaults for close_pane and zoom, so they need no entry here.
+
+# tmux: prefix+{ / prefix+} swap with the previous/next pane. herdr only swaps
+# directionally, so these are the nearest equivalents.
+swap_pane_left  = "prefix+{"
+swap_pane_right = "prefix+}"
+
+# tmux: prefix+M-<arrow> resized by 5 cells and prefix+C-<arrow> by 1. herdr has
+# a single step size, so both chords are bound to the same action. herdr's own
+# resize_mode stays on prefix+r.
+resize_pane_left  = ["prefix+alt+left",  "prefix+ctrl+left"]
+resize_pane_down  = ["prefix+alt+down",  "prefix+ctrl+down"]
+resize_pane_up    = ["prefix+alt+up",    "prefix+ctrl+up"]
+resize_pane_right = ["prefix+alt+right", "prefix+ctrl+right"]
+
+# tmux: `bind-key T swap-window -t 0`. herdr can only move a tab one step toward
+# the front, so this has to be repeated to reach the first position.
+move_tab_previous = "prefix+shift+t"
+# Displaced by the line above; tmux renamed windows with prefix+, anyway.
+rename_tab = "prefix+comma"
+
+# tmux: prefix+; is last-pane and prefix+o selects the next pane.
+last_pane = "prefix+semicolon"
+cycle_pane_next = ["prefix+o", "prefix+tab"]
+# Displaced by prefix+o above. `herdr config check` does not flag a custom
+# binding that silently overrides an unconfigured default, so re-home it here.
+open_notification_target = "prefix+shift+o"
+
+# Scrollback to emacs without edit_scrollback's self-deleting temp file, and with
+# real scrollback instead of a single alternate-screen frame.
+[[keys.command]]
+key = "prefix+shift+e"
+type = "shell"
+command = "$HOME/.local/bin/herdr_pane_to_emacs"
+description = "send pane scrollback to emacs"
+
+[ui]
+# tmux: `set -g mouse on`
+mouse_capture = true
+
+# tmux's `monitor-activity on` has no direct analogue. herdr's equivalent signal
+# is agent state, so make it legible without relying on color alone.
+status_indicators = "symbols"
+
+[ui.toast]
+# In-app toasts rather than "system": closest to tmux's activity flag, and no
+# macOS notification permission needed.
+delivery = "herdr"
+
+[advanced]
+# tmux's `history-limit 10000` counted lines; this counts bytes. 10k lines of
+# agent output carrying escape sequences overruns herdr's 10MB default, so double it.
+scrollback_limit_bytes = 20000000

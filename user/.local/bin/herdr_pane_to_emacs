@@ -1,0 +1,38 @@
+#!/bin/bash
+
+# Dump a herdr pane's scrollback to a file emacs can hold on to.
+#
+# herdr's built-in edit_scrollback (prefix+e) rm -f's its temp file the instant the
+# editor process exits, and for agent panes sitting on the alternate screen it only
+# captures the visible frame. Owning the file removes both limits: emacsclient can
+# return immediately, and `herdr pane read` is asked for real scrollback.
+
+set -euo pipefail
+
+HERDR=${HERDR_BIN_PATH:-herdr}
+SOURCE=${HERDR_PANE_SOURCE:-recent}
+LINES=${HERDR_PANE_LINES:-10000}
+
+# Custom keybinding commands get HERDR_ACTIVE_PANE_ID; panes get HERDR_PANE_ID.
+PANE=${HERDR_ACTIVE_PANE_ID:-${HERDR_PANE_ID:-}}
+if [[ -z "$PANE" ]]; then
+    PANE=$("$HERDR" pane current --current | jq -r '.result.pane.pane_id')
+fi
+
+fail() {
+    "$HERDR" notification show "pane scrollback failed" --body "$1" --sound none || true
+    exit 1
+}
+
+# XDG rather than ~/Library/Caches: these dotfiles are shared with linux.
+DEST_DIR="${XDG_CACHE_HOME:-$HOME/.cache}/herdr/panes"
+mkdir -p "$DEST_DIR"
+
+# One stable file per pane so repeat invocations revert the same emacs buffer.
+DEST="$DEST_DIR/${PANE//:/-}.log"
+
+"$HERDR" pane read "$PANE" --source "$SOURCE" --lines "$LINES" --format text > "$DEST" \
+    || fail "herdr pane read $PANE failed"
+
+# -n returns without waiting, which is only safe because we own $DEST.
+emacsclient -n "$DEST" || fail "emacsclient could not open $DEST"

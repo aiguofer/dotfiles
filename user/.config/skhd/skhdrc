@@ -93,7 +93,7 @@ shift + alt - space : yabai -m window --toggle float
 shift + cmd - s : yabai -m window --toggle sticky
 
 # open applications
-ctrl + cmd - t : /Applications/Alacritty.app/Contents/MacOS/alacritty -e tmux attach -t base || tmux new -s base
+ctrl + cmd - t : open -na Ghostty.app --args -e /opt/homebrew/bin/herdr
 ctrl + cmd - e : $HOME/.local/bin/editor
 ctrl + cmd - i : /Applications/Vivaldi.app/Contents/MacOS/Vivaldi
 ctrl + cmd - f : open ~

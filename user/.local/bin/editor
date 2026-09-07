@@ -17,7 +17,7 @@ else
     PARAMS=""
 fi
 
-if [[ $TMUX || $SSH_CLIENT ]]
+if [[ $TMUX || $HERDR_ENV || $SSH_CLIENT ]]
 then
     PARAMS+=" -t"
 else

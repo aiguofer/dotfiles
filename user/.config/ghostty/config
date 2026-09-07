@@ -1,0 +1,83 @@
+# Ghostty configuration.
+# Translated from user/.config/alacritty/alacritty.toml.
+
+font-family = Hack Nerd Font
+font-size = 14
+
+# Nord palette, copied verbatim from the Alacritty config rather than using
+# Ghostty's built-in "Nord" theme, whose bright black is #596377 not #4C566A.
+background = #2E3440
+foreground = #D8DEE9
+
+palette = 0=#3B4252
+palette = 1=#BF616A
+palette = 2=#A3BE8C
+palette = 3=#EBCB8B
+palette = 4=#81A1C1
+palette = 5=#B48EAD
+palette = 6=#88C0D0
+palette = 7=#E5E9F0
+palette = 8=#4C566A
+palette = 9=#BF616A
+palette = 10=#A3BE8C
+palette = 11=#EBCB8B
+palette = 12=#81A1C1
+palette = 13=#B48EAD
+palette = 14=#8FBCBB
+palette = 15=#ECEFF4
+
+bold-color = bright
+
+cursor-style = block
+
+# The multiplexer (herdr) owns scrollback, so the terminal keeps none.
+scrollback-limit = 0
+
+mouse-hide-while-typing = false
+selection-word-chars = ,│`|:"' ()[]{}<>
+
+window-decoration = auto
+macos-titlebar-style = hidden
+macos-window-buttons = hidden
+window-padding-balance = false
+working-directory = inherit
+
+# Required for the alt+<key> chords below to reach the terminal on macOS.
+macos-option-as-alt = true
+
+keybind = ctrl+shift+c=copy_to_clipboard
+keybind = ctrl+shift+v=paste_from_clipboard
+
+# Always send a raw form feed, matching the Alacritty binding.
+keybind = ctrl+l=text:\x0c
+
+keybind = backspace=text:\x7f
+keybind = alt+backspace=text:\x1b\x7f
+
+# herdr's client pushes kitty keyboard flags (ESC[>7u, then ESC[>31u once a pane
+# app opts in), which makes Ghostty encode these as CSI-u (ctrl+c -> ESC[99;5u).
+# herdr does not re-encode them back to their control bytes for the pane, so the
+# interrupt and the prefix are both swallowed. Alacritty never implemented the
+# protocol, which is why this only appeared after the switch.
+# herdrdev/herdr#402, ogulcancelik/herdr#106
+keybind = ctrl+c=text:\x03
+keybind = ctrl+g=text:\x07
+
+# emacs word/page motions.
+keybind = alt+n=esc:n
+keybind = alt+p=esc:p
+keybind = alt+f=esc:f
+keybind = alt+b=esc:b
+keybind = alt+d=esc:d
+keybind = alt+v=esc:v
+
+# herdr pane navigation.
+keybind = alt+i=esc:i
+keybind = alt+j=esc:j
+keybind = alt+k=esc:k
+keybind = alt+l=esc:l
+
+# emacs set-mark-command.
+keybind = ctrl+space=text:\x00
+
+keybind = numpad_enter=text:\n
